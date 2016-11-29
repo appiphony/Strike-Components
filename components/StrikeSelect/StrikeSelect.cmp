@@ -1,0 +1,134 @@
+<aura:component controller="StrikeLookupController" access="global">
+	
+	<aura:attribute name="placeholderText" type="String" default="Select An Option" description="Placeholder text that will appear as a default setting when no option is selected"/>
+	<aura:attribute name="label" type="String" description="Text that is displayed above the menu that can be used to describe the component"/>
+	<aura:attribute name="isRequired" type="Boolean" default="{!false}" description="Boolean value that determines wheter a '*' is displayed on the component"/>
+	<aura:attribute name='initialValue' type="String" description="optional attribute that will prepopulate a value if a valid value is entered"/>
+	<aura:attribute name="value" type="String" description='The value of the component after an option is selected'/>
+	<aura:attribute name="searchType" type="String" description="determines whether search is enabled for the component. There are three posible values: 'static' for a static search of all SelectOption values that are configured into the component, 'lookup' for an apex search of a given object, 'none' for no search option"/>
+
+	<!-- Static Search Attributes -->
+	<!-- internal attributes: -->
+	<aura:attribute name="selectedIcon" type="String" description="the icon of the selected SelectOption"/>
+	<aura:attribute name="iconIsCustom" type="Boolean" description="Boolean value that determines whether or not the returned icon is a custom or standard icon"/>
+	<aura:attribute name="selectedOptionLabel" type="String" description="text that is displayed on the component representing the selected option"/>
+	<aura:attribute name="menuIsOpen" type="Boolean" default="{!false}" description="boolean value that is set when the menu is open"/>
+	<!-- /Static Search Attributes -->
+
+	<!-- Lookup attributes -->
+	<aura:attribute name="lookupIcon" type="String" description="icon to be displayed for each option and the selected option when searchType equals 'lookup'"/>
+	<aura:attribute name="sObjectToSearch" type="String" description="api name of the salesforce object to search"/>
+	<aura:attribute name="showMostRecent" type="Boolean" description="boolean value that determines whether or not the five most recently viewed records will be displayed when the menu is initially opened or if the search value equals null"/>
+	<aura:attribute name="searchField" type="String" description='field on the sObjectToSearch that will be searched and displayed'/>
+	<aura:attribute name="whereClause" type="String" description='expects SOQL style language to add search parameters to lookup search. This search must use html character entities. ex: less than symbol must use &lt;'/>
+	<aura:attribute name="returnedRecordLimit" type="String" description="optional field that will limit the number of results from the SOQL search"/>
+	<aura:attribute name="orderBy" type="String" description="api name of the field that the developer wants results ordered by. ASC and DESC can also be used here"/>
+	<aura:attribute name="enableNewRecord" type="Boolean" description="enables the component to return the five most recently viewed records when the menu is initially opened"/>
+	<!-- Internal attributes -->
+	<aura:attribute name="returnedRecords" type="Map[]" description="holds the searchField and ID of the returned records to display in the component's dropdown menu"/>
+	<!-- /Lookup attributes -->
+
+	<!-- Event registration and handlers -->
+	<aura:registerEvent name="menuClicked" type="c:menuClicked"/>
+	<aura:registerEvent name="addNewRecord" type="c:addNewRecord"/>
+	<aura:handler event="aura:doneRendering" action="{!c.doneRendering}" />
+	<aura:handler name='init' value="{!this}" action="{!c.onInit}"/>
+	<aura:handler name="notifyParent" event="c:notifyParent" action="{!c.handleNotifyParent}" includeFacets="true"/>
+	<aura:handler event="c:menuClicked" action="{!c.checkIfOpen}"/>
+	<aura:handler name="change" value="{!v.value}" action="{!c.handleValueChange}"/>
+	
+	
+	<aura:if isTrue="{!v.searchType == 'static' || v.searchType == 'none' || v.searchType == NULL}">
+		<div class="slds slds-form-element">
+	        <label class="slds-form-element__label" for="text-input-01">
+	            <aura:if isTrue="{!v.isRequired}">
+	                <abbr class="slds-required" title="required">*</abbr>
+	            </aura:if>
+	            {!v.label}
+	        </label>
+			<div aura:id="dropdown-trigger" class="slds-picklist slds-dropdown-trigger slds-dropdown-trigger--click" aria-expanded="true" >
+				<div class="slds-button slds-button--neutral slds-picklist__label ss-menu-button" aria-haspopup="true" onclick="{!c.toggleMenu}" >
+					<aura:if isTrue="{!and(v.selectedIcon != null, v.iconIsCustom ==false)}">
+						<lightning:icon class="ss-selected-icon" iconName="{!v.selectedIcon}" size="x-small"/>
+					</aura:if>
+					<aura:if isTrue="{!v.iconIsCustom}">
+						
+	                    <span class="slds-icon_container">
+							<c:svg aura:id="svgComp" xlinkHref="{!v.selectedIcon}" ariaHidden="true" class="slds-icon ss-selected-icon"/>
+						</span>
+					</aura:if>
+			        <span class="slds-truncate ss-selected-text">{!v.selectedOptionLabel == null ? v.placeholderText : v.selectedOptionLabel}</span>
+			        <lightning:icon class="ss-dropdown-icon" iconName="utility:down" size="xx-small"/>
+			    </div>
+			    <div aura:id="dropdown-menu" class="slds-dropdown slds-dropdown--left slds-dropdown--small slds-scrollable--y ss-scroll-container ss-dropdown-control" onclick="{!c.stopProp}">
+			    	<aura:if isTrue="{!v.searchType == 'static'}">
+	                    <div class="slds-form-element slds-m-vertical--x-small slds-m-horizontal--small">
+	                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon--left">
+	                            <c:svg class="slds-input__icon slds-icon-text-default" xlinkHref="/resource/icons/utility-sprite/svg/symbols.svg#search" ariaHidden="true"></c:svg>
+	                            <input class="slds-input" type="search" aura:id="searchInput" onkeyup="{!c.inputValueChanged}" />
+	                        </div>
+	                    </div>
+			    	</aura:if>
+			    	<ul class="slds-dropdown__list" role="menu">
+			    		{!v.body}
+			    	</ul>
+			    </div>
+			</div>
+		</div>
+	</aura:if>
+
+	<aura:if isTrue="{!v.searchType == 'lookup'}">
+        <!-- Lookup -->
+        <div class="slds-form-element slds-lookup slds-is-open" data-select="single" data-scope="single">
+            <label class="slds-form-element__label" for="template-lookup-1">{!v.label}</label>
+            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon--right">
+            	<div aura:id="lookupPillContainer" class="slds-pill_container slds-show">
+            		<span class="slds-pill slds-size--2-of-2 slds-p-horizontal--small">
+            			<aura:if isTrue="{!and(v.lookupIcon != null, v.iconIsCustom ==false)}">
+							<lightning:icon class="slds-media__figure" iconName="{!v.lookupIcon}" size="x-small"/>
+						</aura:if>
+						<aura:if isTrue="{!v.iconIsCustom}">
+		                    <span class="slds-icon_container">
+								<c:svg aura:id="svgComp" xlinkHref="{!v.lookupIcon}" ariaHidden="true" class="slds-icon-text-default slds-media__figure slds-icon slds-icon--x-small"/>
+							</span>
+						</aura:if>
+            			<span class="slds-pill__label">{!v.selectedOptionLabel ? v.selectedOptionLabel : v.placeholderText }</span>
+            		<button class="slds-button slds-button--icon-bare slds-pill__remove" onclick="{!c.clickOpenLookupMenu}">
+            			<lightning:icon iconName="utility:close" size="xx-small"/>
+            		</button>
+            		</span>
+            	</div>
+            	<aura:if isTrue="{!v.menuIsOpen}">
+            		<lightning:icon iconName="utility:search" size="xx-small" class="ss-search-icon"/>
+            	</aura:if>
+                <input aura:id="lookupInput" class="slds-lookup__search-input slds-input js-template-lookup slds-hide" type="text" aria-autocomplete="list" role="combobox" aria-expanded="false" placeholder="{!v.placeholderText}" onkeyup="{!c.inputValueChanged}" onclick="{!c.clickOpenLookupMenu}"/>
+            </div>
+           	
+           	<div aura:id="lookupMenu" class="slds-hide" role="listbox" onclick="{!c.stopProp}">
+	            <ul class="slds-lookup__list" role="listbox">
+	            	<aura:if isTrue="{!v.enableNewRecord == true}">
+	        			<li role="presentation" onclick="{!c.clickAddNewRecord}">
+	        				<span class="slds-lookup__item-action slds-media slds-media--center" role="option">
+	    		            	<lightning:icon class="slds-media__figure" iconName="utility:add" size="x-small"/>
+	    		                <div class="slds-media__body">
+	    		                	Add New Record
+	    		                </div>
+		        		    </span>
+	        		    </li>
+		    		</aura:if>
+	            	<c:StrikeOptionGroup label="Recent Records" aura:id="recentRecordsLabel">
+		    			<aura:iteration items="{!v.returnedRecords}" var="record">
+		    				<c:StrikeOption value="{!record.Id}" label="{!record.Label}" iconName="{!v.lookupIcon}" isLookup="true" />
+		    			</aura:iteration>
+	    			</c:StrikeOptionGroup>
+	            </ul>
+	        </div> 
+        </div>
+        <!-- /Lookup -->
+	</aura:if>
+	
+	
+
+	<!-- Below code is necessary in order for the blur helper function to work. Simply setting an attribute does not activate rerender, there has to be some kind of dom change -->
+	<div class="{!v.menuIsOpen == true ? 'slds-hide' : 'slds-show'}"> </div>
+</aura:component>

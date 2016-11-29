@@ -1,0 +1,1 @@
+<aura:event type="COMPONENT" description="Event is fired when Add New Record is clicked" />

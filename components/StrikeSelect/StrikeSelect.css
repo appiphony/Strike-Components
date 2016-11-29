@@ -1,0 +1,114 @@
+.THIS .slds-icon_container.slds-icon-utility-down.ss-dropdown-icon {
+	display: inline;
+	border-radius: 0;
+}
+
+/*.THIS.slds .ss-selected-icon .slds-icon {
+	position: static;
+	margin-top: 0;
+	line-height: 1;
+	width: 1rem;
+	height: 1rem;
+}
+.THIS.slds .ss-selected-icon {
+    line-height: normal;
+    margin-left: 10px;
+}
+
+.THIS .slds-picklist__label .slds-truncate.ss-selected-text {
+	display: inline-block;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+.THIS .slds-picklist .ss-icon-padding {
+    padding-left: 0;
+    width: 100%;
+}*/
+
+.THIS .slds-picklist .ss-scroll-container {
+    max-height: 220px;
+}
+
+.THIS .slds-picklist .slds-dropdown.ss-dropdown-control {
+    width: 100%;
+    max-width: none;
+}
+
+.THIS .slds-button.slds-button--neutral.slds-picklist__label {
+    width: 100%;
+}
+
+.THIS .slds-picklist.slds-dropdown-trigger {
+    display: block;
+}
+
+/* ----------------------------------------
+ * Undo dropdown arrow styles
+ * ------------------------------------- */
+.THIS.slds .slds-picklist__label .slds-icon,
+.THIS.slds .ss-option .slds-icon {
+    width: t(squareIconMediumBoundary);
+    height: t(squareIconMediumBoundary);
+    vertical-align: bottom;
+    fill: t(colorTextActionLabel);
+    position: static;
+}
+.THIS.slds .slds-picklist__label .slds-icon {
+	transform: translateY(1px);
+}
+.THIS.slds .slds-picklist__label [class*="slds-icon-action"] .slds-icon,
+.THIS.slds .slds-picklist__label [class*="slds-icon-custom"] .slds-icon,
+.THIS.slds .slds-picklist__label [class*="slds-icon-standard"] .slds-icon,
+.THIS.slds .ss-option [class*="slds-icon-action"] .slds-icon,
+.THIS.slds .ss-option [class*="slds-icon-custom"] .slds-icon,
+.THIS.slds .ss-option [class*="slds-icon-standard"] .slds-icon {
+    fill: white;
+}
+.THIS.slds .slds-picklist__label .slds-icon_container,
+.THIS.slds .ss-option .slds-icon_container {
+    transform: scale(0.6);
+    position: absolute;
+    left: 10px;
+}
+.THIS.slds .ss-option .slds-icon_container {
+    transform: scale(0.6) translateX(-4px) translateY(-11px);
+}
+.THIS.slds .slds-picklist__label .slds-icon_container[class*="--circle"],
+.THIS.slds .ss-option .slds-icon_container[class*="--circle"] {
+    transform: scale(0.4) translateX(-18px) translateY(-18px);
+}
+.THIS.slds .ss-option .slds-icon_container[class*="--circle"] {
+    transform: scale(0.4) translateX(-22px) translateY(-37px);
+}
+.THIS.slds .slds-picklist__label .ss-dropdown-icon .slds-icon,
+.THIS.slds .ss-option-text .slds-icon {
+    width: t(squareIconSmallContent);
+    height: t(squareIconSmallContent);
+    position: absolute;
+    right: 1rem;
+    left: initial;
+    top: 50%;
+    margin-top: -.375rem;
+}
+.THIS.slds .slds-picklist__label .ss-dropdown-icon.slds-icon_container {
+    position: static;
+}
+.THIS.slds .slds-picklist__label .ss-selected-text {
+    display: inline-block;
+    vertical-align: middle;
+}
+.THIS.slds .slds-picklist__label .slds-icon_container + .ss-selected-text,
+.THIS.slds .slds-icon_container + .ss-option-text {
+    margin-left: 30px;
+}
+
+.THIS.slds .ss-menu-button{
+	cursor: pointer;
+}
+
+.THIS .slds-form-element__control .ss-search-icon{
+    position:absolute;
+    right: 10px;
+    top: 5px;
+}

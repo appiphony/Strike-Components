@@ -1,0 +1,54 @@
+<aura:component >
+	<aura:attribute name="label" type="String"/>
+	<aura:attribute name="value" type="String"/>
+	<aura:attribute name="iconName" type="String"/>
+    <!-- internal attributes -->
+    <aura:attribute name="isHidden" type="Boolean"/>
+    <aura:attribute name="isCustomIcon" type="Boolean" />
+    <aura:attribute name="isLookup" type="Boolean" description="boolean value used to determine which markup to use"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+    <aura:method name="checkIfFiltered" action="{!c.checkIfFiltered}"/>
+    <aura:method name="optionSelected" action="{!c.optionSelected}"/>
+	<aura:registerEvent name="notifyParent" type="c:notifyParent"/>
+
+	<li aura:id="thisOption" class="slds-dropdown__item" role="presentation" onclick="{!c.optionSelected}">
+        <aura:if isTrue="{!v.isLookup}">
+            <span class="slds-lookup__item-action slds-media slds-media--center" role="option">
+                <aura:if isTrue="{!v.iconName != null}">
+                    <aura:if isTrue="{!v.isCustomIcon == false}">
+                        <lightning:icon class="slds-media__figure" iconName="{!v.iconName}" size="x-small"/>
+                    </aura:if>
+                    <aura:if isTrue="{!v.isCustomIcon == true}">
+                        <c:svg xlinkHref="{!v.iconName}" ariaHidden="true" class="slds-icon-text-default slds-media__figure slds-icon slds-icon--x-small"/>
+                    </aura:if>
+                </aura:if>
+                <div class="slds-media__body">
+                    {!v.label}
+                </div>
+            </span>
+            <aura:set attribute="else">
+                <a href="javascript:void(0);" role="menuitem" tabindex="-1">
+                    <span class="slds-truncate ss-option"> 
+                        
+                        <aura:if isTrue="{!v.iconName != null}">
+                            <aura:if isTrue="{!v.isCustomIcon == false}">
+                        	   <lightning:icon iconName="{!v.iconName}" size="small"/>
+                            </aura:if>
+                            <aura:if isTrue="{!v.isCustomIcon}">
+                                <span class="slds-icon_container">
+                                    <c:svg xlinkHref="{!v.iconName}" ariaHidden="true" class="slds-icon slds-icon--small"/>
+                                </span>
+                                
+                            </aura:if>
+                        </aura:if>
+
+                        <div class="ss-option-text">
+                        	{!v.label}
+                        </div>
+                    </span>
+                </a>
+            </aura:set>
+        </aura:if>
+    </li>
+</aura:component>

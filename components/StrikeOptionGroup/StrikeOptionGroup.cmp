@@ -1,0 +1,10 @@
+<aura:component >
+	<aura:attribute name="name" type="String" default="StrikeOptionGroup"/>
+	<aura:attribute name="label" type="String"/>
+	<aura:method name="hideGroup" action="{!c.hideGroup}"/>
+	<aura:method name="showGroup" action="{!c.showGroup}"/>
+	<li aura:id="optionGroupLabel" class="slds-dropdown__header" role="separator">
+        <span class="slds-text-title--caps">{!v.label}</span>
+    </li>
+    {!v.body}
+</aura:component>
