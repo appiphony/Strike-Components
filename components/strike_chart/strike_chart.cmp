@@ -1,0 +1,39 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+    <ltng:require scripts="/resource/d3/d3.js" afterScriptsLoaded="{!c.onInit}" />
+
+    <aura:attribute name="triggerRedraw" type="Boolean" default="{!false}" description="Flag that triggers redraw of the chart." />
+    <!-- CHANGE THE DOM AND FORCE RUN RERENDERER, WITHOUT CHANGING THE DOM RERENDER DOESN'T RUN -->
+    <div class="slds-hide">{!v.triggerRedraw}</div>
+
+
+    <aura:attribute name="type" type="String" required="{!true}" description="Type of the chart user wants to render." />
+    <aura:attribute name="title" type="String" description="Title of the chart. Shows up at the top-left corner of the chart." />
+    <aura:attribute name="subtitle" type="String" description="Subtitle of the chart. Shows up at the bottom-right corner of the chart." />
+    <aura:attribute name="data" type="Map[]" required="{!true}" description="The data based on which chart renders." />
+
+    <!-- LINE CHART SPECIFIC ATTRIBUTES -->
+    <aura:attribute name="xAxisLabel" type="String" description="Label that appears along X axis." />
+    <aura:attribute name="yAxisLabel" type="String" description="Label that appears along Y axis." />
+    <aura:attribute name="xAxisDataType" type="String" default="Number" description="Data type on X axis." />
+    <aura:attribute name="yAxisDataType" type="String" default="Number" description="Data type on Y axis." />
+    <aura:attribute name="thresholdLabel" type="String" default="Threshhold" description="Label that appears at the threshold value." />
+    <aura:attribute name="thresholdValue" type="String" description="Value where the threshold line appears. " />
+
+    <!-- BAR CHART SPECIFIC ATTRIBUTES -->
+    <aura:attribute name="orientation" type="String" default="vertical" description="Determines orientation of the bar chart. It defaults to vertical." />
+
+    <!-- GAUGE SPECIFIC ATTRIBUTES -->
+    <aura:attribute name="lowLabel" type="String" default="Not Good" description="Tooltip text of the low section in gauge type chart." />
+    <aura:attribute name="midLabel" type="String" default="Good" description="Tooltip text of the mid section in gauge type chart." />
+    <aura:attribute name="highLabel" type="String" default="Excellent" description="Tooltip text of the high section in gauge type chart." />
+
+
+    <div class="slds-box">
+        <!-- D3 Chart -->
+        <div aura:id="chartContainer" class="slds-grid">
+            <div aura:id="chart"></div>
+        </div>
+        <!-- /D3 Chart -->
+    </div>
+
+</aura:component>

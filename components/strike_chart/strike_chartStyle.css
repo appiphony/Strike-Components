@@ -1,0 +1,102 @@
+.THIS .sc-axis-label {
+    color: #bfbebe;
+}
+
+.THIS .sc-axis-value {
+    color: white;
+    font-size: 13px;
+}
+
+.THIS .sc-tooltip {
+    background: #2c2b2b;
+    box-shadow: 0 0 5px #999999;
+    color: white;
+    display: none;
+    font-size: 12px;
+    left: 130px;
+    padding: 10px;
+    position: absolute;
+    text-align: left;
+    top: 95px;
+    z-index: 10;
+}
+
+.THIS .sc-threshold-line {
+    fill: none;
+    stroke: #c23934;
+    stroke-width: 0.5px;
+    stroke-dasharray: 5 5;
+}
+
+.THIS .sc-threshold-text {
+    fill: #c23934;
+}
+
+.THIS .sc-axis path,
+.THIS .sc-axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.THIS .sc-axis-text {
+    font: 10px sans-serif;
+    fill: #4d4d4d;
+}
+
+.THIS .sc-section:hover {
+    fill: #4682b4;
+}
+
+/* LINE CHART */
+.THIS .sc-line {
+    fill: none;
+    stroke: #00a1e0;
+    stroke-width: 2px;
+}
+
+.THIS .sc-lc-area {
+    fill: #e6f6fc;
+    stroke: none;
+}
+
+.THIS .sc-lc-focus-line {
+    fill: none;
+    stroke: #00a1e0;
+    stroke-width: 0.5px;
+}
+
+.THIS .sc-lc-focus-circle {
+    fill: red;
+}
+/* /LINE CHART */
+
+
+
+/* BAR CHART */
+.THIS .sc-bc-bar {
+    fill: #00a1e0;
+}
+
+.THIS .sc-bc-bar:hover {
+    fill: #005170;
+}
+/* /BAR CHART */
+
+
+
+/* PIE DONUT CHART */
+.THIS .sc-pdc-section-percent {
+    color: #c6c663;
+    font-size: 12px;
+}
+
+.THIS .sc-pdc-legend {
+    font-size: 12px;
+    letter-spacing: .0625rem;
+}
+
+.THIS rect {
+    stroke-width: 2;
+}
+/* /PIE DONUT CHART */
