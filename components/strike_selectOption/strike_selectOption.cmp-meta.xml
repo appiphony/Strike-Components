@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <AuraDefinitionBundle xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>34.0</apiVersion>
-    <description>Will display options within a select menu or Option group</description>
+    <description>Component to be used for each option in the strike_select component</description>
 </AuraDefinitionBundle>

@@ -1,7 +1,0 @@
-({
-	rerender: function(component, helper){
-		
-
-
-	}
-})

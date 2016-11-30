@@ -12,13 +12,22 @@
 
 	},
 	doneRendering: function(component, event, helper){
+		
 		if (!$A.util.isEmpty(component.find('searchInput'))) {
      		component.find('searchInput').getElement().focus();
 		};
-		if (!$A.util.isEmpty(component.find('lookupInput'))){
+		if (!$A.util.isEmpty(component.find('lookupInput')) && component.get('v.lookupInputShouldFocus')){
 			component.find('lookupInput').getElement().focus();
 		}
 
+
+		var recentRecordsLabel = component.find('recentRecordsLabel');
+		var showMostRecent = component.get('v.showMostRecent');
+
+		if (recentRecordsLabel && !showMostRecent){
+			recentRecordsLabel.hideGroup();
+		}
+		component.set('v.doneRendering', true);
 	},
 	toggleMenu : function(component, event, helper) {
 		var trigger = component.find('dropdown-trigger');
@@ -33,7 +42,7 @@
 
 		}
 
-		var appEvent = $A.get("e.c:menuClicked");
+		var appEvent = $A.get("e.c:strike_evt_menuClicked");
 		appEvent.fire();
 
 		if (menuIsOpen){
@@ -50,10 +59,7 @@
 
 	},
 	handleNotifyParent: function(component,event,helper){
-		
 		helper.updateValue(component,event,helper);
-		
-
 	},
 	checkIfOpen: function(component,event,helper){
 		helper.blur(component,event,helper);

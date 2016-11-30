@@ -7,11 +7,20 @@
 			if (menuIsOpen){
 				if (searchType === 'lookup') {
 					
-					var lookupPill = component.find('lookupPillContainer');
+					
 					var lookupMenu = component.find('lookupMenu');
 					
 					$A.util.removeClass(lookupMenu, 'slds-show slds-lookup__menu');
 					$A.util.addClass(lookupMenu, 'slds-hide');
+
+					var lookupInput = component.find('lookupInput');
+				
+					lookupInput.getElement().value = '';
+					helper.getLookupRecords(component,event,helper);
+					
+					lookupInput.getElement().blur();
+					component.set('v.lookupInputShouldFocus', false);
+					
 					
 				} else {
 					var trigger = component.find('dropdown-trigger');
@@ -19,6 +28,11 @@
 
 					$A.util.removeClass(trigger, 'slds-is-open');
 					$A.util.removeClass(menu, 'slds-is-open');
+					var searchInput = component.find('searchInput');
+					if (searchInput) {
+						searchInput.getElement().value = '';
+						helper.doStaticSearch(component,event,helper);
+					}
 					
 				}
 				
@@ -109,18 +123,14 @@
 		});
 	},
 	updateValue: function(component,event,helper){
+		
 		var svgComp = component.find('svgComp');
 		
-		// var staticSearchInput = component.find('searchInput');
+		
 		if (svgComp) {
 			svgComp.destroy();
 		}
 		
-		// if (staticSearchInput){
-			
-		// 	staticSearchInput.set('v.value', '')
-		// }
-
 		component.set('v.value', event.getParam('value'));
 		component.set('v.selectedOptionLabel', event.getParam('label'));
 		component.set('v.selectedIcon', event.getParam('iconName'));
@@ -131,16 +141,18 @@
 
 		var searchType = component.get('v.searchType');
 
-		if(searchType === 'static'){
-			var trigger = component.find('dropdown-trigger');
-			var menu = component.find('dropdown-menu');
-			$A.util.removeClass(trigger, 'slds-is-open');
-			$A.util.removeClass(menu, 'slds-is-open');
-		}
 		if(searchType == 'lookup'){
 			var lookupPill = component.find('lookupPillContainer');
 			var lookupMenu = component.find('lookupMenu');
 			var lookupInput = component.find('lookupInput');
+			var doneRendering = component.get('v.doneRendering');
+			component.set('v.lookupInputShouldFocus', true);
+			if (doneRendering) {
+				if(lookupInput){
+					lookupInput.getElement().value = '';
+					helper.getLookupRecords(component,event,helper);
+				}
+			}
 
 			$A.util.removeClass(lookupMenu, 'slds-show slds-lookup__menu');
 			$A.util.removeClass(lookupInput, 'slds-show');
@@ -148,7 +160,23 @@
 			$A.util.addClass(lookupPill, 'slds-show');
 			$A.util.addClass(lookupMenu, 'slds-hide');
 			$A.util.addClass(lookupInput, 'slds-hide');
+		} else {
+			var trigger = component.find('dropdown-trigger');
+			var menu = component.find('dropdown-menu');
+			$A.util.removeClass(trigger, 'slds-is-open');
+			$A.util.removeClass(menu, 'slds-is-open');
 
+			var doneRendering = component.get('v.doneRendering');
+
+			if (doneRendering) {
+				var searchInput = component.find('searchInput');
+			
+				if(searchInput){
+			
+					searchInput.getElement().value = '';
+					helper.doStaticSearch(component,event,helper);
+				}
+			}
 		}
 
 

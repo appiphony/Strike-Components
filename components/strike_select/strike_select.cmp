@@ -1,5 +1,6 @@
 <aura:component controller="StrikeLookupController" access="global">
-	
+
+
 	<aura:attribute name="placeholderText" type="String" default="Select An Option" description="Placeholder text that will appear as a default setting when no option is selected"/>
 	<aura:attribute name="label" type="String" description="Text that is displayed above the menu that can be used to describe the component"/>
 	<aura:attribute name="isRequired" type="Boolean" default="{!false}" description="Boolean value that determines wheter a '*' is displayed on the component"/>
@@ -7,6 +8,9 @@
 	<aura:attribute name="value" type="String" description='The value of the component after an option is selected'/>
 	<aura:attribute name="searchType" type="String" description="determines whether search is enabled for the component. There are three posible values: 'static' for a static search of all SelectOption values that are configured into the component, 'lookup' for an apex search of a given object, 'none' for no search option"/>
 
+	<!-- Internal attributes -->
+	<aura:attribute name="doneRendering" type="Boolean" description="flag set for when the component is done rendering"/>
+	<aura:attribute name="lookupInputShouldFocus" type="Boolean" default="{!true}" description="boolean value that determines whether the lookup components input field should be focused" />
 	<!-- Static Search Attributes -->
 	<!-- internal attributes: -->
 	<aura:attribute name="selectedIcon" type="String" description="the icon of the selected SelectOption"/>
@@ -29,12 +33,12 @@
 	<!-- /Lookup attributes -->
 
 	<!-- Event registration and handlers -->
-	<aura:registerEvent name="menuClicked" type="c:menuClicked"/>
-	<aura:registerEvent name="addNewRecord" type="c:addNewRecord"/>
+	<aura:registerEvent name="menuClicked" type="c:strike_evt_menuClicked" description="used to help blurring action when more than one StrikeSelect component is on a page. Fires when menu is clicked"/>
+	<aura:registerEvent name="addNewRecord" type="c:strike_evt_addNewRecord" description="fires an event that notifies when the addNewRecord button is pressed"/>
 	<aura:handler event="aura:doneRendering" action="{!c.doneRendering}" />
 	<aura:handler name='init' value="{!this}" action="{!c.onInit}"/>
-	<aura:handler name="notifyParent" event="c:notifyParent" action="{!c.handleNotifyParent}" includeFacets="true"/>
-	<aura:handler event="c:menuClicked" action="{!c.checkIfOpen}"/>
+	<aura:handler name="notifyParent" event="c:strike_evt_notifyParent" action="{!c.handleNotifyParent}" includeFacets="true" description="handles when a StrikeOption is clicked"/>
+	<aura:handler event="c:strike_evt_menuClicked" action="{!c.checkIfOpen}" description="handles the menuClicked event to ensure only one menu is open on a page"/>
 	<aura:handler name="change" value="{!v.value}" action="{!c.handleValueChange}"/>
 	
 	
@@ -116,11 +120,11 @@
 		        		    </span>
 	        		    </li>
 		    		</aura:if>
-	            	<c:StrikeOptionGroup label="Recent Records" aura:id="recentRecordsLabel">
+	            	<c:strike_selectOptionGroup label="Recent Records" aura:id="recentRecordsLabel">
 		    			<aura:iteration items="{!v.returnedRecords}" var="record">
-		    				<c:StrikeOption value="{!record.Id}" label="{!record.Label}" iconName="{!v.lookupIcon}" isLookup="true" />
+		    				<c:strike_selectOption value="{!record.Id}" label="{!record.Label}" iconName="{!v.lookupIcon}" isLookup="true" />
 		    			</aura:iteration>
-	    			</c:StrikeOptionGroup>
+	    			</c:strike_selectOptionGroup>
 	            </ul>
 	        </div> 
         </div>

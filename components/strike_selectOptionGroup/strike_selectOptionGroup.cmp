@@ -1,0 +1,10 @@
+<aura:component >
+	<aura:attribute name="name" type="String" default="StrikeOptionGroup" description="The name of the component"/>
+	<aura:attribute name="label" type="String" description="The label to be displayed"/>
+	<aura:method name="hideGroup" action="{!c.hideGroup}" description="is called when the group should be hidden during a static search"/>
+	<aura:method name="showGroup" action="{!c.showGroup}" description="is called when the group name should be shown during a static search"/>
+	<li aura:id="optionGroupLabel" class="slds-dropdown__header" role="separator">
+        <span class="slds-text-title--caps">{!v.label}</span>
+    </li>
+    {!v.body}
+</aura:component>
