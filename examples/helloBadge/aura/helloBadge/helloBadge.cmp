@@ -1,0 +1,15 @@
+<aura:component controller="helloBadge" implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId">
+    <aura:attribute name="loadBadge" type="Boolean" default="{!false}"/>
+    <aura:attribute name="label" type="String"/>
+    <aura:attribute name="theme" type="String"/>
+    
+    <aura:attribute name="recordId" type="Id" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+    <aura:if isTrue="{!v.loadBadge}">
+        <div>
+            <c:strike_badge label="{!v.label}" theme="{!v.theme}"/>
+        </div>
+    </aura:if>
+</aura:component>
