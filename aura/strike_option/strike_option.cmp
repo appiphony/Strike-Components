@@ -1,0 +1,40 @@
+<aura:component >
+    <aura:attribute name="label" type="String" required="true" description="original, unaltered label"/>
+    <aura:attribute name="customIcon" type="Boolean" description="Boolean value that determines whether or not to use svg to render icon"/>
+    <aura:attribute name="filtered" type="Boolean" description="boolean value that affects the markup if the component is hidden during a search"/>
+    <aura:attribute name="hidden" type="Boolean" description="boolean value that affects the markup if the component is hidden"/>
+    <aura:attribute name="iconName" type="String" description="name of the icon to be displayed"/>
+    <aura:attribute name="value" type="String" description="the value of the component"/>
+    <aura:attribute name="focused" type="Boolean" description="Value that determines whether or not this component has focus"/>
+    <aura:attribute name="disabled" type="Boolean" description="Boolean value that determines whether the option is disabled" />
+
+    <!-- Internal attributes -->
+    <aura:attribute name="labelHtml" type="String" description="label to be displayed on the component" access="private"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+
+    <aura:method name="strike_filterBy" action="{!c.filterBy}" description="is called by the parent to determine if this component should be hidden"/>
+    <aura:method name="strike_optionSelected" action="{!c.optionSelected}" description="is called by the parent on init if a value is initially entered into the strike select component"/>
+
+
+    <aura:registerEvent name="strike_evt_notifyParent" type="c:strike_evt_notifyParent" description="is fired when an option is selected"/>
+
+    <li class="{!'slds-is-selected' + if(or(v.hidden, or(v.filtered, empty(v.label))), ' slds-hide', '')}" role="presentation" onmousedown="{!c.preventDefault}" onclick="{!c.optionSelected}">
+        <span class="{!'slds-lookup__item-action slds-lookup__item-action--label' + if(v.disabled, ' strike-disabled', '') + if(v.focused, ' slds-has-focus', '')}" role="option">
+            <aura:if isTrue="{!not(empty(v.iconName))}">
+                <aura:if isTrue="{!v.customIcon}">
+                    <span class="slds-icon_container">
+                        <c:svg xlinkHref="{!v.iconName}" ariaHidden="true" class="slds-icon slds-icon--small"/>
+                    </span>
+                    <aura:set attribute="else">
+                        <lightning:icon iconName="{!v.iconName}" size="small"/>
+                    </aura:set>
+                </aura:if>
+            </aura:if>
+
+            <span class="slds-truncate">
+                <aura:unescapedHtml value="{!v.labelHtml}"/>
+            </span>
+        </span>
+    </li>
+</aura:component>

@@ -1,0 +1,47 @@
+.THIS .sl-pill__label {
+    margin-right: auto;
+}
+.THIS .slds-pill.sl-pill--loading {
+    border-color: transparent;
+    padding-left: 9px;
+    position: relative;
+    top: -1px;
+}
+.THIS .slds-pill.sl-pill--loading:hover {
+    background: transparent;
+}
+.THIS .slds-form-element__control .sl-search-icon {
+    position: absolute;
+    right: 18px;
+    top: 5.4px;
+}
+.THIS .slds-form-element__control .sl-search-icon .slds-icon {
+    fill: t(colorTextInputIcon);
+}
+.THIS .slds-lookup__item-action .slds-media__figure {
+    margin-right: .5rem;
+    margin-top: .25rem;
+}
+.THIS .slds-lookup__item-action .slds-media__figure .slds-icon {
+    margin-right: 0;
+    margin-top: 0;
+}
+.THIS .slds-form-element__control .slds-pill_container,
+.THIS .slds-form-element__control .slds-pill {
+    transition: border .1s linear, background-color .1s linear;
+}
+.THIS .slds-form-element__control.sl-disabled .slds-pill_container,
+.THIS .slds-form-element__control.sl-disabled .slds-pill {
+    background-color: t(colorBackgroundShade);
+    cursor: not-allowed;
+}
+.THIS .slds-form-element__control.sl-disabled .slds-pill_container {
+    border-color: t(colorBorderInputDisabled);
+}
+.THIS .slds-form-element__control.sl-disabled .slds-pill {
+    border-color: transparent;
+}
+.THIS.slds-form-element.slds-has-error .slds-pill__label {
+    font-weight: normal;
+    color: t(colorTextDefault);
+}

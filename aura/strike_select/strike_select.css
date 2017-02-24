@@ -1,0 +1,52 @@
+.THIS .slds-icon_container.slds-icon-utility-down.ss-dropdown-icon {
+    display: inline;
+    border-radius: 0;
+}
+
+.THIS .slds-picklist .slds-picklist__label .ss-selected-icon .slds-icon {
+    position: static;
+    margin-top: -.05rem;
+    margin-right: 0.5rem;
+}
+
+.THIS .slds-picklist .slds-dropdown.ss-dropdown-control {
+    width: 100%;
+    max-width: none;
+    font-size: t(fontSizeTextSmall);
+    top: initial;
+}
+
+.THIS .slds-button.slds-button--neutral.slds-picklist__label {
+    width: 100%;
+}
+
+.THIS .slds-picklist.slds-dropdown-trigger {
+    display: block;
+}
+
+.THIS .slds-picklist .slds-button,
+.THIS .slds-picklist .slds-button:hover {
+    font-size: t(fontSizeTextSmall);
+    color: t(colorTextDefault);
+}
+
+.THIS .slds-picklist.ss-disabled .slds-button,
+.THIS .slds-picklist.ss-disabled:hover .slds-button {
+    cursor: not-allowed;
+    background-color: t(colorBackgroundShade);
+    border-color: t(colorBorderInpuDisabled);
+}
+
+.THIS.slds-has-error .slds-picklist.ss-disabled .slds-button,
+.THIS.slds-has-error .slds-picklist.ss-disabled:hover .slds-button {
+    background-color: t(colorBackgroundInput);
+    border-color: t(colorBorderError);
+}
+
+.THIS .slds-picklist.ss-readonly .slds-button {
+    pointer-events: none;
+}
+
+.THIS .slds-picklist.ss-disabled.ss-readonly .slds-button {
+    pointer-events: all;
+}

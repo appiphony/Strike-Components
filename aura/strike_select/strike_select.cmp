@@ -1,0 +1,78 @@
+<aura:component access="global">
+    <aura:attribute name="label" type="String" required="true" description="String value displayed above the menu used to describe the component" />
+
+    <aura:attribute name="placeholder" type="String" default="Select an Option" description="String value that will appear when no option is selected" />
+    <aura:attribute name="value" type="String" description="String value of the value of the selected option" />
+
+    <aura:attribute name="errorMessage" type="String" description="String value displayed when the input is in an error state" />
+
+    <aura:attribute name="searchable" type="Boolean" description="Boolean value that determines whether a search input is displayed on the component" />
+
+    <aura:attribute name="disabled" type="Boolean" description="Boolean value that determines whether the input is disabled" />
+    <aura:attribute name="required" type="Boolean" description="Boolean value that determines whether a '*' is displayed on the component" />
+    <aura:attribute name="error" type="Boolean" description="Boolean value that determines whether the input is in an error state" />
+
+    <!-- Methods -->
+    <aura:method name="showError" action="{!c.showError}" description="A method which triggers the error state">
+        <aura:attribute name="errorMessage" type="String"/>
+    </aura:method>
+    <aura:method name="hideError" action="{!c.hideError}" description="A method which removes the error state"/>
+
+    <!-- Internal -->
+    <aura:attribute name="customIcon" type="Boolean" access="private" description="Boolean value that determines whether the returned icon is a custom or standard icon"/>
+    <aura:attribute name="focusIndex" type="Integer" access="private" description="Integer value that determines which option is currently selected"/>
+    <aura:attribute name="iconName" type="String" access="private" description="String value of the icon of the selected option"/>
+    <aura:attribute name="openMenu" type="Boolean" access="private" description="Boolean value that determines whether the menu is open"/>
+    <aura:attribute name="valueLabel" type="String" access="private" description="String value of the label of the selected option"/>
+
+    <!-- Event registration and handlers -->
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
+    <aura:handler name="change" value="{!v.value}" action="{!c.handleValueChange}" />
+
+    <aura:handler name="doneRendering" event="aura:doneRendering" action="{!c.doneRendering}" />
+    <aura:handler name="strike_evt_notifyParent" event="c:strike_evt_notifyParent" action="{!c.handleNotifyParent}" includeFacets="true" description="handles when a StrikeOption is clicked" />
+
+    <!-- Strike Select -->
+    <div class="{!'slds-form-element' + if(v.error, ' slds-has-error', '')}">
+        <label class="slds-form-element__label" onclick="{!c.toggleMenu}">
+            <aura:if isTrue="{!v.required}">
+                <abbr class="slds-required" title="required">*</abbr>
+            </aura:if>
+            {!v.label}
+        </label>
+        <div aura:id="dropdown-trigger" class="{!'slds-picklist slds-dropdown-trigger slds-dropdown-trigger--click' + if(v.openMenu, ' slds-is-open', '') + if(v.disabled, ' ss-disabled', '')}" aria-expanded="true">
+            <div class="slds-form-element__control">
+                <div class="slds-button slds-button--neutral slds-input slds-picklist__input slds-text-color--default slds-picklist__label ss-menu-button" aria-haspopup="true" onclick="{!c.toggleMenu}">
+                    <span class="slds-truncate ss-selected-text" title="{!v.valueLabel}">
+                        <aura:if isTrue="{!and(not(empty(v.iconName)), not(v.customIcon))}">
+                            <lightning:icon class="ss-selected-icon slds-input__icon" iconName="{!v.iconName}" size="x-small" />
+                        </aura:if>
+                        <aura:if isTrue="{!v.customIcon}">
+                            <span class="slds-icon_container">
+                                <c:svg aura:id="svgComp" xlinkHref="{!v.iconName}" ariaHidden="true" class="slds-icon ss-selected-icon" />
+                            </span>
+                        </aura:if>
+                        {!if(empty(v.valueLabel), v.placeholder, v.valueLabel)}
+                    </span>
+                    <lightning:icon class="ss-dropdown-icon" iconName="utility:down" size="xx-small" />
+                </div>
+                <div aura:id="dropdown-menu" class="{!'slds-dropdown slds-dropdown--left slds-dropdown--small ss-dropdown-control' + if(v.openMenu, ' slds-is-open', '')}" onclick="{!c.stopProp}">
+                    <div class="{!'slds-form-element slds-m-vertical--x-small slds-m-horizontal--small' + if(v.searchable, '', ' slds-hide')}">
+                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon--left">
+                            <c:svg class="slds-input__icon slds-icon-text-default" xlinkHref="/resource/icons/utility-sprite/svg/symbols.svg#search" ariaHidden="true"></c:svg>
+                            <input aura:id="searchTerm" class="slds-input" type="search" onkeyup="{!c.searchTermChanged}" />
+                        </div>
+                    </div>
+                    <div class="slds-scrollable--y ss-scroll-container">
+                        <ul class="slds-dropdown__list" role="menu">
+                            {!v.body}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <aura:if isTrue="{!and(v.error, not(empty(v.errorMessage)))}">
+                <div class="slds-form-element__help">{!v.errorMessage}</div>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>

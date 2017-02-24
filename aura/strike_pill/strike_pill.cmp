@@ -1,0 +1,16 @@
+<aura:component access="global">
+	<aura:attribute name="value" type="String" description="value of the selected option"/>
+	<aura:attribute name="label" type="String" description="label to be displayed for the selected option"/>
+	<aura:attribute name="iconName" type="String" description="icon to be displayed for the selected option"/>
+
+	<aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+	<aura:registerEvent name="strike_evt_componentDestroyed" type="c:strike_evt_componentDestroyed" description="is fired when a pill is destroyed"/>
+
+	<span class="slds-pill">
+		<aura:if isTrue="{!not(empty(v.iconName))}">
+			<lightning:icon iconName="{!v.iconName}" class="slds-pill__icon_container"/>
+		</aura:if>
+		<span class="slds-pill__label" title="{!v.label}">{!v.label}</span>
+		<lightning:buttonIcon iconName="utility:close" variant="bare" alternativeText="Remove" class="slds-button slds-pill__remove" onclick="{!c.handleClick}"/>
+	</span>
+</aura:component>

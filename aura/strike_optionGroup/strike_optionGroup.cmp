@@ -1,0 +1,16 @@
+<aura:component >
+    <aura:attribute name="label" type="String" description="The label to be displayed"/>
+    <aura:attribute name="name" type="String" default="StrikeOptionGroup" description="The name of the component"/>
+
+    <!-- Internal attributes -->
+    <aura:attribute name="hidden" type="Boolean" description="boolean value that affects the markup if the component is hidden during a static search" access="private"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+
+    <aura:method name="strike_filterBy" action="{!c.filterBy}" description="is called by strike select when a search term is entered"/>
+
+    <li aura:id="optionGroupLabel" role="separator" class="{!'slds-dropdown__header' + if(v.hidden, ' slds-hide', '')}">
+        <span class="slds-text-title--caps">{!v.label}</span>
+    </li>
+    {!v.body}
+</aura:component>

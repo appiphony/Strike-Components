@@ -1,0 +1,160 @@
+.THIS .sc-axis-label {
+    color: #bfbebe;
+}
+
+.THIS .sc-axis-value {
+    color: white;
+    font-size: 13px;
+}
+
+.THIS .sc-tooltip {
+    background: #2c2b2b;
+    box-shadow: 0 0 5px #999999;
+    color: white;
+    font-size: 12px;
+    padding: 10px;
+    position: absolute;
+    text-align: left;
+    z-index: 10;
+}
+
+.THIS .sc-threshold-line {
+    fill: none;
+    stroke: #c23934;
+    stroke-width: 0.5px;
+    stroke-dasharray: 5 5;
+    pointer-events: none;
+}
+
+.THIS .sc-threshold-text {
+    fill: #ffffff;
+    pointer-events: none;
+}
+
+.THIS .sc-threshold-background {
+    fill: #c23934;
+    pointer-events: none;
+}
+
+.THIS .sc-threshold-triangle {
+    fill: #c23934;
+    pointer-events: none;
+}
+
+.THIS .sc-axis path,
+.THIS .sc-axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.THIS .sc-axis-text {
+    font: 10px sans-serif;
+    fill: #4d4d4d;
+}
+
+.THIS .sc-section:hover {
+    fill: #4682b4;
+}
+
+/* LINE CHART */
+.THIS .sc-line {
+    fill: none;
+    stroke: #00a1e0;
+    stroke-width: 2px;
+}
+
+.THIS .sc-lc-area {
+    fill: #e6f6fc;
+    stroke: none;
+}
+
+.THIS .sc-lc-focus-line {
+    fill: none;
+    stroke: #00a1e0;
+    stroke-width: 0.5px;
+}
+
+.THIS .sc-lc-focus-circle {
+    fill: red;
+}
+/* /LINE CHART */
+
+
+
+/* BAR CHART */
+.THIS .sc-bc-bar {
+    /*fill: #00a1e0;*/
+}
+
+.THIS .sc-bc-bar:hover {
+    fill: #005170;
+}
+/* /BAR CHART */
+
+
+
+/* BUBBLE CHART */
+.THIS .sc-bc-bubble {
+    fill-opacity: 0.3;
+}
+.THIS .sc-bc-bubble:hover {
+    fill-opacity: 0.7;
+}
+/* /BAR BUBBLE */
+
+
+
+/* PIE DONUT CHART */
+.THIS .sc-pdc-section-percent {
+    color: #c6c663;
+    font-size: 12px;
+}
+
+.THIS .sc-pdc-legend {
+    font-size: 12px;
+    letter-spacing: .0625rem;
+}
+
+.THIS rect {
+    stroke-width: 2;
+}
+
+.THIS .sc-position--static {
+    position: static;
+}
+
+.THIS .sc-position--relative {
+    position: relative;
+}
+
+.THIS .sc-position--absolute {
+    position: absolute;
+}
+
+.THIS .sc-position--fixed {
+    position: fixed;
+}
+
+.THIS .sc-position--relative {
+	position: relative;
+}
+.THIS .sc-position--fixed {
+	position: fixed;
+}
+.THIS .sc-position--static {
+	position: static;
+}
+.THIS .sc-position--absolute {
+	position: absolute;
+}
+.THIS .sc-hidden {
+    visibility: hidden;
+    opacity: 0;
+    position: fixed;
+    z-index: -9999;
+    left: -999999px;
+    left: -999vw;
+    pointer-events: none;
+}
+/* /PIE DONUT CHART */

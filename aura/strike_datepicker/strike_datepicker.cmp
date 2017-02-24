@@ -1,0 +1,143 @@
+<aura:component access="global">
+    <!-- Required -->
+    <aura:attribute name="label" type="String" required="true"/>
+
+    <aura:attribute name="name" type="String"/>
+    <aura:attribute name="class" type="String"/>
+    <aura:attribute name="placeholder" type="String"/>
+    <aura:attribute name="value" type="String"/>
+    <aura:attribute name="valueFormat" type="String" default="yyyy-MM-dd"/>
+    <aura:attribute name="timestamp" type="Long"/>
+
+    <aura:attribute name="errorMessage" type="String"/>
+
+    <aura:attribute name="disabled" type="Boolean"/>
+    <aura:attribute name="required" type="Boolean"/>
+    <aura:attribute name="error" type="Boolean"/>
+
+    <!-- Methods -->
+    <aura:method name="showError" action="{!c.showError}">
+        <aura:attribute name="errorMessage" type="String"/>
+    </aura:method>
+    <aura:method name="hideError" action="{!c.hideError}"/>
+
+    <!-- Internal -->
+    <aura:attribute name="displayDate" type="String" access="private"/>
+
+    <aura:attribute name="dayLabels" type="Map[]" access="private"/>
+    <aura:attribute name="monthLabels" type="Map[]" access="private"/>
+    <aura:attribute name="datePatternMap" type="Map" access="private"/>
+
+    <aura:attribute name="calendarRows" type="Object[]" default="[]" access="private"/>
+    <aura:attribute name="selectYears" type="Integer[]" access="private"/>
+    <aura:attribute name="currentDate" type="Object" access="private"/>
+    <aura:attribute name="dateDebouncer" type="Object" access="private"/>
+    <aura:attribute name="closeDatepickerListener" type="Object" access="private"/>
+
+    <aura:attribute name="clickedValue" type="Integer" access="private"/>
+    <aura:attribute name="selectedYear" type="Integer" access="private"/>
+    <aura:attribute name="selectedMonth" type="Integer" access="private"/>
+    <aura:attribute name="selectedDateColIndex" type="Integer" access="private"/>
+    <aura:attribute name="selectedDateRowIndex" type="Integer" access="private"/>
+
+    <aura:attribute name="selectedMonthText" type="String" access="private"/>
+
+    <aura:attribute name="datePickerOpen" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="readOnly" type="Boolean" default="true" access="private"/>
+
+    <!-- Event registration and handlers -->
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:handler name="change" value="{!v.value}" action="{!c.valueChanged}"/>
+
+    <!-- Strike Datepicker -->
+    <div class="{!'slds-form-element' + if(v.error, ' slds-has-error', '')}">
+        <div class="strike-datepicker-input slds-input-has-icon slds-input-has-icon--right">
+            <div class="strike-live-area" onclick="{!c.clickedDateInput}">
+                <lightning:input aura:id="dateInput" required="{!v.required}"
+                    disabled="{!v.disabled}"
+                    class="{!v.class}"
+                    type="text"
+                    onfocus="{!c.focusDateInput}"
+                    onblur="{!c.processNewDate}"
+                    readonly="{!v.readOnly}"
+                    label="{!v.label}"
+                    value="{!v.displayDate}"
+                    name="{!v.name}"
+                    placeholder="{!v.placeholder}"/>
+            </div>
+            <lightning:buttonIcon onclick="{!c.clickedDateIcon}" iconName="utility:event" size="medium" variant="bare" alternativeText="Date Picker" disabled="{!v.disabled}" class="strike-datepicker-input__icon"/>
+        </div>
+        <aura:if isTrue="{!and(v.error, not(empty(v.errorMessage)))}">
+            <div class="slds-form-element__help sd-error-message">{!v.errorMessage}</div>
+        </aura:if>
+        <div class="{!if(v.datePickerOpen, 'slds-datepicker slds-dropdown slds-dropdown--left', 'slds-hide')}" aria-hidden="false" onclick="{!c.preventDatePickerClose}" tabindex="0">
+            <div class="slds-datepicker__filter slds-grid">
+                <div class="slds-datepicker__filter--month slds-grid slds-grid--align-spread slds-grow">
+                    <div class="slds-align-middle">
+                        <a onclick="{!c.clickPrev}" href="javascript:void(0);" class="slds-button slds-button--icon-container">
+                            <lightning:icon iconName="utility:left" size="xx-small" class="slds-button__icon slds-button__icon--small slds-m-top--x-small"/>
+                            <span class="slds-assistive-text">Previous Month</span>
+                        </a>
+                    </div>
+                    <h2 id="month" class="slds-align-middle" aria-live="assertive" aria-atomic="true">{!v.selectedMonthText}</h2>
+                    <div class="slds-align-middle">
+                        <a onclick="{!c.clickNext}" href="javascript:void(0);" class="slds-button slds-button--icon-container">
+                            <lightning:icon iconName="utility:right" size="xx-small" class="slds-button__icon slds-button__icon--small slds-m-top--x-small"/>
+                            <span class="slds-assistive-text">Next Month</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="slds-shrink-none">
+                    <div class="sd-select_container">
+                        <ui:inputSelect options="{!v.selectYears}" value="{!v.selectedYear}" change="{!c.yearChanged}" />
+                    </div>
+                </div>
+            </div>
+            <table class="datepicker__month" role="grid" aria-labelledby="month">
+                <thead>
+                    <tr id="weekdays">
+                        <aura:iteration items="{!v.dayLabels}" var="day">
+                            <th id="{!day.fullName}" scope="col">
+                                <abbr title="{!day.fullName}">{!day.shortName}</abbr>
+                            </th>
+                        </aura:iteration>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.calendarRows}" var="row" indexVar="index">
+                        <tr>
+                            <aura:iteration items="{!row}" var="col">
+                                <aura:if isTrue="{!col.isCurrentMonth}">
+                                    <td
+                                        class="{!if(col.isToday, 'slds-is-today', '') + '' + if(col.isSelected, ' slds-is-selected', '')}"
+                                        headers="{!col.headerText}"
+                                        role="gridcell"
+                                        aria-disabled="false"
+                                        aria-selected="{!col.isSelected}"
+                                        onmousedown="{!c.preventBlur}"
+                                        onclick="{!c.clickDate}"
+                                        data-row_index="{!col.rowIndex}"
+                                        data-col_index="{!col.colIndex}"
+                                        data-day="{!col.value}"
+                                        data-month="{!col.month}">
+                                        <span class='slds-day'>{!col.value}</span>
+                                    </td>
+                                    <aura:set attribute="else">
+                                        <td class="slds-disabled-text ld-cal-cursor-pointer" headers="{!col.headerText}" role="gridcell" aria-disabled="true" aria-selected="{!col.isSelected}">
+                                            <span class='slds-day'>{!col.value}</span>
+                                        </td>
+                                    </aura:set>
+                                </aura:if>
+                            </aura:iteration>
+                        </tr>
+                    </aura:iteration>
+                    <tr>
+                        <td colspan="7" role="gridcell">
+                            <a onclick="{!c.selectToday}" href="javascript:void(0);" class="slds-show--inline-block slds-p-bottom--x-small">Today</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</aura:component>

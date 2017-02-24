@@ -1,0 +1,9 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    <aura:attribute name="label" type="String" />
+    <aura:attribute name="class" type="String" />
+    <aura:attribute name="theme" type="String" />
+    <aura:handler name="change" value="{!v.theme}" action="{!c.themeChange}"/>
+
+    <lightning:badge label="{!v.label}" class="{!if(empty(v.theme), '', 'slds-theme--' + v.theme) + ' ' + v.class}"/>
+
+</aura:component>

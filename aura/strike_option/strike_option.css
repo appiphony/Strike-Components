@@ -1,0 +1,11 @@
+.THIS .slds-lookup__item-action.strike-disabled,
+.THIS .slds-lookup__item-action.strike-disabled:hover,
+.THIS .slds-lookup__item-action.strike-disabled:focus,
+.THIS .slds-lookup__item-action.strike-disabled.slds-has-focus {
+    cursor: not-allowed;
+    background-color: t(colorBackground);
+    opacity: 0.5;
+}
+li.THIS .slds-lookup__item-action .slds-icon {
+    margin-top: -3px;
+}

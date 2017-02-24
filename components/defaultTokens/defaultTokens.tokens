@@ -1,6 +1,0 @@
-<aura:tokens extends="force:base">
-    <aura:token name="fontSizeSmall" value="0.75rem"/>
-    <aura:token name="spacingXxLarge" value="3rem"/>
-    <aura:token name="fontSizeXxLarge" value="1.75rem"/>
-    <aura:token name="fontSizeXLarge" value="1.25rem"/>
-</aura:tokens>

@@ -1,0 +1,26 @@
+<aura:component >
+    <aura:attribute name="text" type="String" required="true"/>
+
+    <aura:attribute name="placement" type="String" default="top"/>
+    <aura:attribute name="class" type="String"/>
+
+    <!-- Internal -->
+    <aura:attribute name="nubbinPlacement" type="String" default="slds-nubbin--bottom" access="private" />
+    <aura:attribute name="showTooltip" type="boolean" access="private" />
+    <aura:attribute name="tooltipStyle" type="String" access="private" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:handler name="change" value="{!v.placement}" action="{!c.updateNubbinPosition}"/>
+
+    <aura:method name="openTooltip" action="{!c.showTooltip}"/>
+    <aura:method name="closeTooltip" action="{!c.hideTooltip}"/>
+
+    <div aura:id="tooltipContainer" class="{!'st-popover_container ' + v.class}" tabindex="0" onfocus="{!c.showTooltip}" onblur="{!c.hideTooltip}" onmouseover="{!c.showTooltip}" onmouseout="{!c.hideTooltip}">
+        <div class="{!'slds-popover slds-popover--tooltip ' + v.nubbinPlacement + if(v.showTooltip, '', ' st-hidden')}" role="tooltip" aura:id="tooltip" style="{!v.tooltipStyle}">
+            <div class="slds-popover__body">
+                {!v.text}
+            </div>
+        </div>
+        {!v.body}
+    </div>
+</aura:component>

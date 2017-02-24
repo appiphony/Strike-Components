@@ -1,0 +1,59 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+    <!-- Required -->
+    <aura:attribute name="label" type="String" required="true" description="Text that describes the desired textarea input" default="Strike TextArea"/>
+
+    <aura:attribute name="name" type="String" description="Specifies the name of an input element" default="Strike TextArea"/>
+    <aura:attribute name="class" type="String" description="A CSS class that will be applied to the outer element. This style is in addition to base classes associated with the component"/>
+    <aura:attribute name="placeholder" type="String" description="Text that is displayed when the field is empty, to prompt the user for a valid entry"/>
+    <aura:attribute name="height" type="String" description="Determines the height of the textarea"/>
+    <aura:attribute name="size" type="String" description="Determines the height of the textarea"/>
+
+    <aura:attribute name="maxlength" type="Integer" description="The maximum number of characters allowed in the textarea"/>
+    <aura:attribute name="minlength" type="Integer" description="The minimum number of characters allowed in the textarea"/>
+    <aura:attribute name="tabindex" type="Integer" description="Specifies the tab order of an element (when the tab button is used for navigating)"/>
+
+    <aura:attribute name="errorMessage" type="String" description="message to be displayed when 'error' is set to true" default="There was a problem"/>
+
+    <aura:attribute name="resizable" type="Boolean" description="Specifies whether or not the text area is verically resizble" default="true" />
+    <aura:attribute name="disabled" type="Boolean" description="Specifies that an input element should be disabled. This value defaults to false"/>
+    <aura:attribute name="required" type="Boolean" description="Specifies that an input field must be filled out before submitting the form. This value defaults to false"/>
+    <aura:attribute name="error" type="Boolean" description="Specifies whether or not the text area is in an error state. This will trigger messageWhenBadInput"/>
+
+    <!-- Internal -->
+    <aura:attribute name="idNumber" type="Integer" description="Random id assigned to pair labels with inputs" access="private"/>
+
+    <!-- Event registration and handlers -->
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+    <aura:handler name="change" value="{!v.size}" action="{!c.sizeChanged}"/>
+
+    <!-- Strike Textarea -->
+    <div class="{!'slds-form-element' + if(v.error, ' slds-has-error', '')}">
+        <label class="slds-form-element__label" for="{!'strike-textarea-' + v.idNumber}">
+            <aura:if isTrue="{!v.required == true}">
+                <abbr class="slds-required" title="required">*</abbr>
+            </aura:if>
+            {!v.label}
+        </label>
+        <div class="slds-form-element__control">
+            <textarea aura:id="thisTextArea"
+                id="{!'strike-textarea-' + v.idNumber}"
+                name="{!v.name}"
+                class="{!'slds-textarea ' + if(v.resizable, 'strike-resizable ', 'strike-static ') + v.class}"
+                placeholder="{!v.placeholder}"
+                style="{!'height: ' + v.height}"
+
+                maxlength="{!v.maxlength}"
+                minlength="{!v.minlength}"
+                tabindex="{!v.tabindex}"
+
+                disabled="{!v.disabled}"
+                required="{!v.required}">
+                {!v.body}
+            </textarea>
+        </div>
+        <aura:if isTrue="{!and(v.error, not(empty(v.errorMessage)))}">
+            <div class="slds-form-element__help">{!v.errorMessage}</div>
+        </aura:if>
+    </div>
+
+</aura:component>

@@ -1,0 +1,103 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+    <ltng:require scripts="/resource/d3/d3.js" afterScriptsLoaded="{!c.onInit}"/>
+    <aura:attribute name="scriptsLoaded" type="Boolean" default="{!false}"/>
+
+    <aura:attribute name="chartRendered" type="Boolean" default="{!false}" description="Flag to display the loading spinner."/>
+    <aura:attribute access="private" name="triggerRedraw" type="Boolean" default="{!false}" description="Flag that triggers redraw of the chart."/>
+    <aura:attribute access="private" name="displayAxis" type="Boolean" default="{!false}" description="Flag that triggers displaying the left and bottom axis labels."/>
+    <aura:attribute access="private" name="containerWidth" type="Integer" default="0" description="This is the avaliable width to draw our charts in pixels"/>
+    <aura:attribute access="private" name="yAxisLabelMaxHeight" type="Integer" default="100" description="This is the max width the y axis can grow to. It should be derived from chart height."/>
+    <aura:attribute name="thresholdLabel" type="String" default="Threshhold" description="Label that appears at the threshold value."/>
+    <aura:attribute name="thresholdValue" type="Integer" description="Value where the threshold line appears. "/>
+
+    <!-- CHANGE THE DOM AND FORCE RUN RERENDERER, WITHOUT CHANGING THE DOM RERENDER DOESN'T RUN -->
+    <div class="slds-hide">{!v.triggerRedraw}</div>
+
+    <aura:attribute name="type" type="String" required="{!true}" description="Type of the chart user wants to render."/>
+    <aura:attribute name="title" type="String" description="Title of the chart. Shows up at the top-left corner of the chart."/>
+    <aura:attribute name="leftSubtitle" type="String" description="Subtitle of the chart. Shows up at the bottom-left corner of the chart."/>
+    <aura:attribute name="rightSubtitle" type="String" description="Subtitle of the chart. Shows up at the bottom-right corner of the chart."/>
+    <aura:attribute name="data" type="Object" required="{!true}" description="The data based on which chart renders."/>
+    <aura:attribute access="private" name="fontSize" type="String" default=".8125rem" description="The font size of the div texts"/>
+
+    <!-- TOOLTIP SPECIFIC ATTRIBUTES -->
+    <aura:attribute access="private" name="tooltipHtml" type="String" description="Inner html for the tooltip div. This gets generated on mouseover of a datapoint"/>
+    <aura:attribute access="private" name="tooltipDisplay" type="String" default="none" description="Determines to show the tooltip or not"/>
+    <aura:attribute access="private" name="tooltipXPos" type="Integer" default="0" description="X position of the tooltip"/>
+    <aura:attribute access="private" name="tooltipYPos" type="Integer" default="0" description="Y position of the tooltip"/>
+    <aura:attribute access="private" name="tooltipOpacity" type="Integer" default="0" description="Opacity level of the tooltip. This is used to hide it visibly while the width is calculated"/>
+
+    <!-- AREA CHART SPECIFIC ATTRIBUTES -->
+    <aura:attribute name="xAxisLabel" type="String" default="x-axis" description="Label that appears along X axis."/>
+    <aura:attribute name="yAxisLabel" type="String" default="y-axis" description="Label that appears along Y axis."/>
+    <aura:attribute name="xAxisDataType" type="String" default="Number" description="Data type on X axis."/>
+    <aura:attribute name="yAxisDataType" type="String" default="Number" description="Data type on Y axis."/>
+
+    <!-- BAR CHART SPECIFIC ATTRIBUTES -->
+    <aura:attribute name="orientation" type="String" default="vertical" description="Determines orientation of the bar chart. It defaults to vertical."/>
+
+    <!-- BUBBLE CHART SPECIFIC ATTRIBUTES -->
+    <aura:attribute name="bubbleSizeLabel" type="String" default="Bubble Size" description="Label for the bubble size on the tooltip"/>
+
+    <!-- Donut CHART SPECIFIC ATTRIBUTES -->
+    <aura:attribute name="segmentLabel" type="String" default="Label" description="Label that appears on the tooltip for the label section."/>
+    <aura:attribute name="valueLabel" type="String" default="Value" description="Label that appears on the tooltip for the value section"/>
+
+    <!-- GAUGE SPECIFIC ATTRIBUTES -->
+    <aura:attribute name="lowLabel" type="String" default="Low" description="Tooltip text of the low section in gauge type chart."/>
+    <aura:attribute name="midLabel" type="String" default="Medium" description="Tooltip text of the mid section in gauge type chart."/>
+    <aura:attribute name="highLabel" type="String" default="High" description="Tooltip text of the high section in gauge type chart."/>
+
+    <!-- Rerender the chart if any attribute is changed -->
+    <aura:handler name="change" value="{!v.type}" action="{!c.reRenderCharts}"/>
+    <aura:handler name="change" value="{!v.data}" action="{!c.reRenderCharts}"/>
+    <aura:handler name="change" value="{!v.title}" action="{!c.reRenderCharts}"/>
+    <aura:handler name="change" value="{!v.leftSubtitle}" action="{!c.reRenderCharts}"/>
+    <aura:handler name="change" value="{!v.rightSubtitle}" action="{!c.reRenderCharts}"/>
+    <aura:handler name="change" value="{!v.xAxisLabel}" action="{!c.reRenderCharts}"/>
+    <aura:handler name="change" value="{!v.yAxisLabel}" action="{!c.reRenderCharts}"/>
+    <aura:handler name="change" value="{!v.xAxisDataType}" action="{!c.reRenderCharts}"/>
+    <aura:handler name="change" value="{!v.yAxisDataType}" action="{!c.reRenderCharts}"/>
+    <aura:handler name="change" value="{!v.thresholdLabel}" action="{!c.reRenderCharts}"/>
+    <aura:handler name="change" value="{!v.thresholdValue}" action="{!c.reRenderCharts}"/>
+    <aura:handler name="change" value="{!v.orientation}" action="{!c.reRenderCharts}"/>
+    <aura:handler name="change" value="{!v.pieDonutTooltipLabelText}" action="{!c.reRenderCharts}"/>
+    <aura:handler name="change" value="{!v.pieDonutTooltipValueText}" action="{!c.reRenderCharts}"/>
+    <aura:handler name="change" value="{!v.lowLabel}" action="{!c.reRenderCharts}"/>
+    <aura:handler name="change" value="{!v.midLabel}" action="{!c.reRenderCharts}"/>
+    <aura:handler name="change" value="{!v.highLabel}" action="{!c.reRenderCharts}"/>
+
+    <div class="slds-box">
+        <div aura:id="chartContainer" class="sc-position--relative">
+            <div aura:id="tooltipContainer" style="{!'display: ' + v.tooltipDisplay + '; position: absolute; top: ' + v.tooltipYPos + 'px; left: ' + v.tooltipXPos + 'px;'}" class="sc-tooltip">
+                <div class="label">
+                    <aura:unescapedHtml value="{!v.tooltipHtml}"/>
+                </div>
+            </div>
+                <div aura:id="leftAxis" class="{!'slds-truncate ' + if(v.displayAxis == true, '', 'slds-hide')}" style="{!'text-align: center; position: absolute; top: 50%; left: 0px; font-size: 0.8125em; color: rgb(139, 139, 139); transform-origin: left top 0px; transform: rotate(-90deg) translateX(-50%); max-width: ' + v.yAxisLabelMaxHeight+ 'px;'}">
+                    {!v.yAxisLabel}
+                </div>
+            <!--Make a copy to calculate width. Can't use the original since it flickers in firefox-->
+            <div aura:id="tooltipContainerCopy" class="sc-tooltip sc-hidden">
+                <div class="label">
+                    <aura:unescapedHtml value="{!v.tooltipHtml}"/>
+                </div>
+            </div>
+            <div style="{!'font-size:' + v.fontSize }" class="slds-p-bottom--small slds-text-align--left slds-text-heading--small slds-truncate">
+                {!v.title}
+            </div>
+            <div aura:id="chart"/>
+            <aura:if isTrue="{!v.displayAxis}">
+                <div aura:id="rightAxis" class="{!'slds-truncate ' + if(v.displayAxis == true, '', 'slds-hide')}" style="text-align: center; font-size: 0.8125em; color: rgb(139, 139, 139); max-width: 70%; margin: auto;">
+                    {!v.xAxisLabel}
+                </div>
+            </aura:if>
+            <aura:if isTrue="{!not(and(empty(v.leftSubtitle), empty(v.rightSubtitle)))}">
+                <div class="slds-grid slds-p-top--small slds-text-body--small" style="{!'font-size: ' + v.fontSize + ';'}">
+                    <div title="{!v.leftSubtitle}" class="slds-col slds-size--1-of-2 slds-truncate">{!v.leftSubtitle}</div>
+                    <div title="{!v.rightSubtitle}" class="slds-col slds-size--1-of-2 slds-text-align--right slds-truncate">{!v.rightSubtitle}</div>
+                </div>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>

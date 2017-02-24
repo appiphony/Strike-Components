@@ -1,0 +1,111 @@
+.THIS .strike-live-area {
+    pointer-events: none;
+}
+.THIS .strike-live-area .slds-form-element__label,
+.THIS .strike-live-area .slds-input {
+    pointer-events: auto;
+}
+.THIS .strike-live-area .slds-input[readonly] {
+    cursor: text;
+}
+.THIS .strike-live-area .slds-input[readonly]:hover,
+.THIS .strike-live-area .slds-input[readonly]:focus {
+    background-color: white;
+}
+.THIS .strike-live-area .slds-input[readonly][disabled] {
+    cursor: not-allowed;
+}
+.THIS .strike-live-area .slds-input[readonly][disabled]:hover {
+    background-color: t(colorBackgroundInputDisabled);
+}
+.THIS .strike-datepicker-input {
+    position: relative;
+}
+.THIS .strike-datepicker-input .strike-datepicker-input__icon {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+}
+.THIS .strike-datepicker-input .strike-datepicker-input__icon:focus,
+.THIS .strike-datepicker-input .strike-datepicker-input__icon:active {
+    outline: none;
+    box-shadow: none;
+}
+.THIS .slds-datepicker {
+    top: 3.5rem;
+}
+.THIS .slds-datepicker .slds-select[size],
+.THIS .slds-datepicker .slds-select[multiple] {
+    height: calc(1.875rem + (1px * 2));
+}
+.THIS .slds-datepicker thead abbr {
+    text-transform: capitalize;
+}
+.THIS .slds-datepicker .slds-form-element__label {
+    display: none;
+}
+.THIS .slds-datepicker:focus,
+.THIS .slds-datepicker:active {
+    outline: none;
+}
+.THIS .sd-select_container:before,
+.THIS .sd-select_container:after {
+    position: absolute;
+    content: '';
+    display: block;
+    right: .5rem;
+    width: 0;
+    height: 0;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+}
+.THIS .sd-select_container {
+    position: relative;
+}
+.THIS .sd-select_container:before {
+    border-bottom: 5px solid t(colorBorderInverse);
+    top: calc((1.75rem / 2) - 6px);
+}
+.THIS .sd-select_container:after {
+    border-top: 5px solid  t(colorBorderInverse);
+    bottom: calc((1.75rem / 2) - 6px);
+}
+.THIS .sd-select_container select.uiInput {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: none;
+    padding-left: .5rem;
+    padding-right: 1.5rem;
+    text-transform: none;
+    background-color: #fff;
+    color: #16325c;
+    border: 1px solid #d8dde6;
+    border-radius: .25rem;
+    width: 100%;
+    transition: border .1s linear,background-color .1s linear;
+    height: calc(1.875rem + (1px * 2));
+}
+/* ----- Override lightning:input error states ----- */
+.THIS.slds-form-element .is-required.slds-has-error .slds-input {
+    box-shadow: none;
+    border-color: t(colorBorderInput);
+}
+.THIS.slds-form-element .is-required.slds-has-error .slds-input:focus,
+.THIS.slds-form-element .is-required.slds-has-error .slds-input:active {
+    border-color: t(colorBorderInputActive);
+    box-shadow: 0 0 3px #0070d2;
+}
+.THIS.slds-form-element.slds-has-error .is-required.slds-has-error .slds-input {
+    box-shadow: rgb(194, 57, 52) 0 0 0 1px inset;
+    border-color: t(colorBorderError);
+}
+.THIS.slds-form-element.slds-has-error .is-required.slds-has-error .slds-input:focus {
+    box-shadow: rgb(194, 57, 52) 0 0 0 1px inset, 0 0 3px #0070d2;
+}
+.THIS.slds-form-element.slds-has-error .strike-live-area .slds-input[readonly][disabled]:hover {
+    background-color: t(colorBackgroundInput);
+}
+.THIS .slds-form-element__help:not(.sd-error-message) {
+    display: none;
+}

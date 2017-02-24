@@ -1,0 +1,14 @@
+.THIS.slds-form-element.slds-lookup .slds-pill_container .slds-pill {
+    display: inline-flex;
+}
+
+.THIS.slds-form-element.slds-lookup .slds-pill_container .slds-pill .slds-pill__remove {
+    margin-left: t(spacingXxSmall);
+}
+
+.THIS.slds-form-element.slds-lookup .slds-input-has-icon--right .slds-icon {
+    position: relative;
+    top: -2.6px;
+    left: -6px;
+    fill: t(colorTextInputIcon);
+}
