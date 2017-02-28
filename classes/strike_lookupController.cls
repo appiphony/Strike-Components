@@ -2,6 +2,7 @@ public with sharing class strike_lookupController {
     @AuraEnabled
     public static String getRecentRecords(String jsonString) {
         strike_responseData responseData = new strike_responseData();
+        System.debug('** Hello World');
 
         try {
             Map<String, Object> jsonMap = (Map<String, Object>)JSON.deserializeUntyped(jsonString);
