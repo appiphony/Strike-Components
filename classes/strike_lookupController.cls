@@ -171,6 +171,10 @@ public with sharing class strike_lookupController {
 
             label = ((Map<String, Object>)label).get(fieldName);
 
+            if (label == null) {
+                return '';
+            }
+
             if (fieldMap.containsKey(fieldName + 'Id')) {
                 fieldName = fieldName + 'Id';
             }
