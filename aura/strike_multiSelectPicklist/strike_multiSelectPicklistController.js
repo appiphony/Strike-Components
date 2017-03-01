@@ -18,6 +18,18 @@
         var randomNumber = Math.floor(1000 + Math.random() * 9000);
 
         component.set('v.idNumber', randomNumber);
+        
+    },
+    handleDoneRendering: function(component,event,helper){
+        var value = component.get('v.value');
+        var alreadyRendered = component.get('v.alreadyRendered');
+
+        if(!alreadyRendered){
+            if(value){
+                helper.handleValueOnInit(component,event,helper);
+            }
+        }
+        component.set('v.alreadyRendered', true);
     },
     handleOnfocus: function(component, event, helper) {
         event.stopPropagation();

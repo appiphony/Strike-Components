@@ -10,6 +10,7 @@
     <aura:attribute name="disabled" type="Boolean" description="Can be toggled to make the field disabled"/>
     <aura:attribute name="required" type="Boolean" description="displays an * indicating that the field is required"/>
     <aura:attribute name="error" type="Boolean" description="Specifies whether or not the text area is in an error state. This will trigger errorMessage"/>
+    <aura:attribute name="helpText" type="String" description="Specifies helper text to be displayed as a tooltip"/>
 
     <!-- Methods -->
     <aura:method name="showError" action="{!c.showError}" description="A method which triggers the error state">
@@ -23,9 +24,11 @@
     <aura:attribute name="menuIsOpen" type="Boolean" access="private" description="toggles the slds-is-open class for the lookup menu"/>
     <aura:attribute name="selectedOptionPills" type="Object[]" access="private" description="pills to be populated when an option is selected from the dropdown"/>
     <aura:attribute name="validChildCmps" type="Object[]" access="private" description="stores valid child components to utilize when an iterator is used"/>
-    
+    <aura:attribute name="alreadyRendered" type="Boolean" access="private" description="is set to true after the initial render"/>
+
     <!-- Event registration and handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+    <aura:handler event="aura:doneRendering" action="{!c.handleDoneRendering}"/>
     <aura:handler name="strike_evt_notifyParent" event="c:strike_evt_notifyParent" action="{!c.handleNotifyParent}" includeFacets="true" description="handles when a StrikeOption is clicked"/>
     <aura:handler name="strike_evt_componentDestroyed" event="c:strike_evt_componentDestroyed" action="{!c.handleComponentDestroyed}" includeFacets="true" description="handles when a StrikeOption is clicked"/>
 
@@ -36,7 +39,13 @@
                 <abbr class="slds-required" title="required">*</abbr>
             </aura:if>
             {!v.label}
+            <aura:if isTrue="{!and(v.helpText, v.helpText != '')}">
+                <c:strike_tooltip placement="top" text="{!v.helpText}" class="slds-m-left--xx-small">
+                    <lightning:icon iconName="utility:info" size="xx-small"/>
+                </c:strike_tooltip>
+            </aura:if>
         </label>
+
         <div class="{!'slds-form-element__control' + if(v.error, ' slds-has-error', '')}">
             <div class="slds-input-has-icon slds-input-has-icon--right">
                 <lightning:icon iconName="utility:search" class="slds-input__icon" size="x-small"/>
@@ -59,7 +68,7 @@
                 <div class="slds-form-element__help">{!v.errorMessage}</div>
             </aura:if>
         </div>
-        
+
         <div class="slds-lookup__menu">
             <ul class="slds-lookup__list" role="listbox">
                 {!v.body}

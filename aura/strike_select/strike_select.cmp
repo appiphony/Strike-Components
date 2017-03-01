@@ -1,6 +1,7 @@
 <aura:component access="global">
     <aura:attribute name="label" type="String" required="true" description="String value displayed above the menu used to describe the component" />
 
+    <aura:attribute name="helpText" type="String" description="String value when hovering over the help box"/>
     <aura:attribute name="placeholder" type="String" default="Select an Option" description="String value that will appear when no option is selected" />
     <aura:attribute name="value" type="String" description="String value of the value of the selected option" />
 
@@ -39,6 +40,11 @@
                 <abbr class="slds-required" title="required">*</abbr>
             </aura:if>
             {!v.label}
+            <aura:if isTrue="{!not(empty(v.helpText))}">
+                <c:strike_tooltip placement="top" text="{!v.helpText}" class="slds-m-left--xx-small">
+                    <lightning:icon iconName="utility:info" size="xx-small"/>
+                </c:strike_tooltip>
+            </aura:if>
         </label>
         <div aura:id="dropdown-trigger" class="{!'slds-picklist slds-dropdown-trigger slds-dropdown-trigger--click' + if(v.openMenu, ' slds-is-open', '') + if(v.disabled, ' ss-disabled', '')}" aria-expanded="true">
             <div class="slds-form-element__control">

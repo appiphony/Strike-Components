@@ -290,4 +290,30 @@
             }
         })
     },
+    handleValueOnInit: function(component,event,helper){
+        
+        var value = component.get('v.value');
+
+        var valueArray = value.split(';');
+
+        var body = component.get('v.body');
+        var childCmps;
+        body.forEach(function(child){   
+           if($A.util.isUndefined(child.strike_filterBy)){
+                
+                childCmps = child.get('v.body');
+           } else {
+                childCmps = body;
+           }
+        });
+
+        childCmps.forEach(function(child){
+            var childValue = child.get('v.value');
+
+            if(valueArray.indexOf(childValue) != -1){
+                child.strike_optionSelected();
+            }
+        })
+
+    }
 })

@@ -2,6 +2,7 @@
     <!-- Required -->
     <aura:attribute name="label" type="String" required="true" description="Text that describes the desired textarea input" default="Strike TextArea"/>
 
+    <aura:attribute name="helpText" type="String" description="String value when hovering over the help box"/>
     <aura:attribute name="name" type="String" description="Specifies the name of an input element" default="Strike TextArea"/>
     <aura:attribute name="class" type="String" description="A CSS class that will be applied to the outer element. This style is in addition to base classes associated with the component"/>
     <aura:attribute name="placeholder" type="String" description="Text that is displayed when the field is empty, to prompt the user for a valid entry"/>
@@ -33,6 +34,11 @@
                 <abbr class="slds-required" title="required">*</abbr>
             </aura:if>
             {!v.label}
+            <aura:if isTrue="{!not(empty(v.helpText))}">
+                <c:strike_tooltip placement="top" text="{!v.helpText}" class="slds-m-left--xx-small">
+                    <lightning:icon iconName="utility:info" size="xx-small"/>
+                </c:strike_tooltip>
+            </aura:if>
         </label>
         <div class="slds-form-element__control">
             <textarea aura:id="thisTextArea"

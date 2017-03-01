@@ -1,5 +1,6 @@
 <aura:component >
-    <aura:attribute name="title" type="String"/>
+    <aura:attribute name="title" type="String" required="true"/>
+    
     <aura:attribute name="primaryButtonLabel" type="String" default="Ok"/>
     <aura:attribute name="secondaryButtonLabel" type="String" default="Cancel"/>
     <aura:attribute name="variant" type="String"/>

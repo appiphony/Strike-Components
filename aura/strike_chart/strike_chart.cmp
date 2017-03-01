@@ -1,5 +1,5 @@
 <aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
-    <ltng:require scripts="/resource/d3/d3.js" afterScriptsLoaded="{!c.onInit}"/>
+    <ltng:require scripts="/resource/d3" afterScriptsLoaded="{!c.onInit}"/>
     <aura:attribute name="scriptsLoaded" type="Boolean" default="{!false}"/>
 
     <aura:attribute name="chartRendered" type="Boolean" default="{!false}" description="Flag to display the loading spinner."/>
