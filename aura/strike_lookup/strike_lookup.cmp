@@ -1,24 +1,25 @@
 <aura:component controller="strike_lookupController" access="global">
     <!-- Required -->
-    <aura:attribute name="label" type="String" required="true" description="String value displayed above the menu used to describe the component" />
+    <aura:attribute name="label" type="String" required="true" description="String value displayed above the menu used to describe the component"/>
     <aura:attribute name="object" type="String" required="true" description="String value that determines which records to search"/>
     <aura:attribute name="searchField" type="String" required="true" description="String value that determines which field on the object will be displayed and searched against"/>
 
-    <aura:attribute name="placeholder" type="String" description="String value that will appear when no record is selected" />
-    <aura:attribute name="value" type="String" description="String value that holds the Id of the selected record" />
+    <aura:attribute name="helpText" type="String" description="String value when hovering over the help box"/>
+    <aura:attribute name="placeholder" type="String" description="String value that will appear when no record is selected"/>
+    <aura:attribute name="value" type="String" description="String value that holds the Id of the selected record"/>
 
     <aura:attribute name="iconName" type="String" description="String value that determines the icon name or path"/>
-    <aura:attribute name="customIcon" type="Boolean" description="Boolean value that determines whether the icon is custom or standard" />
+    <aura:attribute name="customIcon" type="Boolean" description="Boolean value that determines whether the icon is custom or standard"/>
 
     <!-- Query -->
-    <aura:attribute name="subtitleField" type="String" description="String value that determines which field to display second from search results" />
+    <aura:attribute name="subtitleField" type="String" description="String value that determines which field to display second from search results"/>
     <aura:attribute name="filter" type="String" description="String value that determines how the SOQL search will be filtered"/>
     <aura:attribute name="order" type="String" description="String value that determines how the SOQL search will be ordered"/>
     <aura:attribute name="limit" type="String" description="String value that determines how many records are returned in the SOQL search"/>
 
     <!-- Messages -->
     <aura:attribute name="loadingMessage" type="String" default="Loading..." description="String value that will appear when the component is initializing"/>
-    <aura:attribute name="errorMessage" type="String" description="String value displayed when the input is in an error state" />
+    <aura:attribute name="errorMessage" type="String" description="String value displayed when the input is in an error state"/>
 
     <!-- New Records -->
     <aura:attribute name="allowNewRecords" type="Boolean" description="Boolean value that determines whether the New Record option is displayed"/>
@@ -28,7 +29,7 @@
 
     <aura:attribute name="disabled" type="Boolean" description="Boolean value that determines whether the input is disabled"/>
     <aura:attribute name="required" type="Boolean" description="Boolean value that determines whether a '*' is displayed on the component"/>
-    <aura:attribute name="error" type="Boolean" description="Boolean value that determines whether the input is in an error state" />
+    <aura:attribute name="error" type="Boolean" description="Boolean value that determines whether the input is in an error state"/>
 
     <!-- Methods -->
     <aura:method name="showError" action="{!c.showError}" description="A method which triggers the error state">
@@ -51,14 +52,14 @@
 
     <!-- Event registration and handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
-    <aura:handler name="change" value="{!v.value}" action="{!c.handleValueChange}" />
+    <aura:handler name="change" value="{!v.value}" action="{!c.handleValueChange}"/>
 
-    <aura:handler name="change" value="{!v.object}" action="{!c.handleObjectChange}" />
-    <aura:handler name="change" value="{!v.searchField}" action="{!c.handleSearchfieldChange}" />
-    <aura:handler name="change" value="{!v.subtitleField}" action="{!c.handleSubtitlefieldChange}" />
-    <aura:handler name="change" value="{!v.filter}" action="{!c.handleFilterChange}" />
-    <aura:handler name="change" value="{!v.order}" action="{!c.handleOrderChange}" />
-    <aura:handler name="change" value="{!v.limit}" action="{!c.handleLimitChange}" />
+    <aura:handler name="change" value="{!v.object}" action="{!c.handleObjectChange}"/>
+    <aura:handler name="change" value="{!v.searchField}" action="{!c.handleSearchfieldChange}"/>
+    <aura:handler name="change" value="{!v.subtitleField}" action="{!c.handleSubtitlefieldChange}"/>
+    <aura:handler name="change" value="{!v.filter}" action="{!c.handleFilterChange}"/>
+    <aura:handler name="change" value="{!v.order}" action="{!c.handleOrderChange}"/>
+    <aura:handler name="change" value="{!v.limit}" action="{!c.handleLimitChange}"/>
 
     <aura:registerEvent name="strike_evt_addNewRecord" type="c:strike_evt_addNewRecord" description="Fires an event that notifies when the strike_evt_addNewRecord button is pressed"/>
     <aura:dependency resource="force:createRecord" type="EVENT"/>
@@ -70,6 +71,11 @@
                 <abbr class="slds-required" title="required">*</abbr>
             </aura:if>
             {!v.label}
+            <aura:if isTrue="{!not(empty(v.helpText))}">
+                <c:strike_tooltip placement="top" text="{!v.helpText}" class="slds-m-left--xx-small">
+                    <lightning:icon iconName="utility:info" size="xx-small"/>
+                </c:strike_tooltip>
+            </aura:if>
         </label>
         <div class="{!'slds-form-element__control slds-input-has-icon slds-input-has-icon--right' + if(v.disabled, ' sl-disabled', '')}">
             <div class="{!'slds-pill_container' + if(or(not(empty(v.value)), greaterthan(v.initCallsRunning, 0)), '', ' slds-hide')}">
@@ -92,24 +98,25 @@
             </div>
             <div class="{!if(and(equals(v.initCallsRunning, 0), empty(v.value)), '', 'slds-hide')}">
                 <lightning:icon iconName="utility:search" size="x-small" class="sl-search-icon"/>
-                <input aura:id="lookupInput"
-                       id="{!'strike-lookup-' + v.idNumber}"
-                       name="{!'input-' + v.idNumber}"
-                       class="slds-lookup__search-input slds-input js-template-lookup"
-                       type="text"
-                       aria-autocomplete="list"
-                       role="combobox"
-                       aria-expanded="false"
-                       placeholder="{!v.placeholder}"
-                       onclick="{!c.handleInputClick}"
-                       onfocus="{!c.handleInputFocus}"
-                       onkeydown="{!c.handleInputKeyDown}"
-                       onkeyup="{!c.handleInputKeyUp}"
-                       onkeypress="{!c.handleInputKeyPress}"
-                       disabled='{!v.disabled}'/>
+                <input
+                    aura:id="lookupInput"
+                    id="{!'strike-lookup-' + v.idNumber}"
+                    name="{!'input-' + v.idNumber}"
+                    class="slds-lookup__search-input slds-input js-template-lookup"
+                    type="text"
+                    aria-autocomplete="list"
+                    role="combobox"
+                    aria-expanded="false"
+                    placeholder="{!v.placeholder}"
+                    onclick="{!c.handleInputClick}"
+                    onfocus="{!c.handleInputFocus}"
+                    onkeydown="{!c.handleInputKeyDown}"
+                    onkeyup="{!c.handleInputKeyUp}"
+                    onkeypress="{!c.handleInputKeyPress}"
+                    disabled='{!v.disabled}'/>
             </div>
-            <div aura:id="lookupMenu" class="{!if(v.openMenu, 'slds-lookup__menu', 'slds-hide')}" role="listbox" onclick="{!c.stopProp}">
-                <ul class="slds-lookup__list" role="listbox">
+            <div class="{!if(v.openMenu, 'slds-lookup__menu', 'slds-hide')}" role="listbox" onclick="{!c.stopProp}">
+                <ul aura:id="lookupMenu" class="slds-lookup__list" role="listbox">
                     <aura:iteration items="{!v.records}" var="record" indexVar="index">
                         <li role="presentation" class="{!if(index == v.focusIndex, 'slds-has-focus', '')}" data-index="{!index}" onclick="{!c.handleRecordClick}">
                             <span class="slds-lookup__item-action slds-media" role="option">
