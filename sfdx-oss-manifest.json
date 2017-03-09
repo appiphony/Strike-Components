@@ -1,5 +1,5 @@
 {
-  "sfdx-source": true,
+  "sfdxSource": true,
   "version" : "0.0.1",
   "folders": [
     "aura",
