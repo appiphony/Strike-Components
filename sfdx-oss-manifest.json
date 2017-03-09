@@ -1,6 +1,6 @@
 {
   "sfdxSource": true,
-  "version" : "0.0.1",
+  "version" : "1.0.0",
   "folders": [
     "aura",
     "classes",
