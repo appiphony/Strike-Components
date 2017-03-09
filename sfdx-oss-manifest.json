@@ -2,9 +2,6 @@
   "sfdxSource": true,
   "version" : "1.0.0",
   "folders": [
-    // "aura",
-    // "classes",
-    // "staticresources"
   ],
   "files": [
     "aura/defaultTokens/defaultTokens.tokens",
