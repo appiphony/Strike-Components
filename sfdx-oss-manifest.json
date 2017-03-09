@@ -1,0 +1,10 @@
+{
+  "sfdx-source": true,
+  "version" : "0.0.1",
+  "folders": [
+    "aura",
+    "classes",
+    "staticresources"
+  ],
+  "files": []
+}
