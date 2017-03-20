@@ -33,6 +33,7 @@
 
 ### Release 0.1.1 — March 1, 2017
 
+#### Bug Fixes
 * **Lookup:** Fixed an issue where records with `null` values for the `search` and `subtitle` fields caused lookups to throw an exception <a href="https://github.com/appiphony/Strike-Components/issues/1" target="_blank">(GitHub Issue #1)</a>
 
 ---
