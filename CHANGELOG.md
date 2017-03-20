@@ -4,20 +4,18 @@
 
 #### New Features
 * **Strike Pill:** Formerly part of Strike Multi Select Picklist, Pill has been abstracted so it can be used in other upcoming Components
-
 #### Improvements
 * **Strike Datepicker:** Added the `helpText` attribute for descriptive tooltips (appears after the form label)
 * **Strike Lookup:** Added the `helpText` attribute for descriptive tooltips (appears after the form label)
-* **Strike Lookup: **Added the `class` attribute for applying custom classes to the lookup's outer element
-* **Strike Lookup: **Added the `searchingMessage` attribute for editing the message that appears in the dropdown when a search is being performed
-* **Strike Lookup: **Added the `noResultsMessage` attribute for editing the message that appears in the dropdown when no results are found
+* **Strike Lookup:** Added the `class` attribute for applying custom classes to the lookup's outer element
+* **Strike Lookup:** Added the `searchingMessage` attribute for editing the message that appears in the dropdown when a search is being performed
+* **Strike Lookup:** Added the `noResultsMessage` attribute for editing the message that appears in the dropdown when no results are found
 * **Strike Multi Select Picklist:** Added the `helpText` attribute for descriptive tooltips (appears after the form label)
 * **Strike Multi Select Picklist:** Added max-height to the dropdown's list
 * **Strike Select:** Added the `helpText` attribute for descriptive tooltips (appears after the form label)
-* **Strike Select: **Added support for HTML forms
+* **Strike Select:** Added support for HTML forms
 * **Strike Svg:** Changed `svg` component bundle to `strike_svg`
 * **Strike Textarea:** Added the `helpText` attribute for descriptive tooltips (appears after the form label)
-
 #### Bug Fixes
 * **Strike Datepicker:** Fixed an issue where the menu opens when tabbing into the input
 * **Strike Datepicker:** Fixed an issue where clicking the SVG portion of the datepicker's button did not open the menu in Microsoft Edge <a href="https://github.com/appiphony/Strike-Components/issues/5" target="_blank">(GitHub Issue #5)</a>
