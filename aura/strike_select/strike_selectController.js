@@ -27,7 +27,12 @@
             return;
         }
 
-        helper.getLabelByValue(component, event, helper);
+        setTimeout($A.getCallback(function() {
+            helper.getLabelByValue(component, event, helper)
+        }), 1);
+    },
+    blur: function(component, event, helper){
+        helper.blur(component, event, helper);
     },
     toggleMenu: function(component, event, helper) {
         event.preventDefault();

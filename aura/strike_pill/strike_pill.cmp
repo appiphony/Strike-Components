@@ -1,16 +1,66 @@
 <aura:component access="global">
-	<aura:attribute name="value" type="String" description="value of the selected option"/>
-	<aura:attribute name="label" type="String" description="label to be displayed for the selected option"/>
-	<aura:attribute name="iconName" type="String" description="icon to be displayed for the selected option"/>
+	<aura:attribute name="type" type="String" default="default" description="Type of the Pill component" />
+	<aura:attribute name="value" type="String" description="value of the selected option" />
+	<aura:attribute name="label" type="String" description="label to be displayed on the pill" />
+	<aura:attribute name="iconName" type="String" description="icon to be displayed on the pill" />
+	<aura:attribute name="avatarSource" type="String" description="url of portrait image displayed on the pill" default="http://i.pravatar.cc/300" />
+	<aura:attribute name="link" type="String" description="link on the pill" />
+	<aura:attribute name="isDestroyable" type="Boolean" default="{!true}" description="determines whether clicking remove button destroys component or not" />
+	<aura:registerEvent name="strike_evt_componentDestroyed" type="c:strike_evt_componentDestroyed" description="is fired when a pill is destroyed" />
 
-	<aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
-	<aura:registerEvent name="strike_evt_componentDestroyed" type="c:strike_evt_componentDestroyed" description="is fired when a pill is destroyed"/>
 
-	<span class="slds-pill">
-		<aura:if isTrue="{!not(empty(v.iconName))}">
-			<lightning:icon iconName="{!v.iconName}" class="slds-pill__icon_container"/>
-		</aura:if>
-		<span class="slds-pill__label" title="{!v.label}">{!v.label}</span>
-		<lightning:buttonIcon iconName="utility:close" variant="bare" alternativeText="Remove" class="slds-button slds-pill__remove" onclick="{!c.handleClick}"/>
-	</span>
+	<aura:if isTrue="{!v.type != 'withContainer'}">
+		<span class="{!'slds-pill' + (v.type == 'error' ? ' slds-has-error' : '')}">
+			<aura:if isTrue="{!v.type == 'withIcon'}">
+				<span class="slds-icon_container slds-pill__icon_container">
+					<lightning:icon iconName="{!v.iconName}" class="slds-icon" alternativeText="Icon" />
+				</span>
+			</aura:if>
+
+			<aura:if isTrue="{!v.type == 'withPortrait'}">
+				<span class="slds-avatar slds-avatar--x-small slds-avatar--circle slds-m-right--xx-small">
+					<lightning:avatar src="{!v.avatarSource}" variant="circle" alternativeText="Avatar" />
+				</span>
+			</aura:if>
+
+			<aura:if isTrue="{!v.type == 'error'}">
+				<span class="slds-icon_container slds-pill__icon_container slds-m-left--xx-small">
+					<lightning:icon iconName="utility:warning" class="icon-error slds-icon--x-small slds-icon-text-error" alternativeText="Error Icon" />
+				</span>
+			</aura:if>
+
+
+			<span class="slds-pill__label" title="{!v.label}">
+				<aura:if isTrue="{!not(empty(v.link))}">
+					<a href="{!v.link}">{!v.label}</a>
+					<aura:set attribute="else">
+						{!v.label}
+					</aura:set>
+				</aura:if>
+			</span>
+			<lightning:buttonIcon iconName="utility:close" variant="bare" alternativeText="Remove" class="slds-button slds-pill__remove" onclick="{!c.destroy}"/>
+		</span>
+	</aura:if>
+
+
+
+	<aura:if isTrue="{!v.type == 'withContainer'}">
+		<div class="slds-pill_container">
+			<span class="slds-pill">
+				<span class="slds-pill__label" title="{!v.label}">
+					<aura:if isTrue="{!not(empty(v.link))}">
+						<a href="{!v.link}">{!v.label}</a>
+						<aura:set attribute="else">
+							{!v.label}
+						</aura:set>
+					</aura:if>
+				</span>
+				<lightning:buttonIcon iconName="utility:close" variant="bare" alternativeText="Remove" class="slds-button slds-pill__remove" onclick="{!c.destroy}"/>
+			</span>
+		</div>
+	</aura:if>		
+
+	
+
+
 </aura:component>

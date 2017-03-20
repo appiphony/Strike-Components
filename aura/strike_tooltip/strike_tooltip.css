@@ -2,7 +2,8 @@
     visibility: hidden;
     opacity: 0;
     position: fixed;
-    z-index: -9999;
+    top: -999999px;
+    top: -999vh;
     left: -999999px;
     left: -999vw;
     pointer-events: none;

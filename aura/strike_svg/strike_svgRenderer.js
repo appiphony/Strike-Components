@@ -1,10 +1,10 @@
 ({
-	render: function(component, helper) {
-    	//grab attributes from the component markup
-    	var classname = component.get("v.class");
-    	var xlinkhref = component.get("v.xlinkHref");
-    	var ariaHidden = component.get("v.ariaHidden");
-    	var id = component.get('v.id');
+    render: function(component, helper) {
+        //grab attributes from the component markup
+        var classname = component.get("v.class");
+        var xlinkhref = component.get("v.xlinkHref");
+        var ariaHidden = component.get("v.ariaHidden");
+        var id = component.get('v.id');
 
         //return an svg element w/ the attributes
         var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -29,5 +29,5 @@
         }
 
         return svg;
-	}
+    }
 })

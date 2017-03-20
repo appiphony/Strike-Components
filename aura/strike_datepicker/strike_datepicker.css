@@ -31,6 +31,9 @@
     outline: none;
     box-shadow: none;
 }
+.THIS .strike-datepicker-input .strike-datepicker-input__icon .slds-button__icon {
+    pointer-events: none;  /* Edge fix */
+}
 .THIS .slds-datepicker {
     top: 3.5rem;
 }

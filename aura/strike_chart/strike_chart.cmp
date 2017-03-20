@@ -45,7 +45,7 @@
 
     <!-- GAUGE SPECIFIC ATTRIBUTES -->
     <aura:attribute name="lowLabel" type="String" default="Low" description="Tooltip text of the low section in gauge type chart."/>
-    <aura:attribute name="midLabel" type="String" default="Medium" description="Tooltip text of the mid section in gauge type chart."/>
+    <aura:attribute name="medLabel" type="String" default="Medium" description="Tooltip text of the mid section in gauge type chart."/>
     <aura:attribute name="highLabel" type="String" default="High" description="Tooltip text of the high section in gauge type chart."/>
 
     <!-- Rerender the chart if any attribute is changed -->
@@ -64,7 +64,7 @@
     <aura:handler name="change" value="{!v.pieDonutTooltipLabelText}" action="{!c.reRenderCharts}"/>
     <aura:handler name="change" value="{!v.pieDonutTooltipValueText}" action="{!c.reRenderCharts}"/>
     <aura:handler name="change" value="{!v.lowLabel}" action="{!c.reRenderCharts}"/>
-    <aura:handler name="change" value="{!v.midLabel}" action="{!c.reRenderCharts}"/>
+    <aura:handler name="change" value="{!v.medLabel}" action="{!c.reRenderCharts}"/>
     <aura:handler name="change" value="{!v.highLabel}" action="{!c.reRenderCharts}"/>
 
     <div class="slds-box">

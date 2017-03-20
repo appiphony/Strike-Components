@@ -8,10 +8,6 @@ public with sharing class strike_responseData {
         this.results = new Map<String, Object>();
     }
 
-    public Boolean getIsSuccess() {
-        return this.isSuccess;
-    }
-
     public void addError(String errMsg){
         this.errMsg = errMsg;
         this.isSuccess = false;

@@ -40,7 +40,7 @@
             </aura:if>
             {!v.label}
             <aura:if isTrue="{!and(v.helpText, v.helpText != '')}">
-                <c:strike_tooltip placement="top" text="{!v.helpText}" class="slds-m-left--xx-small">
+                <c:strike_tooltip placement="top" text="{!v.helpText}" class="smsp-help-text-icon slds-m-left--x-small">
                     <lightning:icon iconName="utility:info" size="xx-small"/>
                 </c:strike_tooltip>
             </aura:if>
@@ -70,15 +70,14 @@
         </div>
 
         <div class="slds-lookup__menu">
-            <ul class="slds-lookup__list" role="listbox">
+            <ul class="slds-dropdown__list slds-dropdown--length-5" role="listbox">
                 {!v.body}
             </ul>
         </div>
         <aura:if isTrue="{!not(empty(v.selectedOptionPills))}">
             <div class="slds-pill_container slds-pill_container--bare">
                 <aura:iteration items="{!v.selectedOptionPills}" var="pill">
-                    <span></span>
-                    {!pill}
+                    <span class="smsp-pill">{!pill}</span>
                 </aura:iteration>
             </div>
         </aura:if>

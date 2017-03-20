@@ -10,8 +10,4 @@ public with sharing class strike_utilities {
     public static Map<String, Object> convertObjectToMap(Object myObject) {
         return (Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(myObject));
     }
-
-    public static Map<String, Object> convertObjectToMapWithoutNamespace(Object myObject) {
-        return (Map<String, Object>)JSON.deserializeUntyped(strike_utilities.serializeWithoutNamespace(myObject));
-    }
 }

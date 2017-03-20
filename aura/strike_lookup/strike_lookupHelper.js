@@ -141,10 +141,13 @@
 
             return;
         } else if (searchTerm == lastSearchTerm) {
+            component.set('v.searching', false);
             helper.openMenu(component, event, helper);
 
             return;
         }
+
+        component.set('v.searching', true);
 
         component.set('v.searchTimeout', setTimeout($A.getCallback(function() {
             if (!component.isValid()) {
@@ -189,11 +192,12 @@
         component.set('v.focusIndex', null);
         component.set('v.lastSearchTerm', component.find('lookupInput').getElement().value);
         component.set('v.records', returnedRecords);
+        component.set('v.searching', false);
 
         helper.openMenu(component, event, helper);
     },
     openMenu: function(component, event, helper) {
-        component.set('v.openMenu', !component.get('v.disabled') && (component.get('v.allowNewRecords') || !$A.util.isEmpty(component.get('v.records'))));
+        component.set('v.openMenu', !component.get('v.disabled') && !$A.util.isEmpty(component.get('v.lastSearchTerm')));
     },
     updateValueByFocusIndex: function(component, event, helper) {
         var focusIndex = component.get('v.focusIndex');
@@ -215,7 +219,7 @@
             helper.addNewRecord(component, event, helper);
         }
     },
-    addNewRecord: function(component, event, helper) {debugger
+    addNewRecord: function(component, event, helper) {
         if (!component.get('v.allowNewRecords')) {
             return;
         }
@@ -250,8 +254,6 @@
             }
 
             component.set('v.focusIndex', focusIndex);
-
-            helper.setFocus(component, event, helper);
         }
     },
     moveRecordFocusDown: function(component, event, helper) {
@@ -268,42 +270,6 @@
             }
 
             component.set('v.focusIndex', focusIndex);
-
-            helper.setFocus(component, event, helper);
-        }
-    },
-    setFocus: function(component, event, helper) {
-        var focusIndex = component.get('v.focusIndex');
-
-        if (focusIndex == null) {
-            return;
-        }
-
-        var lookupMenu = component.find('lookupMenu').getElement();
-        var options = lookupMenu.getElementsByTagName('li');
-        var focusScrollTop = 0;
-        var focusScrollBottom = 0;
-
-        for (var i = 0; i < options.length; i++) {
-            var optionSpan = options[i].getElementsByTagName('span')[0];
-
-            if (i < focusIndex) {
-                focusScrollTop += options[i].scrollHeight;
-
-                $A.util.removeClass(optionSpan, 'slds-has-focus');
-            } else if (i == focusIndex) {
-                $A.util.addClass(optionSpan, 'slds-has-focus');
-            } else {
-                $A.util.removeClass(optionSpan, 'slds-has-focus');
-            }
-        }
-
-        focusScrollBottom = focusScrollTop + options[focusIndex].scrollHeight;
-
-        if (focusScrollTop < lookupMenu.scrollTop) {
-            lookupMenu.scrollTop = focusScrollTop;
-        } else if (focusScrollBottom > lookupMenu.scrollTop + lookupMenu.clientHeight) {
-            lookupMenu.scrollTop = focusScrollBottom - lookupMenu.clientHeight;
         }
     }
 })

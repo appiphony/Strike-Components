@@ -12,5 +12,10 @@
         } else {
             component.set('v.height', height);
         }
+    },
+    handleEmptyMaxLength: function(component, event, helper){
+        if($A.util.isEmpty(component.get('v.maxlength'))){
+            component.set('v.maxlength', undefined);
+        }
     }
 })

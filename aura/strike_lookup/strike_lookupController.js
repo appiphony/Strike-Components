@@ -37,6 +37,14 @@
         if (component.get('v.disabled')) {
             return;
         }
+
+        const KEYCODE_TAB = 9;
+
+        var keyCode = event.which || event.keyCode || 0;
+
+        if (keyCode == KEYCODE_TAB) {
+            helper.closeMenu(component, event, helper);
+        }
     },
     handleInputKeyPress: function(component, event, helper) {
         if (component.get('v.disabled')) {
@@ -94,37 +102,36 @@
         }, 1);
     },
 
-    handleFilterChange: function(component, event, helper) {
-        component.set('v.initCallsRunning', 2);
+    handleFocusIndexChange: function(component, event, helper) {
+        var focusIndex = component.get('v.focusIndex');
+        var lookupMenu = component.find('lookupMenu').getElement();
+        var options = lookupMenu.getElementsByTagName('li');
+        var focusScrollTop = 0;
+        var focusScrollBottom = 0;
 
-        helper.getRecordByValue(component, event, helper);
-        helper.getRecentRecords(component, event, helper);
-    },
-    handleLimitChange: function(component, event, helper) {
+        for (var i = 0; i < options.length; i++) {
+            var optionSpan = options[i].getElementsByTagName('span')[0];
 
-    },
-    handleObjectChange: function(component, event, helper) {
-        component.set('v.initCallsRunning', 3);
+            if (i == focusIndex) {
+                $A.util.addClass(optionSpan, 'slds-has-focus');
+            } else {
+                if (i < focusIndex) {
+                    focusScrollTop += options[i].scrollHeight;
+                }
 
-        helper.getRecentRecords(component, event, helper);
-        helper.getRecordByValue(component, event, helper);
-        helper.getRecordLabel(component, event, helper);
-    },
-    handleOrderChange: function(component, event, helper) {
-        component.set('v.initCallsRunning', 1);
+                $A.util.removeClass(optionSpan, 'slds-has-focus');
+            }
+        }
 
-        helper.getRecentRecords(component, event, helper);
-    },
-    handleSearchfieldChange: function(component, event, helper) {
-        component.set('v.initCallsRunning', 2);
+        if (focusIndex !== null) {
+            focusScrollBottom = focusScrollTop + options[focusIndex].scrollHeight;
+        }
 
-        helper.getRecentRecords(component, event, helper);
-        helper.getRecordByValue(component, event, helper);
-    },
-    handleSubtitlefieldChange: function(component, event, helper) {
-        component.set('v.initCallsRunning', 1);
-
-        helper.getRecentRecords(component, event, helper);
+        if (focusScrollTop < lookupMenu.scrollTop) {
+            lookupMenu.scrollTop = focusScrollTop;
+        } else if (focusScrollBottom > lookupMenu.scrollTop + lookupMenu.clientHeight) {
+            lookupMenu.scrollTop = focusScrollBottom - lookupMenu.clientHeight;
+        }
     },
     handleValueChange: function(component, event, helper) {
         var value = component.get('v.value');
@@ -135,6 +142,56 @@
             helper.getRecordByValue(component, event, helper);
         }
     },
+
+    handleFilterChange: function(component, event, helper) {
+        component.set('v.initCallsRunning', 2);
+
+        helper.getRecordByValue(component, event, helper);
+        helper.getRecentRecords(component, event, helper);
+
+        component.find('lookupInput').getElement().value = '';
+        helper.getRecordsBySearchTerm(component, event, helper);
+    },
+    handleLimitChange: function(component, event, helper) {
+        component.find('lookupInput').getElement().value = '';
+        helper.getRecordsBySearchTerm(component, event, helper);
+    },
+    handleObjectChange: function(component, event, helper) {
+        component.set('v.initCallsRunning', 3);
+
+        helper.getRecentRecords(component, event, helper);
+        helper.getRecordByValue(component, event, helper);
+        helper.getRecordLabel(component, event, helper);
+
+        component.find('lookupInput').getElement().value = '';
+        helper.getRecordsBySearchTerm(component, event, helper);
+    },
+    handleOrderChange: function(component, event, helper) {
+        component.set('v.initCallsRunning', 1);
+
+        helper.getRecentRecords(component, event, helper);
+
+        component.find('lookupInput').getElement().value = '';
+        helper.getRecordsBySearchTerm(component, event, helper);
+    },
+    handleSearchfieldChange: function(component, event, helper) {
+        component.set('v.initCallsRunning', 2);
+
+        helper.getRecentRecords(component, event, helper);
+        helper.getRecordByValue(component, event, helper);
+
+        component.find('lookupInput').getElement().value = '';
+        helper.getRecordsBySearchTerm(component, event, helper);
+    },
+    handleSubtitlefieldChange: function(component, event, helper) {
+        component.set('v.initCallsRunning', 1);
+
+        helper.getRecentRecords(component, event, helper);
+
+        component.find('lookupInput').getElement().value = '';
+        helper.getRecordsBySearchTerm(component, event, helper);
+    },
+
     showError: function(component, event, helper) {
         var errorMessage = event.getParam('arguments').errorMessage;
 

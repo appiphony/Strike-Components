@@ -9,7 +9,7 @@
                 component.set('v.chartRendered', false);
                 component.set('v.triggerRedraw', !component.get('v.triggerRedraw'));
             } else {
-                window.removeEventListener('resize', compponent.resize);
+                window.removeEventListener('resize', component.resize);
             }
         });
 
