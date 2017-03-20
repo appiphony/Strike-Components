@@ -1,4 +1,8 @@
 ({
+    closeDatepicker: function(component, event, helper) {
+        component.set('v.readOnly', false);
+        component.set('v.datePickerOpen', false);
+    },
     processDateValue: function (component) {
         var dateString = component.get('v.value');
         var datePattern = component.get('v.valueFormat');

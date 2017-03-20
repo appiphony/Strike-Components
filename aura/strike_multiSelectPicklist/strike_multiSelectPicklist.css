@@ -7,8 +7,12 @@
 }
 
 .THIS.slds-form-element.slds-lookup .slds-input-has-icon--right .slds-icon {
-    position: relative;
-    top: -2.6px;
-    left: -6px;
+    display: block;
     fill: t(colorTextInputIcon);
+}
+.THIS .smsp-help-text-icon .slds-icon {
+    fill: #9ea9b5;
+}
+.THIS .smsp-pill + .smsp-pill {
+    margin-left: t(spacingXxxSmall);
 }

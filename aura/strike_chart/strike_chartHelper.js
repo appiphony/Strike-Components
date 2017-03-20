@@ -831,7 +831,7 @@
 
         var sections = {
             0: component.get('v.lowLabel'),
-            1: component.get('v.midLabel'),
+            1: component.get('v.medLabel'),
             2: component.get('v.highLabel')
         };
 
@@ -1156,7 +1156,7 @@
     handleGaugeValueErrors: function (helper, gaugeValue, minValue, highSegmentMax) {
         if (gaugeValue < minValue || gaugeValue > highSegmentMax) {
             var error = helper.throwError('gaugeValue must be between minValue and highSegmentMax');
-            
+
             return true;
         };
     },

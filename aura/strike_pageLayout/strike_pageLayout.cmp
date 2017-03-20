@@ -1,0 +1,99 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    <aura:attribute name="type" type="String" default="header-two-columns" required="true"/>
+    <aura:attribute name="regionOne" type="Aura.Component[]"/>
+    <aura:attribute name="regionTwo" type="Aura.Component[]"/>
+    <aura:attribute name="regionThree" type="Aura.Component[]"/>
+
+    <aura:if isTrue="{!v.type == 'header-two-columns'}">
+        <lightning:layout horizontalAlign="space" verticalAlign="stretch" multipleRows="true" class="slds-p-around--x-small">
+            <lightning:layoutItem class="slds-p-around--x-small" size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                {!v.regionOne}
+            </lightning:layoutItem>
+            <lightning:layoutItem class="slds-p-around--x-small" size="12" smallDeviceSize="6" mediumDeviceSize="8" largeDeviceSize="8">
+                {!v.regionTwo}
+            </lightning:layoutItem>
+            <lightning:layoutItem class="slds-p-around--x-small" size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="4">
+                {!v.regionThree}
+            </lightning:layoutItem>
+        </lightning:layout>
+    </aura:if>
+
+    <aura:if isTrue="{!v.type == 'two-columns-footer'}">
+        <lightning:layout horizontalAlign="space" verticalAlign="stretch" multipleRows="true" class="slds-p-around--x-small">
+            <lightning:layoutItem class="slds-p-around--x-small" size="12" smallDeviceSize="6" mediumDeviceSize="8" largeDeviceSize="8">
+                {!v.regionOne}
+            </lightning:layoutItem>
+            <lightning:layoutItem class="slds-p-around--x-small" size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="4">
+                {!v.regionTwo}
+            </lightning:layoutItem>
+            <lightning:layoutItem class="slds-p-around--x-small" size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                {!v.regionThree}
+            </lightning:layoutItem>
+        </lightning:layout>
+    </aura:if>
+
+    <aura:if isTrue="{!v.type == 'main-column-sidebar'}">
+        <lightning:layout horizontalAlign="space" verticalAlign="stretch" multipleRows="true" class="slds-p-around--x-small">
+            <lightning:layoutItem class="slds-p-around--x-small" size="12" smallDeviceSize="12" mediumDeviceSize="8" largeDeviceSize="8">
+                {!v.regionOne}
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="4">
+                <lightning:layout horizontalAlign="space" verticalAlign="stretch" multipleRows="true">
+                    <lightning:layoutItem class="slds-p-around--x-small" size="12" smallDeviceSize="6" mediumDeviceSize="12" largeDeviceSize="12">
+                        {!v.regionTwo}
+                    </lightning:layoutItem>
+                    <lightning:layoutItem class="slds-p-around--x-small" size="12" smallDeviceSize="6" mediumDeviceSize="12" largeDeviceSize="12">
+                        {!v.regionThree}
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </aura:if>
+
+    <aura:if isTrue="{!v.type == 'sidebar-main-column'}">
+        <lightning:layout horizontalAlign="space" verticalAlign="stretch" multipleRows="true" class="slds-p-around--x-small">
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="4">
+                <lightning:layout horizontalAlign="space" verticalAlign="stretch" multipleRows="true">
+                    <lightning:layoutItem class="slds-p-around--x-small" size="12" smallDeviceSize="6" mediumDeviceSize="12" largeDeviceSize="12">
+                        {!v.regionOne}
+                    </lightning:layoutItem>
+                    <lightning:layoutItem class="slds-p-around--x-small" size="12" smallDeviceSize="6" mediumDeviceSize="12" largeDeviceSize="12">
+                        {!v.regionTwo}
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem class="slds-p-around--x-small" size="12" smallDeviceSize="12" mediumDeviceSize="8" largeDeviceSize="8">
+                {!v.regionThree}
+            </lightning:layoutItem>
+        </lightning:layout>
+    </aura:if>
+
+    <aura:if isTrue="{!v.type == 'three-columns'}">
+        <lightning:layout horizontalAlign="space" verticalAlign="stretch" multipleRows="true" class="slds-p-around--x-small">
+            <lightning:layoutItem class="slds-p-around--x-small" size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="4">
+                {!v.regionOne}
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="8" largeDeviceSize="8">
+                <lightning:layout horizontalAlign="space" verticalAlign="stretch" multipleRows="true">
+                    <lightning:layoutItem class="slds-p-around--x-small" size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6">
+                        {!v.regionTwo}
+                    </lightning:layoutItem>
+                    <lightning:layoutItem class="slds-p-around--x-small" size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6">
+                        {!v.regionThree}
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </aura:if>
+
+    <aura:if isTrue="{!v.type == 'two-columns'}">
+        <lightning:layout horizontalAlign="space" verticalAlign="stretch" multipleRows="true" class="slds-p-around--x-small">
+            <lightning:layoutItem class="slds-p-around--x-small" size="12" smallDeviceSize="6" mediumDeviceSize="6" largeDeviceSize="6">
+                {!v.regionOne}
+            </lightning:layoutItem>
+            <lightning:layoutItem class="slds-p-around--x-small" size="12" smallDeviceSize="6" mediumDeviceSize="6" largeDeviceSize="6">
+                {!v.regionTwo}
+            </lightning:layoutItem>
+        </lightning:layout>
+    </aura:if>
+</aura:component>

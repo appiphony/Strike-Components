@@ -1,0 +1,6 @@
+<aura:component >
+    <aura:attribute name="id" type="String" description="ID for the SVG element"/>
+    <aura:attribute name="class" type="String" description="CSS classname for the SVG element"/>
+    <aura:attribute name="xlinkHref" type="String" description="SLDS icon path. Ex: /assets/icons/utility-sprite/svg/symbols.svg#download"/>
+    <aura:attribute name="ariaHidden" type="String" default="true" description="aria-hidden true or false. defaults to true"/>
+</aura:component>

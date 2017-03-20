@@ -14,8 +14,9 @@
     <aura:attribute name="tabindex" type="Integer" description="Specifies the tab order of an element (when the tab button is used for navigating)"/>
 
     <aura:attribute name="errorMessage" type="String" description="message to be displayed when 'error' is set to true" default="There was a problem"/>
+    <aura:attribute name="value" type="String" description="the value of the textarea"/>
 
-    <aura:attribute name="resizable" type="Boolean" description="Specifies whether or not the text area is verically resizble" default="true" />
+    <aura:attribute name="resizable" type="Boolean" description="Specifies whether or not the text area is verically resizble" default="true"/>
     <aura:attribute name="disabled" type="Boolean" description="Specifies that an input element should be disabled. This value defaults to false"/>
     <aura:attribute name="required" type="Boolean" description="Specifies that an input field must be filled out before submitting the form. This value defaults to false"/>
     <aura:attribute name="error" type="Boolean" description="Specifies whether or not the text area is in an error state. This will trigger messageWhenBadInput"/>
@@ -26,6 +27,8 @@
     <!-- Event registration and handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
     <aura:handler name="change" value="{!v.size}" action="{!c.sizeChanged}"/>
+    <aura:handler name="change" value="{!v.maxlength}" action="{!c.handleMaxLengthChange}"/>
+    <aura:handler name="change" value="{!v.value}" action="{!c.updateTextAreaValue}"/>
 
     <!-- Strike Textarea -->
     <div class="{!'slds-form-element' + if(v.error, ' slds-has-error', '')}">
@@ -35,26 +38,26 @@
             </aura:if>
             {!v.label}
             <aura:if isTrue="{!not(empty(v.helpText))}">
-                <c:strike_tooltip placement="top" text="{!v.helpText}" class="slds-m-left--xx-small">
+                <c:strike_tooltip placement="top" text="{!v.helpText}" class="st-help-text-icon slds-m-left--x-small">
                     <lightning:icon iconName="utility:info" size="xx-small"/>
                 </c:strike_tooltip>
             </aura:if>
         </label>
         <div class="slds-form-element__control">
-            <textarea aura:id="thisTextArea"
+            <textarea
+                aura:id="thisTextArea"
                 id="{!'strike-textarea-' + v.idNumber}"
                 name="{!v.name}"
                 class="{!'slds-textarea ' + if(v.resizable, 'strike-resizable ', 'strike-static ') + v.class}"
                 placeholder="{!v.placeholder}"
                 style="{!'height: ' + v.height}"
-
-                maxlength="{!v.maxlength}"
                 minlength="{!v.minlength}"
+                maxlength="{!v.maxlength}"
                 tabindex="{!v.tabindex}"
-
                 disabled="{!v.disabled}"
-                required="{!v.required}">
-                {!v.body}
+                required="{!v.required}"
+                oninput="{!c.handleInput}">
+                {!v.value}
             </textarea>
         </div>
         <aura:if isTrue="{!and(v.error, not(empty(v.errorMessage)))}">

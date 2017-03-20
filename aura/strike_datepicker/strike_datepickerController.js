@@ -6,7 +6,7 @@
 
         component.closeDatepicker = function(){
             if(component.isValid()){
-                component.set('v.datePickerOpen', false);
+                helper.closeDatepicker(component, event, helper);
             } else {
                 window.removeEventListener('click', component.closeDatepicker);
             }
@@ -38,23 +38,20 @@
         if(selectedDate == null){
             component.set('v.value', null);
             component.set('v.timestamp', null);
+
+            helper.closeDatepicker(component, event, helper);
             return;
         }
 
         var formattedDisplayDate = $A.localizationService.formatDate(selectedDate.toString(), datePattern);
 
         if(currentValue == formattedDisplayDate){
+            helper.closeDatepicker(component, event, helper);
             return;
         }
 
         component.set('v.value', formattedDisplayDate);
-    },
-    focusDateInput: function (component, event, helper) {
-        var displayDate = component.get('v.displayDate');
-
-        if(!$A.util.isEmpty(displayDate)){
-            component.set('v.datePickerOpen', false);
-        }
+        helper.closeDatepicker(component, event, helper);
     },
     clickedDateInput: function(component, event, helper) {
         event.preventDefault();
@@ -82,7 +79,7 @@
         var formattedValueDate = $A.localizationService.formatDate(currentDate.toString(), datePattern);
 
         component.set('v.value', formattedValueDate);
-        component.set('v.datePickerOpen', false);
+        helper.closeDatepicker(component, event, helper);
     },
     clickNext: function (component, event, helper) {
         event.stopPropagation();
@@ -160,8 +157,8 @@
         component.set('v.displayDate', formattedDisplayDate);
         component.set('v.timestamp', timeStamp);
         component.set('v.currentDate', currentDate);
-        component.set('v.datePickerOpen', false);
 
+        helper.closeDatepicker(component, event, helper);
         helper.determineReadOnly(component);
     },
     preventDatePickerClose: function (component, event, helper) {

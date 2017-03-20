@@ -16,7 +16,7 @@
     calculateTooltipPosition: function(component) {
         var tooltipEl = component.find('tooltip').getElement();
         var tooltipBoundingBox = tooltipEl.getBoundingClientRect();
-        var tooltipWidth = tooltipBoundingBox.width;
+        var tooltipWidth = Math.ceil(tooltipBoundingBox.width);
         var tooltipHeight = tooltipBoundingBox.height;
 
         var containerEl = component.find('tooltipContainer').getElement();

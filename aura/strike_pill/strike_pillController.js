@@ -1,10 +1,8 @@
 ({
-	onInit: function(component, event, helper) {
-		
-		
-	},
-	handleClick: function(component,event,helper){
-		helper.notifyParent(component);
-		helper.destroyComponent(component);
+	destroy: function(component, event, helper) {
+		if (component.get('v.isDestroyable')) {
+			helper.notifyParent(component);
+			helper.destroyComponent(component);
+		}
 	}
 })

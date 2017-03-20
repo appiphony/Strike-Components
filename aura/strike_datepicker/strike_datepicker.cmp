@@ -2,6 +2,7 @@
     <!-- Required -->
     <aura:attribute name="label" type="String" required="true"/>
 
+    <aura:attribute name="helpText" type="String"/>
     <aura:attribute name="name" type="String"/>
     <aura:attribute name="class" type="String"/>
     <aura:attribute name="placeholder" type="String"/>
@@ -43,7 +44,7 @@
     <aura:attribute name="selectedMonthText" type="String" access="private"/>
 
     <aura:attribute name="datePickerOpen" type="Boolean" default="false" access="private"/>
-    <aura:attribute name="readOnly" type="Boolean" default="true" access="private"/>
+    <aura:attribute name="readOnly" type="Boolean" default="{!false}" access="private"/>
 
     <!-- Event registration and handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.init}"/>
@@ -53,17 +54,20 @@
     <div class="{!'slds-form-element' + if(v.error, ' slds-has-error', '')}">
         <div class="strike-datepicker-input slds-input-has-icon slds-input-has-icon--right">
             <div class="strike-live-area" onclick="{!c.clickedDateInput}">
-                <lightning:input aura:id="dateInput" required="{!v.required}"
-                    disabled="{!v.disabled}"
-                    class="{!v.class}"
-                    type="text"
-                    onfocus="{!c.focusDateInput}"
-                    onblur="{!c.processNewDate}"
-                    readonly="{!v.readOnly}"
+                <c:strike_input
                     label="{!v.label}"
-                    value="{!v.displayDate}"
+                    helpText="{!v.helpText}"
                     name="{!v.name}"
-                    placeholder="{!v.placeholder}"/>
+                    class="{!v.class}"
+                    placeholder="{!v.placeholder}"
+                    type="text"
+                    value="{!v.displayDate}"
+                    readonly="{!v.readOnly}"
+                    disabled="{!v.disabled}"
+                    required="{!v.required}"
+                    error="{!v.error}"
+                    onblur="{!c.processNewDate}"
+                    />
             </div>
             <lightning:buttonIcon onclick="{!c.clickedDateIcon}" iconName="utility:event" size="medium" variant="bare" alternativeText="Date Picker" disabled="{!v.disabled}" class="strike-datepicker-input__icon"/>
         </div>

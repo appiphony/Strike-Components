@@ -1,8 +1,15 @@
 ({
     blur: function(component, event, helper) {
-        component.find('searchTerm').getElement().value = '';
-        helper.doSearch(component, event, helper, '');
+        var dropdownTrigger = component.find('dropdown-trigger').getElement();
+        var searchTerm = component.find('searchTerm').getElement();
 
+        if (!dropdownTrigger || !searchTerm) {
+            return;
+        }
+
+        searchTerm.value = '';
+        helper.doSearch(component, event, helper, '');
+        dropdownTrigger.blur();
         component.set('v.openMenu', false);
     },
     getLabelByValue: function(component, event, helper) {
@@ -15,8 +22,8 @@
             svgComp.destroy();
         }
 
-        if (component.get('v.iconIsCustom') != event.getParam('iconIsCustom')) {
-            component.set('v.iconIsCustom', event.getParam('iconIsCustom'));
+        if (component.get('v.customIcon') != event.getParam('customIcon')) {
+            component.set('v.customIcon', event.getParam('customIcon'));
         }
 
         if (component.get('v.iconName') != event.getParam('iconName')) {
@@ -31,7 +38,7 @@
             component.set('v.value', event.getParam('value'));
         }
 
-        component.set('v.openMenu', false);
+        helper.blur(component, event, helper);
     },
     doSearch: function(component, event, helper, searchTerm) {
         component.get('v.body').forEach(function(child) {
@@ -48,7 +55,8 @@
         options.forEach(function(option, i) {
             if (option.get('v.value') === component.get('v.value')) {
                 option.strike_optionSelected();
-                component.set('focusIndex', i);
+                component.set('v.focusIndex', i);
+                component.getEvent('onchange').fire();
             }
         });
     },
@@ -85,7 +93,7 @@
         var options = helper.getChildOptions(component, event, helper);
 
         if (focusIndex == null) {
-            component.set('v.openMenu', false);
+            helper.blur(component, event, helper);
         } else {
             options[focusIndex].strike_optionSelected();
         }

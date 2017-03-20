@@ -24,7 +24,7 @@
             <aura:if isTrue="{!not(empty(v.iconName))}">
                 <aura:if isTrue="{!v.customIcon}">
                     <span class="slds-icon_container">
-                        <c:svg xlinkHref="{!v.iconName}" ariaHidden="true" class="slds-icon slds-icon--small"/>
+                        <c:strike_svg xlinkHref="{!v.iconName}" ariaHidden="true" class="slds-icon slds-icon--small"/>
                     </span>
                     <aura:set attribute="else">
                         <lightning:icon iconName="{!v.iconName}" size="small"/>

@@ -50,3 +50,10 @@
 .THIS .slds-picklist.ss-disabled.ss-readonly .slds-button {
     pointer-events: all;
 }
+
+.THIS .slds-hide{
+    display: none !important;
+}
+.THIS .ss-help-text-icon .slds-icon {
+    fill: #9ea9b5;
+}
