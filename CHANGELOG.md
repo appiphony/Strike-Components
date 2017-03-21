@@ -1,9 +1,10 @@
 # Strike by Appiphony
 
-### Release 0.2.0 — March 20, 2017
+### Release 0.2.0 — March 21, 2017
 
 #### New Features
-* **Strike Pill:** Formerly part of Strike Multi Select Picklist, Pill has been abstracted so it can be used in other upcoming Components
+* **Strike Input (Beta):** Similar to `lightning:input`, Strike Input comes with support for `helpText` functionality and custom error handling (fiddler and documentation coming soon)</li>
+* **Strike Pill (Beta):** Formerly part of Strike Multi Select Picklist, Strike Pill has been abstracted so it can be used in other upcoming Components (fiddler and documentation coming soon)</li>
 #### Improvements
 * **Strike Datepicker:** Added the `helpText` attribute for descriptive tooltips (appears after the form label)
 * **Strike Lookup:** Added the `helpText` attribute for descriptive tooltips (appears after the form label)
@@ -14,7 +15,7 @@
 * **Strike Multi Select Picklist:** Added max-height to the dropdown's list
 * **Strike Select:** Added the `helpText` attribute for descriptive tooltips (appears after the form label)
 * **Strike Select:** Added support for HTML forms
-* **Strike Svg:** Changed `svg` component bundle to `strike_svg`
+* **Strike SVG:** Changed `svg` component bundle to `strike_svg`
 * **Strike Textarea:** Added the `helpText` attribute for descriptive tooltips (appears after the form label)
 #### Bug Fixes
 * **Strike Datepicker:** Fixed an issue where the menu opens when tabbing into the input

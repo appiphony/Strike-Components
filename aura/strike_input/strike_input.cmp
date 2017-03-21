@@ -1,0 +1,104 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+
+    <aura:attribute name="auraId" type="String" description="the aura id of the input" default="inputField"/>
+    <aura:attribute name="name" type="String" description="the name of the input"/>
+    <aura:attribute name="class" type="String" description="the class of the input" default=""/>
+    <aura:attribute name="label" type="String" description="the label of the component"/>
+    <aura:attribute name="value" type="String" description="the value of the component"/>
+    <aura:attribute name="checked" type="Boolean" description="the checked value of the component"/>
+    <aura:attribute name="type" type="String" description="The type of value that the input supports"/>
+    <aura:attribute name="placeholder" type="String" description="Placeholder text to populate in the input if there is no value"/>
+    <aura:attribute name="helpText" type="String" description="Text to be displayed as a tooltip on the component"/>
+    <aura:attribute name="required" type="Boolean" description="determines whether a * will be displayed in the label"/>
+    <aura:attribute name="error" type="Boolean" description="triggers an error state"/>
+    <aura:attribute name="errorMessage" type="String" description="error message that will display when in an error state"/>
+    <aura:attribute name="messageWhenPatternMismatch" type="String" default="Your entry does not match the allowed pattern." description="error message that will display the input does not match the pattern"/>
+    <aura:attribute name="formatter" type="String" description="used in conjunction with the number type"/>
+    <aura:attribute name="step" type="Object" description="used in conjunction with number type to define the incremental amounts the arrow buttons will use"/>
+    <aura:attribute name="min" type="Decimal" description="Expected lower bound for the value in Floating-Point number"/>
+    <aura:attribute name="max" type="Decimal" description="Expected upper bound for the value in Floating-Point number"/>
+    <aura:attribute name="pattern" type="String" description="Specifies the regular expression that the input's value is checked against. This attributed is supported for text, date, search, url, tel, email, and password types."/>
+    <aura:attribute name="maxlength" type="Integer" description="maximum number of characters to be used in the input"/>
+    <aura:attribute name="minlength" type="Integer" description="minimum number of characters to be used in the input field"/>
+    <aura:attribute name="readonly" type="Boolean" description="determines whether or not the input can be written to"/>
+    <aura:attribute name="disabled" type="Boolean" description="determines whether or not the field is disabled"/>
+
+    <aura:registerEvent name="onblur" type="c:strike_evt"/>
+    <aura:registerEvent name="onchange" type="c:strike_evt"/>
+    <aura:registerEvent name="onfocus" type="c:strike_evt"/>
+    <aura:registerEvent name="oninput" type="c:strike_evt"/>
+
+    <!-- Internal attributes -->
+    <aura:attribute name="inputId" type="Integer" description="randomly generated number to attach as an ID for radio buttons" access="private"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+    <aura:method name="focus" action="{!c.focus}"/>
+    <aura:method name="select" action="{!c.select}"/>
+
+    <div class="{!'slds-form-element ' + v.class}">
+        <aura:if isTrue="{!and(v.type != 'radio', v.type != 'checkbox')}">
+            <label class="slds-form-element__label" for="{!v.inputId}">
+                <aura:if isTrue="{!v.required}">
+                    <abbr class="slds-required" title="required">*</abbr>
+                </aura:if>
+                {!v.label}
+                <aura:if isTrue="{!and(v.helpText, v.helpText != '')}">
+                    <c:strike_tooltip placement="top" text="{!v.helpText}" class="si-help-text-icon slds-m-left--x-small">
+                        <lightning:icon iconName="utility:info" size="xx-small"/>
+                    </c:strike_tooltip>
+                </aura:if>
+            </label>
+        </aura:if>
+        <div class="{!'slds-form-element__control' + if(v.error, ' slds-has-error', '')}">
+            <span class="{!if(v.type == 'radio', 'slds-radio', '') + if(v.type == 'checkbox', 'slds-checkbox', '')}">
+                <input
+                    aura:id="inputField"
+                    name="{!v.name}"
+                    type="{!v.type}"
+                    class="{!class + (v.type == 'checkbox' ? '' : 'slds-input')}"
+                    id="{!v.inputId}"
+                    placeholder="{!v.placeholder}"
+                    value="{!v.value}"
+                    formatter="{!v.formatter}"
+                    pattern="{!v.pattern}"
+                    maxlength="{!v.maxlength}"
+                    minlength="{!v.minlength}"
+                    step="{!v.step}"
+                    readonly="{!v.readonly}"
+                    disabled="{!v.disabled}"
+                    checked="{!v.checked}"
+                    onclick="{!c.updateChecked}"
+                    onblur="{!c.handleBlur}"
+                    onfocus="{!c.handleFocus}"
+                    oninput="{!c.updateValue}"
+                    onchange="{!c.handleChange}"
+                    />
+                <aura:if isTrue="{!v.type == 'radio'}">
+                    <label class="slds-radio__label" for="{!v.inputId}">
+                        <span class="slds-radio--faux"></span>
+                        <span class="{!'slds-form-element__label' + if (and(v.helpText, v.helpText != ''), ' slds-m-right--none', '')}">{!v.label}</span>
+                        <aura:if isTrue="{!and(v.helpText, v.helpText != '')}">
+                            <c:strike_tooltip placement="top" text="{!v.helpText}" class="si-help-text-icon slds-m-left--x-small">
+                                <lightning:icon iconName="utility:info" size="xx-small"/>
+                            </c:strike_tooltip>
+                        </aura:if>
+                    </label>
+                </aura:if>
+                <aura:if isTrue="{!v.type == 'checkbox'}">
+                    <label class="slds-checkbox__label" for="{!v.inputId}">
+                        <span class="slds-checkbox--faux"></span>
+                        <span class="{!'slds-form-element__label' + if (and(v.helpText, v.helpText != ''), ' slds-m-right--none', '')}">{!v.label}</span>
+                        <aura:if isTrue="{!and(v.helpText, v.helpText != '')}">
+                            <c:strike_tooltip placement="top" text="{!v.helpText}" class="si-help-text-icon slds-m-left--x-small">
+                                <lightning:icon iconName="utility:info" size="xx-small"/>
+                            </c:strike_tooltip>
+                        </aura:if>
+                    </label>
+                </aura:if>
+            </span>
+            <aura:if isTrue="{!and(v.error, not(empty(v.errorMessage)))}">
+                <div class="slds-form-element__help">{!v.errorMessage}</div>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>
