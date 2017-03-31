@@ -1,4 +1,4 @@
-<aura:component >
+<aura:component>
     <aura:attribute name="text" type="String" required="true"/>
 
     <aura:attribute name="placement" type="String" default="top"/>
@@ -16,6 +16,7 @@
     <aura:method name="closeTooltip" action="{!c.hideTooltip}"/>
 
     <div aura:id="tooltipContainer" class="{!'st-popover_container ' + v.class}" tabindex="0" onfocus="{!c.showTooltip}" onblur="{!c.hideTooltip}" onmouseover="{!c.showTooltip}" onmouseout="{!c.hideTooltip}">
+        <style aura:id="tooltipStyle"></style>
         <div class="{!'slds-popover slds-popover--tooltip ' + v.nubbinPlacement + if(v.showTooltip, '', ' st-hidden')}" role="tooltip" aura:id="tooltip" style="{!v.tooltipStyle}">
             <div class="slds-popover__body">
                 {!v.text}

@@ -12,6 +12,9 @@
         component.set('v.showTooltip', true);
     },
     hideTooltip: function (component, event, helper) {
+        var tooltipStyle = component.find('tooltipStyle').getElement();
+
+        tooltipStyle.innerHTML = '';
         component.set('v.showTooltip', false);
         component.set('v.tooltipStyle', '');
     }

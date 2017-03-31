@@ -5,6 +5,8 @@
     <aura:attribute name="secondaryButtonLabel" type="String" default="Cancel"/>
     <aura:attribute name="variant" type="String"/>
 
+    <aura:attribute name="showHeader" type="Boolean" default="{!true}"/>
+    <aura:attribute name="showFooter" type="Boolean" default="{!true}"/>
     <aura:attribute name="showModal" type="Boolean" default="{!false}"/>
     <aura:attribute name="footerButtons" type="Aura.Component[]"/>
 
@@ -18,11 +20,11 @@
     <aura:attribute name="showingModal" type="Boolean" access="private" />
 
     <!-- Event registration and handlers -->
-    <aura:registerEvent name="strike_evt_modalShow" type="c:strike_evt_modalShow"/>
-    <aura:registerEvent name="strike_evt_modalShown" type="c:strike_evt_modalShown"/>
-    <aura:registerEvent name="strike_evt_modalHide" type="c:strike_evt_modalHide"/>
-    <aura:registerEvent name="strike_evt_modalHidden" type="c:strike_evt_modalHidden"/>
-    <aura:registerEvent name="strike_evt_modalPrimaryButtonClicked" type="c:strike_evt_modalPrimaryButtonClicked"/>
+    <aura:registerEvent name="strike_evt_modalShow" type="c:strike_evt"/>
+    <aura:registerEvent name="strike_evt_modalShown" type="c:strike_evt"/>
+    <aura:registerEvent name="strike_evt_modalHide" type="c:strike_evt"/>
+    <aura:registerEvent name="strike_evt_modalHidden" type="c:strike_evt"/>
+    <aura:registerEvent name="strike_evt_modalPrimaryButtonClicked" type="c:strike_evt"/>
 
     <aura:handler name="change" value="{!v.showModal}" action="{!c.determineModalState}"/>
     <aura:handler name="init" value="{!this}" action="{!c.init}"/>
@@ -31,22 +33,24 @@
     <div aria-hidden="{!not(v.showingModal)}" class="{!if(v.showingModal, '', 'slds-hide')}">
         <div id="modal" aura:id="modal" role="dialog" tabindex="{!if(showingModal, 0, -1)}" aria-labelledby="{!'header-' + v.modalHeaderId}" class="{!if(v.fadeIn, 'slds-fade-in-open', '') + ' slds-modal ' + if(empty(v.variant), '', 'slds-modal--prompt')}">
             <div class="slds-modal__container">
-                <div class="{!'slds-modal__header' + if(empty(v.variant), '', ' slds-theme--alert-texture slds-theme--' + v.variant)}">
+                <div class="{!'slds-modal__header' + if(empty(v.variant), '', ' slds-theme--alert-texture slds-theme--' + v.variant) + if(v.showHeader == false, ' slds-modal__header--empty', '')}">
                     <lightning:buttonIcon onclick="{!c.hide}" iconName="utility:close" alternativeText="Close" name="Close" size="large" variant="bare" class="slds-button slds-modal__close slds-button--icon-inverse"/>
-                    <h2 id="{!'header-' + v.modalHeaderId}" class="slds-text-heading--medium">{!v.title}</h2>
+                    <h2 id="{!'header-' + v.modalHeaderId}" class="{!'slds-text-heading--medium' + if(v.showHeader == false, ' slds-hide', '')}">{!v.title}</h2>
                 </div>
                 <div class="slds-modal__content slds-p-around--medium">
                     {!v.body}
                 </div>
-                <div class="{!'slds-modal__footer' + if(empty(v.variant), '', ' slds-theme--default')}">
-                    <aura:if isTrue="{!empty(v.footerButtons)}">
-                        <lightning:button class="slds-button slds-button--neutral" onclick="{!c.hide}">{!v.secondaryButtonLabel}</lightning:button>
-                        <lightning:button class="slds-button slds-button--brand" onclick="{!c.clickedPrimary}">{!v.primaryButtonLabel}</lightning:button>
-                        <aura:set attribute="else">
-                            {!v.footerButtons}
-                        </aura:set>
-                    </aura:if>
-                </div>
+                <aura:if isTrue="{!v.showFooter}">
+                    <div class="{!'slds-modal__footer' + if(empty(v.variant), '', ' slds-theme--default')}">
+                        <aura:if isTrue="{!empty(v.footerButtons)}">
+                            <lightning:button class="slds-button slds-button--neutral" onclick="{!c.hide}">{!v.secondaryButtonLabel}</lightning:button>
+                            <lightning:button class="slds-button slds-button--brand" onclick="{!c.clickedPrimary}">{!v.primaryButtonLabel}</lightning:button>
+                            <aura:set attribute="else">
+                                {!v.footerButtons}
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                </aura:if>
             </div>
         </div>
 

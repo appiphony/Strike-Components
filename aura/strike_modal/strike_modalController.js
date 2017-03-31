@@ -6,7 +6,7 @@
             if(!component.isValid()){
                 window.removeEventListener('keyup', component._closeModal);
             } else if(e.keyCode == ESCAPE_KEY && component.get('v.showingModal') == true){
-                helper.hide(component);
+                helper.hide(component, event, helper);
             }
         });
 

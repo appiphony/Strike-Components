@@ -33,12 +33,14 @@
         }
 
         var notifyEvent = component.getEvent("strike_evt_notifyParent");
-
+        
         notifyEvent.setParams({
-            "label": component.get('v.label'),
-            "value": component.get('v.value'),
-            "iconName": component.get('v.iconName'),
-            "customIcon": component.get('v.customIcon')
+            "data": {
+                "label": component.get('v.label'),
+                "value": component.get('v.value'),
+                "iconName": component.get('v.iconName'),
+                "customIcon": component.get('v.customIcon')
+            }
         });
 
         notifyEvent.fire();

@@ -1,7 +1,7 @@
 ({
     addToComponentValue: function(component, event, helper) {
 
-        var selectedOptionValue = event.getParam("value");
+        var selectedOptionValue = event.getParams('params').data.value;
         var componentValue = component.get('v.value');
 
         var valueArray = !componentValue ? [] : componentValue.split(';');
@@ -16,9 +16,17 @@
         sourceCmp.set('v.hidden', true);
     },
     createOptionPill: function(component, event, helper) {
-        var sourceValue = event.getParam('value');
-        var sourceLabel = event.getParam('label');
-        var sourceIconName = event.getParam('iconName');
+        var sourceValue, sourceLabel, sourceIconName;
+        
+        if (event.getName() == 'strike_evt_notifyParent') {
+            sourceValue = event.getParams('params').data.value;
+            sourceLabel = event.getParams('params').data.label;
+            sourceIconName = event.getParams('params').data.iconName;
+        } else {
+            sourceValue = event.getParams('params').value;
+            sourceLabel = null;
+            sourceIconName = null;
+        }
 
         var attributes = {
             "value": sourceValue,

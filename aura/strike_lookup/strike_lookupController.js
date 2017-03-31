@@ -21,17 +21,26 @@
         var randomNumber = Math.floor(1000 + Math.random() * 9000);
 
         component.set('v.idNumber', randomNumber);
+        
+        component.set('v.isMobile', $A.get('$Browser.formFactor') == 'DESKTOP' ? false : true);
     },
-
     handleInputClick: function(component, event, helper) {
         event.stopPropagation();
     },
+    handleSearchingClick: function(component, event, helper) {
+        component.set('v.searching', false);
+    },
     handleInputFocus: function(component, event, helper) {
+        $A.util.addClass(component.find('lookup'), 'sl-lookup--open');
+        
         if (component.get('v.disabled')) {
             return;
         }
 
         helper.getRecordsBySearchTerm(component, event, helper);
+    },
+    cancelLookup: function(component, event, helper) {
+        helper.closeMobileLookup(component, event, helper);
     },
     handleInputKeyDown: function(component, event, helper) {
         if (component.get('v.disabled')) {

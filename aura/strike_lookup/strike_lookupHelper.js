@@ -197,7 +197,12 @@
         helper.openMenu(component, event, helper);
     },
     openMenu: function(component, event, helper) {
-        component.set('v.openMenu', !component.get('v.disabled') && !$A.util.isEmpty(component.get('v.lastSearchTerm')));
+        var showRecentRecords = component.get('v.showRecentRecords') && !$A.util.isEmpty(component.get('v.recentRecords'));
+        component.set('v.openMenu', !component.get('v.disabled') && (!$A.util.isEmpty(component.get('v.lastSearchTerm')) || showRecentRecords));
+    },
+    closeMobileLookup: function(component, event, helper) {
+        $A.util.removeClass(component.find('lookup'), 'sl-lookup--open');
+        component.find('lookupInput').getElement().value = ''
     },
     updateValueByFocusIndex: function(component, event, helper) {
         var focusIndex = component.get('v.focusIndex');
@@ -218,6 +223,8 @@
         } else if (focusIndex == records.length) {
             helper.addNewRecord(component, event, helper);
         }
+
+        helper.closeMobileLookup(component, event, helper);
     },
     addNewRecord: function(component, event, helper) {
         if (!component.get('v.allowNewRecords')) {

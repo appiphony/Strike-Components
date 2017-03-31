@@ -3,6 +3,7 @@
     <aura:attribute name="label" type="String" required="true" description="Text that describes the desired textarea input" default="Strike Multi-Select"/>
 
     <aura:attribute name="placeholder" type="String" description="placeholder text that will be displayed on the input field when the component is initialized"/>
+    <aura:attribute name="class" type="String" description="A CSS class that will be applied to the outer element. This style is in addition to base classes associated with the component"/>
     <aura:attribute name="value" type="String" description="semi-colon separated values that reflect the selected pills"/>
 
     <aura:attribute name="errorMessage" type="String" description="message to be displayed when the component is in an error state"/>
@@ -25,15 +26,16 @@
     <aura:attribute name="selectedOptionPills" type="Object[]" access="private" description="pills to be populated when an option is selected from the dropdown"/>
     <aura:attribute name="validChildCmps" type="Object[]" access="private" description="stores valid child components to utilize when an iterator is used"/>
     <aura:attribute name="alreadyRendered" type="Boolean" access="private" description="is set to true after the initial render"/>
+    <aura:attribute name="isMobile" type="Boolean" default="{!false}" description="Boolean value that determines if the user is in Salesforce1" access="private"/>
 
     <!-- Event registration and handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
     <aura:handler event="aura:doneRendering" action="{!c.handleDoneRendering}"/>
-    <aura:handler name="strike_evt_notifyParent" event="c:strike_evt_notifyParent" action="{!c.handleNotifyParent}" includeFacets="true" description="handles when a StrikeOption is clicked"/>
-    <aura:handler name="strike_evt_componentDestroyed" event="c:strike_evt_componentDestroyed" action="{!c.handleComponentDestroyed}" includeFacets="true" description="handles when a StrikeOption is clicked"/>
+    <aura:handler name="strike_evt_notifyParent" event="c:strike_evt" action="{!c.handleNotifyParent}" includeFacets="true" description="handles when a StrikeOption is clicked"/>
+    <aura:handler name="strike_evt_componentDestroyed" event="c:strike_evt" action="{!c.handleComponentDestroyed}" includeFacets="true" description="handles when a StrikeOption is clicked"/>
 
     <!-- Strike MultiSelect -->
-    <div aura:id="multiSelectMenu" class="{!if(v.menuIsOpen, 'slds-form-element slds-lookup slds-is-open', 'slds-form-element slds-lookup')}" data-select="single">
+    <div aura:id="multiSelectMenu" class="{!'slds-form-element slds-lookup ' + if(v.isMobile, 'smsp-picklist--mobile ', '') + if(v.menuIsOpen, 'slds-is-open ', '') + v.class}" data-select="single">
         <label class="slds-form-element__label" for="{!'strike-multi-select-' + v.idNumber}">
             <aura:if isTrue="{!v.required}">
                 <abbr class="slds-required" title="required">*</abbr>
@@ -69,11 +71,16 @@
             </aura:if>
         </div>
 
-        <div class="slds-lookup__menu">
+        <ui:scrollerWrapper class="slds-lookup__menu">
+            <aura:if isTrue="{!v.isMobile}">
+                <div class="smsp-picklist__mobile-header smsp-full-button_container">
+                    <button class="slds-button slds-button--neutral">Cancel</button>
+                </div>
+            </aura:if>
             <ul class="slds-dropdown__list slds-dropdown--length-5" role="listbox">
                 {!v.body}
             </ul>
-        </div>
+        </ui:scrollerWrapper>
         <aura:if isTrue="{!not(empty(v.selectedOptionPills))}">
             <div class="slds-pill_container slds-pill_container--bare">
                 <aura:iteration items="{!v.selectedOptionPills}" var="pill">
