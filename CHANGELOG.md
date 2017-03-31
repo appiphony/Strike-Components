@@ -1,10 +1,29 @@
 # Strike by Appiphony
 
+### Release 0.3.0 — March 31, 2017
+
+#### Improvements
+* **Strike Lookup:** Added new dropdown menu styles for mobile devices
+* **Strike Lookup:** Events have been modified to utilize a single event bundle in order to minimize component dependencies (see documentation for updated `name` and `type` values)
+* **Strike Modal:** Events have been modified to utilize a single event bundle in order to minimize component dependencies (see documentation for updated `name` and `type` values)
+* **Strike Multi Select Picklist:** Added new dropdown menu styles for mobile devices
+* **Strike Multi Select Picklist:** Events have been modified to utilize a single event bundle in order to minimize component dependencies (see documentation for updated `name` and `type` values)
+* **Strike Select:** Added new dropdown menu styles for mobile devices
+* **Strike Select:** Events have been modified to utilize a single event bundle in order to minimize component dependencies (see documentation for updated `name` and `type` values)
+* **Strike Tooltip:** Tooltips that extend past the left or right window bounds when `placement` is set to `top` or `bottom` now have their positioning adjusted to be fully visible in the window
+#### Bug Fixes
+* **Strike Select:** Fixed an issue where users were unable to open the select's dropdown when `searchable` is set to `true`
+* **Strike Lookup:** Fixed an issue where the `showRecentRecords` attribute was unable to retrieve recent records in the org
+* **Strike Lookup:** Fixed an issue where the search icon was incorrectly placed when viewed on mobile devices
+* **Strike Lookup:** Fixed an issue where an empty dropdown menu would sometimes appear over the "Searching..." message
+
+---
+
 ### Release 0.2.0 — March 21, 2017
 
 #### New Features
-* **Strike Input (Beta):** Similar to `lightning:input`, Strike Input comes with support for `helpText` functionality and custom error handling (fiddler and documentation coming soon)</li>
-* **Strike Pill (Beta):** Formerly part of Strike Multi Select Picklist, Strike Pill has been abstracted so it can be used in other upcoming Components (fiddler and documentation coming soon)</li>
+* **Strike Input (Beta):** Similar to `lightning:input`, Strike Input comes with support for `helpText` functionality and custom error handling (fiddler and documentation coming soon)
+* **Strike Pill (Beta):** Formerly part of Strike Multi Select Picklist, Strike Pill has been abstracted so it can be used in other upcoming Components (fiddler and documentation coming soon)
 #### Improvements
 * **Strike Datepicker:** Added the `helpText` attribute for descriptive tooltips (appears after the form label)
 * **Strike Lookup:** Added the `helpText` attribute for descriptive tooltips (appears after the form label)

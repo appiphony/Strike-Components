@@ -53,6 +53,7 @@
     <aura:attribute name="searchTimeout" type="Object" description="Object that holds the search Timeout" access="private"/>
     <aura:attribute name="valueLabel" type="String" description="String value that holds the searchField of the selected record" access="private"/>
     <aura:attribute name="valueSublabel" type="String" description="String value that holds the subtitleField of the selected record" access="private"/>
+    <aura:attribute name="isMobile" type="Boolean" default="{!false}" description="Boolean value that determines if the user is in Salesforce1" access="private"/>
 
     <!-- Event registration and handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
@@ -66,11 +67,11 @@
     <aura:handler name="change" value="{!v.order}" action="{!c.handleOrderChange}"/>
     <aura:handler name="change" value="{!v.limit}" action="{!c.handleLimitChange}"/>
 
-    <aura:registerEvent name="strike_evt_addNewRecord" type="c:strike_evt_addNewRecord" description="Fires an event that notifies when the strike_evt_addNewRecord button is pressed"/>
+    <aura:registerEvent name="strike_evt_addNewRecord" type="c:strike_evt" description="Fires an event that notifies when the strike_evt_addNewRecord button is pressed"/>
     <aura:dependency resource="force:createRecord" type="EVENT"/>
 
     <!-- Strike Lookup -->
-    <div class="{!'slds-form-element slds-lookup slds-is-open ' + if(v.error, 'slds-has-error ', '') + v.class}" data-select="single" data-scope="single">
+    <ui:scrollerWrapper aura:id="lookup" class="{!'slds-form-element slds-lookup slds-is-open ' + if(v.error, 'slds-has-error ', '') + if(v.isMobile, 'sl-lookup--mobile ', '') + if(v.openMenu, ' sl-lookup--open', '') + v.class}">
         <label class="slds-form-element__label" for="{!'strike-lookup-' + v.idNumber}">
             <aura:if isTrue="{!v.required}">
                 <abbr class="slds-required" title="required">*</abbr>
@@ -82,7 +83,7 @@
                 </c:strike_tooltip>
             </aura:if>
         </label>
-        <div class="{!'slds-form-element__control slds-input-has-icon slds-input-has-icon--right' + if(v.disabled, ' sl-disabled', '')}">
+        <div class="{!'slds-form-element__control slds-input-has-icon slds-input-has-icon--right' + if(v.disabled, ' sl-disabled', '')}" onclick="{!c.cancelLookup}">
             <div class="{!'slds-pill_container' + if(or(not(empty(v.value)), greaterthan(v.initCallsRunning, 0)), '', ' slds-hide')}">
                 <span class="{!'slds-pill slds-size--1-of-1' + if(greaterthan(v.initCallsRunning, 0), ' sl-pill--loading', '')}">
                     <aura:if isTrue="{!and(not(empty(v.iconName)), equals(v.initCallsRunning, 0))}">
@@ -101,26 +102,33 @@
                     </button>
                 </span>
             </div>
-            <div class="{!if(and(equals(v.initCallsRunning, 0), empty(v.value)), '', 'slds-hide')}">
-                <lightning:icon iconName="utility:search" size="x-small" class="sl-search-icon"/>
-                <input
-                    aura:id="lookupInput"
-                    id="{!'strike-lookup-' + v.idNumber}"
-                    name="{!'input-' + v.idNumber}"
-                    class="slds-lookup__search-input slds-input js-template-lookup"
-                    type="text"
-                    aria-autocomplete="list"
-                    role="combobox"
-                    aria-expanded="false"
-                    placeholder="{!v.placeholder}"
-                    onclick="{!c.handleInputClick}"
-                    onfocus="{!c.handleInputFocus}"
-                    onkeydown="{!c.handleInputKeyDown}"
-                    onkeyup="{!c.handleInputKeyUp}"
-                    onkeypress="{!c.handleInputKeyPress}"
-                    disabled='{!v.disabled}'/>
+            <div class="{!'sl-lookup__input_container slds-grid slds-grid--pull-padded-xx-small' + if(and(equals(v.initCallsRunning, 0), empty(v.value)), '', ' slds-hide')}">
+                <div class="sl-lookup__input slds-col slds-p-horizontal--xx-small">
+                    <lightning:icon iconName="utility:search" size="x-small" class="sl-search-icon"/>
+                    <input
+                        aura:id="lookupInput"
+                        id="{!'strike-lookup-' + v.idNumber}"
+                        name="{!'input-' + v.idNumber}"
+                        class="slds-lookup__search-input slds-input js-template-lookup"
+                        type="text"
+                        aria-autocomplete="list"
+                        role="combobox"
+                        aria-expanded="false"
+                        placeholder="{!v.placeholder}"
+                        onclick="{!c.handleInputClick}"
+                        onfocus="{!c.handleInputFocus}"
+                        onkeydown="{!c.handleInputKeyDown}"
+                        onkeyup="{!c.handleInputKeyUp}"
+                        onkeypress="{!c.handleInputKeyPress}"
+                        disabled='{!v.disabled}'/>
+                </div>
+                <aura:if isTrue="{!v.isMobile}">
+                    <div class="sl-lookup--mobile__cancel slds-col slds-no-flex slds-p-horizontal--xx-small">
+                        <button class="slds-button slds-button--neutral" onclick="{!c.cancelLookup}">Cancel</button>
+                    </div>
+                </aura:if>
             </div>
-            <div class="{!if(v.searching, 'slds-lookup__menu', 'slds-hide')}" role="listbox">
+            <div class="{!if(v.searching, 'slds-lookup__menu', 'slds-hide')}" role="listbox" onclick="{!c.handleSearchingClick}">
                 <ul class="slds-lookup__list" role="listbox">
                     <li role="presentation">
                         <span class="slds-lookup__item-action slds-media sl-searching" role="option">
@@ -131,7 +139,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="{!if(v.openMenu, 'slds-lookup__menu', 'slds-hide')}" role="listbox" onclick="{!c.stopProp}">
+            <div class="{!if(and(v.searching == false, v.openMenu), 'slds-lookup__menu', 'slds-hide')}" role="listbox">
                 <div class="{!if(or(v.records == null, v.records.length == 0), '', 'slds-hide')}">
                     <ul class="slds-lookup__list" role="listbox">
                         <li role="presentation">
@@ -145,7 +153,7 @@
                         </li>
                     </ul>
                 </div>
-                <ul aura:id="lookupMenu" class="slds-lookup__list" role="listbox">
+                <ul aura:id="lookupMenu" class="{!if(v.searching, 'slds-hide', 'slds-lookup__list')}" role="listbox">
                     <aura:iteration items="{!v.records}" var="record" indexVar="index">
                         <li role="presentation" class="{!if(index == v.focusIndex, 'slds-has-focus', '')}" data-index="{!index}" onclick="{!c.handleRecordClick}">
                             <span class="slds-lookup__item-action slds-media" role="option">
@@ -165,9 +173,9 @@
                         </li>
                     </aura:iteration>
                     <aura:if isTrue="{!v.allowNewRecords}">
-                        <li role="presentation" class="{!if(index == -1, 'slds-has-focus', '')}" onclick="{!c.handleNewRecordClick}">
+                        <li role="presentation" class="{!'sl-lookup__new' + if(index == -1, ' slds-has-focus', '')}" onclick="{!c.handleNewRecordClick}">
                             <span class="slds-lookup__item-action slds-lookup__item-action--label" role="option">
-                                <lightning:icon class="slds-media__figure" iconName="utility:add" size="x-small"/>
+                                <lightning:icon iconName="utility:add" size="x-small"/>
                                 <span class="slds-truncate">Add New {!v.objectLabel}</span>
                             </span>
                         </li>
@@ -179,5 +187,5 @@
         <aura:if isTrue="{!and(v.error, not(empty(v.errorMessage)))}">
             <div class="slds-form-element__help">{!v.errorMessage}</div>
         </aura:if>
-    </div>
+    </ui:scrollerWrapper>
 </aura:component>

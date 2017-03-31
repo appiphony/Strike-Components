@@ -22,20 +22,20 @@
             svgComp.destroy();
         }
 
-        if (component.get('v.customIcon') != event.getParam('customIcon')) {
-            component.set('v.customIcon', event.getParam('customIcon'));
+        if (component.get('v.customIcon') != event.getParams('params').data.customIcon) {
+            component.set('v.customIcon', event.getParams('params').data.customIcon);
         }
 
-        if (component.get('v.iconName') != event.getParam('iconName')) {
-            component.set('v.iconName', event.getParam('iconName'));
+        if (component.get('v.iconName') != event.getParams('params').data.iconName) {
+            component.set('v.iconName', event.getParams('params').data.iconName);
         }
 
-        if (component.get('v.valueLabel') != event.getParam('label')) {
-            component.set('v.valueLabel', event.getParam('label'));
+        if (component.get('v.valueLabel') != event.getParams('params').data.label) {
+            component.set('v.valueLabel', event.getParams('params').data.label);
         }
 
-        if (component.get('v.value') != event.getParam('value')) {
-            component.set('v.value', event.getParam('value'));
+        if (component.get('v.value') != event.getParams('params').data.value) {
+            component.set('v.value', event.getParams('params').data.value);
         }
 
         helper.blur(component, event, helper);

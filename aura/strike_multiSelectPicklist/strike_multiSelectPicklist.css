@@ -16,3 +16,50 @@
 .THIS .smsp-pill + .smsp-pill {
     margin-left: t(spacingXxxSmall);
 }
+
+
+/* --------------------------------------------------
+Salesforce1 Styles
+-------------------------------------------------- */
+
+.THIS.smsp-picklist--mobile.slds-is-open .slds-lookup__menu {
+    display: block;
+    padding: 0;
+    margin-top: 0;
+    border-radius: 0;
+    position: fixed;
+    height: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border: none;
+    overflow: initial;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: t(zIndexOverlay);
+    background: t(colorBackground);
+    -webkit-overflow-scrolling: touch;
+}
+
+.THIS.smsp-picklist--mobile.slds-is-open .slds-lookup__menu li {
+    border-bottom: 1px solid t(colorBorder);
+    padding: t(spacingXSmall);
+}
+
+.THIS.smsp-picklist--mobile.slds-is-open .slds-lookup__menu .slds-lookup__item-action,
+.THIS.smsp-picklist--mobile.slds-is-open .slds-lookup__menu .slds-lookup__item-action--label,
+.THIS.smsp-picklist--mobile.slds-is-open .slds-lookup__menu .slds-text-title--caps {
+    padding-left: t(spacingXSmall);
+    padding-right: t(spacingXSmall);
+}
+
+.THIS.smsp-picklist--mobile .slds-lookup__menu .smsp-picklist__mobile-header {
+    border-bottom: 1px solid t(colorBorder);
+    padding: t(spacingXSmall);
+}
+
+.THIS.smsp-picklist--mobile .slds-lookup__menu .smsp-full-button_container .slds-button {
+    width: 100%;
+    text-align: center;
+}

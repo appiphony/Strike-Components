@@ -21,6 +21,8 @@
         });
 
         window.addEventListener('click', component.handleClick);
+        
+        component.set('v.isMobile', $A.get('$Browser.formFactor') == 'DESKTOP' ? false : true);
     },
     doneRendering: function(component, event, helper) {
         if (!$A.util.isEmpty(component.get('v.valueLabel'))) {
@@ -41,22 +43,24 @@
         if (component.handleKeyDown) {
             helper.removeKeyDownListener(component, event, helper);
         }
-
-        if (!component.get('v.disabled') && !component.get('v.openMenu') == true) {
-            component.set('v.openMenu', true);
-
-            window.addEventListener('keydown', component.handleKeyDown, { capture: true});
-
-            setTimeout($A.getCallback(function() {
-                if (!component.isValid()) {
-                    return;
-                }
-
-                component.find('searchTerm').getElement().focus();
-            }), 1);
-        } else {
-            helper.blur(component, event, helper);
-        }
+        
+        setTimeout($A.getCallback(function() { // Fixes mobile dropdown closing immediately after it opens
+            if (!component.get('v.disabled') && !component.get('v.openMenu') == true) {
+                component.set('v.openMenu', true);
+                
+                window.addEventListener('keydown', component.handleKeyDown, { capture: true});
+                    setTimeout($A.getCallback(function() { // Fixes dropdown closing immediately after focusing on the search input
+                        if (!component.isValid()) {
+                            return;
+                        }
+                        if (component.get('v.searchable')) {
+                            component.find('searchTerm').getElement().focus();
+                        }
+                    }), 1);
+            } else {
+                helper.blur(component, event, helper);
+            }
+        }), 1);
     },
     handleNotifyParent: function(component, event, helper) {
         helper.updateValue(component, event, helper);

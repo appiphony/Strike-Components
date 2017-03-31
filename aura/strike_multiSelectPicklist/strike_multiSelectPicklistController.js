@@ -19,6 +19,8 @@
 
         component.set('v.idNumber', randomNumber);
         
+        component.set('v.isMobile', $A.get('$Browser.formFactor') == 'DESKTOP' ? false : true);
+        
     },
     handleDoneRendering: function(component,event,helper){
         var value = component.get('v.value');

@@ -1,6 +1,6 @@
 # Strike by Appiphony
 ### Work smarter (not harder) with Salesforce Lightning Components
-Current release: 0.2.0  
+Current release: 0.3.0  
 See it in action here: <a href="http://www.lightningstrike.io" target="_blank">http://www.lightningstrike.io</a>
 
 ---
@@ -9,9 +9,12 @@ See it in action here: <a href="http://www.lightningstrike.io" target="_blank">h
 * Badges
 * Charts
 * Datepickers
+* Inputs
 * Lookups
 * Modals
 * Multi Select Picklists
+* Options
+* Pills
 * Selects
 * Textareas
 * Tooltips
