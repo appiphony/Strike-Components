@@ -3,7 +3,7 @@
   "strike_badge": ["strike_badge"],
   "strike_chart": ["strike_chart"],
   "strike_modal": ["strike_evt_modalPrimaryButtonClicked", "strike_evt_modalHidden", "strike_evt_modalHide", "strike_evt_modalShown", "strike_evt_modalShow", "strike_modal"],
-  "strike_textarea": ["strike_tooltip" "strike_textarea"],
+  "strike_textarea": ["strike_tooltip", "strike_textarea"],
   "strike_select": ["strike_tooltip", "defaultTokens", "strike_svg", "strike_evt", "strike_evt_notifyParent", "strike_option", "strike_select"],
   "strike_datepicker": ["defaultTokens", "strike_evt", "strike_tooltip", "strike_input", "strike_datepicker"],
   "strike_multiSelectPicklist": ["defaultTokens", "strike_evt_notifyParent", "strike_evt_componentDestroyed", "strike_svg", "strike_option", "strike_tooltip", "strike_multiSelectPicklist"],
