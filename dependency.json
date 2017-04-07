@@ -4,7 +4,7 @@
   "strike_chart": ["strike_chart"],
   "strike_modal": ["strike_evt", "strike_modal"],
   "strike_textarea": ["strike_tooltip", "strike_textarea"],
-  "strike_select": ["strike_tooltip", "defaultTokens", "strike_svg", "strike_evt", "strike_option", "strike_select"],
+  "strike_select": ["strike_tooltip", "defaultTokens", "strike_svg", "strike_evt", "strike_optionGroup", "strike_option", "strike_select"],
   "strike_datepicker": ["defaultTokens", "strike_evt", "strike_tooltip", "strike_input", "strike_datepicker"],
   "strike_multiSelectPicklist": ["defaultTokens", "strike_evt", "strike_pill", "strike_svg", "strike_option", "strike_tooltip", "strike_multiSelectPicklist"],
   "strike_lookup": ["strike_utilities.cls", "strike_responseData.cls", "strike_lookupController.cls", "defaultTokens", "strike_tooltip", "strike_evt", "strike_svg", "strike_lookup"],
