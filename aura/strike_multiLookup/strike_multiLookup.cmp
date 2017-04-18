@@ -43,23 +43,23 @@
     <!-- Internal -->
     <aura:attribute name="focusIndex" type="Integer" description="Integer value that determines which record is focused" access="private"/>
     <aura:attribute name="idNumber" type="Integer" description="Random id assigned to pair labels with inputs" access="private"/>
-    <aura:attribute name="initCallsRunning" type="Integer" default="{!0}" description="Integer value that determines how many calls are running during init" access="private"/>
+    <aura:attribute name="initCallsRunning" type="Integer" default="{!2}" description="Integer value that determines how many calls are running during init" access="private"/>
     <aura:attribute name="lastSearchTerm" type="String" description="String value that holds the last searched term" access="private"/>
     <aura:attribute name="openMenu" type="Boolean" default="{!false}" description="Boolean value that determines whether the menu is open" access="private"/>
     <aura:attribute name="objectLabel" type="String" description="String value that holds the label of the object" access="private"/>
     <aura:attribute name="recentRecords" type="Object[]" description="List of the most recent records" access="private"/>
     <aura:attribute name="records" type="Object[]" description="List of records returned from the SOQL search" access="private"/>
+    <aura:attribute name="selectedOptionTiles" type="Object[]" description="List of selected records" access="private"/>
     <aura:attribute name="searching" type="Boolean" description="Boolean value marked when searching" access="private"/>
     <aura:attribute name="searchTimeout" type="Object" description="Object that holds the search Timeout" access="private"/>
     <aura:attribute name="valueLabel" type="String" description="String value that holds the searchField of the selected record" access="private"/>
-    <aura:attribute name="valueSublabel" type="String" description="String value that holds the subtitleField of the selected record" access="private"/>
     <aura:attribute name="isMobile" type="Boolean" default="{!false}" description="Boolean value that determines if the user is in Salesforce1" access="private"/>
+    <aura:attribute name="internalValue" type="String" description="String value that holds the Ids of the selected records" access="private"/>
 
     <!-- Event registration and handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
     <aura:handler name="change" value="{!v.focusIndex}" action="{!c.handleFocusIndexChange}"/>
     <aura:handler name="change" value="{!v.value}" action="{!c.handleValueChange}"/>
-
     <aura:handler name="change" value="{!v.object}" action="{!c.handleObjectChange}"/>
     <aura:handler name="change" value="{!v.searchField}" action="{!c.handleSearchfieldChange}"/>
     <aura:handler name="change" value="{!v.subtitleField}" action="{!c.handleSubtitlefieldChange}"/>
@@ -68,10 +68,11 @@
     <aura:handler name="change" value="{!v.limit}" action="{!c.handleLimitChange}"/>
 
     <aura:registerEvent name="strike_evt_addNewRecord" type="c:strike_evt" description="Fires an event that notifies when the strike_evt_addNewRecord button is pressed"/>
+    <aura:handler name="strike_evt_componentDestroyed" event="c:strike_evt" action="{!c.handleComponentDestroyed}" includeFacets="true" description="handles when a StrikeOption is deleted"/>
     <aura:dependency resource="force:createRecord" type="EVENT"/>
 
     <!-- Strike Lookup -->
-    <ui:scrollerWrapper aura:id="lookup" class="{!'slds-form-element slds-lookup slds-is-open ' + if(v.error, 'slds-has-error ', '') + if(v.isMobile, 'sl-lookup--mobile ', '') + if(v.openMenu, ' sl-lookup--open', '') + v.class}">
+    <ui:scrollerWrapper aura:id="lookup" class="{!'slds-form-element slds-lookup slds-is-open ' + if(v.error, 'slds-has-error ', '') + if(v.isMobile, 'sl-lookup--mobile ', '') + v.class}">
         <label class="slds-form-element__label" for="{!'strike-lookup-' + v.idNumber}">
             <aura:if isTrue="{!v.required}">
                 <abbr class="slds-required" title="required">*</abbr>
@@ -84,25 +85,12 @@
             </aura:if>
         </label>
         <div class="{!'slds-form-element__control slds-input-has-icon slds-input-has-icon--right' + if(v.disabled, ' sl-disabled', '')}" onclick="{!c.cancelLookup}">
-            <div class="{!'slds-pill_container' + if(or(not(empty(v.value)), greaterthan(v.initCallsRunning, 0)), '', ' slds-hide')}">
-                <span class="{!'slds-pill slds-size--1-of-1' + if(greaterthan(v.initCallsRunning, 0), ' sl-pill--loading', '')}">
-                    <aura:if isTrue="{!and(not(empty(v.iconName)), equals(v.initCallsRunning, 0))}">
-                        <aura:if isTrue="{!v.customIcon}">
-                            <span class="slds-icon_container">
-                                <c:strike_svg aura:id="svgComp" xlinkHref="{!v.iconName}" ariaHidden="true" class="slds-icon-text-default slds-icon slds-icon--small slds-pill__icon_container"/>
-                            </span>
-                            <aura:set attribute="else">
-                                <lightning:icon class="slds-pill__icon_container" iconName="{!v.iconName}" size="small"/>
-                            </aura:set>
-                        </aura:if>
-                    </aura:if>
-                    <span class="slds-pill__label sl-pill__label" title="{!if(v.initCallsRunning > 0, v.loadingMessage, v.valueLabel)}">{!if(v.initCallsRunning > 0, v.loadingMessage, v.valueLabel)}</span>
-                    <button class="{!'slds-button slds-button--icon slds-pill__remove' + if(or(v.disabled, greaterthan(v.initCallsRunning, 0)), ' slds-hide', '')}" title="Remove" onclick="{!c.handlePillClick}">
-                        <lightning:icon iconName="utility:close" size="xx-small"/>
-                    </button>
+            <div class="{!'slds-pill_container' + if(greaterthan(v.initCallsRunning, 0), '', ' slds-hide')}">
+                <span class="slds-pill slds-size--1-of-1 sl-pill--loading">
+                    <span class="slds-pill__label sl-pill__label" title="{!v.loadingMessage}">{!v.loadingMessage}</span>
                 </span>
             </div>
-            <div class="{!'sl-lookup__input_container slds-grid slds-grid--pull-padded-xx-small' + if(and(equals(v.initCallsRunning, 0), empty(v.value)), '', ' slds-hide')}">
+            <div class="{!'sl-lookup__input_container slds-grid slds-grid--pull-padded-xx-small' + if(equals(v.initCallsRunning, 0), '', ' slds-hide')}">
                 <div class="sl-lookup__input slds-col slds-p-horizontal--xx-small">
                     <lightning:icon iconName="utility:search" size="x-small" class="sl-search-icon"/>
                     <input
@@ -175,7 +163,7 @@
                     <aura:if isTrue="{!v.allowNewRecords}">
                         <li role="presentation" class="{!'sl-lookup__new' + if(index == -1, ' slds-has-focus', '')}" onclick="{!c.handleNewRecordClick}">
                             <span class="slds-lookup__item-action slds-lookup__item-action--label" role="option">
-                                <lightning:icon iconName="utility:add" size="x-small"/>
+                                <lightning:icon class="slds-media__figure" iconName="utility:add" size="x-small"/>
                                 <span class="slds-truncate">Add New {!v.objectLabel}</span>
                             </span>
                         </li>
@@ -183,7 +171,17 @@
                 </ul>
             </div>
         </div>
-
+        
+        <aura:if isTrue="{!not(empty(v.selectedOptionTiles))}">
+            <ul class="slds-has-dividers--bottom-space slds-m-top--x-small">
+                <aura:iteration items="{!v.selectedOptionTiles}" var="option">
+                    <li class="slds-item">
+                        <c:strike_tile aura:id="tiles" destroyable="true" value="{!option.value}" title="{!option.title}" subtitle="{!option.subtitle}" iconName="{!if(and(not(empty(v.iconName)), not(v.customIcon)), v.iconName, '')}" variant="{!if(and(not(empty(v.iconName)), not(v.customIcon)), 'icon', 'base')}"/>
+                    </li>
+                </aura:iteration>
+            </ul>
+        </aura:if>
+        
         <aura:if isTrue="{!and(v.error, not(empty(v.errorMessage)))}">
             <div class="slds-form-element__help">{!v.errorMessage}</div>
         </aura:if>

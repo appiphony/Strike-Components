@@ -1,0 +1,58 @@
+<aura:component>
+    <!-- original dev: Victor -->
+
+    <aura:attribute name="popoverBody" type="Aura.Component[]"/>
+    <aura:attribute name="header" type="Aura.Component[]"/>
+    <aura:attribute name="footer" type="Aura.Component[]"/>
+    <aura:attribute name="withClose" type="Boolean" default="{!false}"/>
+    <aura:attribute name="preventHide" type="Boolean" default="{!false}"/>
+    <aura:attribute name="theme" type="String" />
+    <aura:attribute name="variant" type="String" default="base"/>
+
+    <aura:attribute name="placement" type="String" default="top"/>
+    <aura:attribute name="class" type="String"/>
+
+    <!-- Internal -->
+    <aura:attribute name="nubbinPlacement" type="String" default="slds-nubbin--bottom" access="private" />
+    <aura:attribute name="showPopover" type="Boolean" access="private" />
+    <aura:attribute name="popoverStyle" type="String" access="private" />
+    <aura:attribute name="shouldInvertIcon" type="Boolean" default="{!false}" access="private" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:handler name="change" value="{!v.placement}" action="{!c.handleChangePlacement}"/>
+    <aura:handler name="change" value="{!v.withClose}" action="{!c.handleChangeWithClose}"/>
+    <aura:handler name="change" value="{!v.theme}" action="{!c.handleChangeTheme}"/>
+
+    <aura:method name="openPopover" action="{!c.showPopover}"/>
+    <aura:method name="closePopover" action="{!c.hidePopover}"/>
+
+    <div aura:id="popoverContainer" class="{!'st-popover_container ' + v.class}" tabindex="0" onfocus="{!c.handleMouseOverOrFocusElement}" onblur="{!c.handleMouseLeaveOrBlurElement}" onmouseover="{!c.handleMouseOverOrFocusElement}" onmouseleave="{!c.handleMouseLeaveOrBlurElement}">
+        <style aura:id="popoverStyle"></style>
+        <div class="{!'slds-popover ' + v.nubbinPlacement + if(v.showPopover, '', ' st-hidden') + if(v.theme != null, ' slds-theme--' + v.theme, '') + if(v.variant == 'panels', ' slds-popover--panel', '')}" role="dialog" aura:id="popover" style="{!v.popoverStyle}" onmouseover="{!c.handleMouseOverPopover}" onmouseleave="{!c.handleMouseLeavePopover}">
+            <aura:if isTrue="{!v.withClose == true}">
+                <button class="slds-button slds-button--icon-small slds-float--right slds-popover__close slds-button--icon" title="Close dialog" onclick="{!c.handleClickClose}">
+                    <lightning:icon class="st-popover_pointer_events__none" iconName="utility:close" size="x-small" variant="{!v.shouldInvertIcon == true ? 'bare' : null}">
+                        <div onclick="{!c.handleClickClose}"/>
+                    </lightning:icon>
+                    <span class="slds-assistive-text">Close dialog</span>
+                </button>
+            </aura:if>
+            <aura:if isTrue="{!v.header.length > 0}">
+                <header class="slds-popover__header">
+                    {!v.header}
+                </header>
+            </aura:if>
+            <aura:if isTrue="{!v.popoverBody.length > 0}">
+                <div class="slds-popover__body">
+                    {!v.popoverBody}
+                </div>
+            </aura:if>
+            <aura:if isTrue="{!v.footer.length > 0}">
+                <footer class="slds-popover__footer">
+                    {!v.footer}
+                </footer>
+            </aura:if>
+        </div>
+        {!v.body}
+    </div>
+</aura:component>

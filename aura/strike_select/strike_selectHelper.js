@@ -6,9 +6,7 @@
         if (!dropdownTrigger || !searchTerm) {
             return;
         }
-
-        searchTerm.value = '';
-        helper.doSearch(component, event, helper, '');
+        
         dropdownTrigger.blur();
         component.set('v.openMenu', false);
     },
@@ -41,20 +39,39 @@
         helper.blur(component, event, helper);
     },
     doSearch: function(component, event, helper, searchTerm) {
-        component.get('v.body').forEach(function(child) {
-            if ($A.util.isUndefined(child.strike_filterBy)) {
-                helper.doSearch(child, event, helper, searchTerm);
-            } else {
-                child.strike_filterBy(searchTerm);
-            }
-        });
+        var visibleChildren = false;
+        var isCorrectBody;
+        
+        var filterChildren = function(component){ 
+            component.get('v.body').forEach(function(child) {
+                if ($A.util.isUndefined(child.filterBy)) {
+                    filterChildren(child);
+                } else {
+                    child.filterBy(searchTerm);
+                    
+                    if (!child.get('v.hidden') && !child.get('v.filtered') && typeof(child.get('v.name')) !== 'undefined') { // Ignore option groups; each option group haa a name attribute
+                        visibleChildren = true;
+                    }
+                }
+            });
+        }
+        
+        filterChildren(component);
+        
+        if (visibleChildren){
+            component.set('v.searchTerm', null);
+            component.set('v.allChildrenFiltered', false);
+        } else {
+            component.set('v.searchTerm', searchTerm)
+            component.set('v.allChildrenFiltered', true);
+        }
     },
     findChildOptionFromValue: function(component, event, helper) {
         var options = helper.getChildOptions(component, event, helper);
 
         options.forEach(function(option, i) {
             if (option.get('v.value') === component.get('v.value')) {
-                option.strike_optionSelected();
+                option.select();
                 component.set('v.focusIndex', i);
                 component.getEvent('onchange').fire();
             }
@@ -95,7 +112,7 @@
         if (focusIndex == null) {
             helper.blur(component, event, helper);
         } else {
-            options[focusIndex].strike_optionSelected();
+            options[focusIndex].select();
         }
     },
     moveRecordFocusUp: function(component, event, helper) {
@@ -134,7 +151,7 @@
         var options = [];
 
         component.get('v.body').forEach(function(child) {
-            if ($A.util.isUndefined(child.strike_optionSelected)) {
+            if ($A.util.isUndefined(child.select)) {
 
                 var childOptions = helper.getChildOptions(child, event, helper);
 

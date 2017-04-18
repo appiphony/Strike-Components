@@ -25,7 +25,7 @@
         component.set('v.filtered', optionLabelLc.indexOf(searchTermLc) === -1);
         component.set('v.labelHtml', optionLabel.replace(new RegExp('(' + searchTerm + ')', 'i'), '<mark>$1</mark>'));
     },
-    optionSelected: function(component, event, helper) {
+    select: function(component, event, helper) {
         event.stopPropagation();
 
         if (component.get('v.disabled')) {

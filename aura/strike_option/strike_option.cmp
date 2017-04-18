@@ -13,13 +13,13 @@
 
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
 
-    <aura:method name="strike_filterBy" action="{!c.filterBy}" description="is called by the parent to determine if this component should be hidden"/>
-    <aura:method name="strike_optionSelected" action="{!c.optionSelected}" description="is called by the parent on init if a value is initially entered into the strike select component"/>
+    <aura:method name="filterBy" action="{!c.filterBy}" description="is called by the parent to determine if this component should be hidden"/>
+    <aura:method name="select" action="{!c.select}" description="sets the option as selected; is called by the parent on init and during click events"/>
 
 
     <aura:registerEvent name="strike_evt_notifyParent" type="c:strike_evt" description="is fired when an option is selected"/>
 
-    <li class="{!'slds-is-selected' + if(or(v.hidden, or(v.filtered, empty(v.label))), ' slds-hide', '')}" role="presentation" onmousedown="{!c.preventDefault}" onclick="{!c.optionSelected}">
+    <li class="{!if(or(v.hidden, or(v.filtered, empty(v.label))), 'slds-hide', '')}" role="presentation" onmousedown="{!c.preventDefault}" onclick="{!c.select}">
         <span class="{!'slds-lookup__item-action slds-lookup__item-action--label' + if(v.disabled, ' strike-disabled', '') + if(v.focused, ' slds-has-focus', '')}" role="option">
             <aura:if isTrue="{!not(empty(v.iconName))}">
                 <aura:if isTrue="{!v.customIcon}">

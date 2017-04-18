@@ -9,6 +9,10 @@
     margin-right: 0.5rem;
 }
 
+.THIS .slds-picklist .slds-picklist__input.ss-menu-button .slds-icon {
+    pointer-events: none;
+}
+
 .THIS .slds-picklist .slds-dropdown.ss-dropdown-control {
     width: 100%;
     max-width: none;

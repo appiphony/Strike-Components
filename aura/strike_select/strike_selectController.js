@@ -48,15 +48,13 @@
             if (!component.get('v.disabled') && !component.get('v.openMenu') == true) {
                 component.set('v.openMenu', true);
                 
-                window.addEventListener('keydown', component.handleKeyDown, { capture: true});
-                    setTimeout($A.getCallback(function() { // Fixes dropdown closing immediately after focusing on the search input
-                        if (!component.isValid()) {
-                            return;
-                        }
-                        if (component.get('v.searchable')) {
-                            component.find('searchTerm').getElement().focus();
-                        }
-                    }), 1);
+                window.addEventListener('keydown', component.handleKeyDown, { capture: true });
+                
+                setTimeout($A.getCallback(function() { // Fixes dropdown closing immediately after focusing on the search input                    
+                    if (component.isValid() && component.get('v.searchable')) {
+                        component.find('searchTerm').getElement().focus();
+                    }
+                }), 1);
             } else {
                 helper.blur(component, event, helper);
             }
