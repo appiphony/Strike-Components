@@ -4,22 +4,24 @@
         helper.createLocaleDatePatternMap(component);
         helper.processDateValue(component);
 
-        component.closeDatepicker = function(){
-            if(component.isValid()){
+        component.closeDatepicker = $A.getCallback(function(){
+            if (component.isValid()) {
                 helper.closeDatepicker(component, event, helper);
             } else {
                 window.removeEventListener('click', component.closeDatepicker);
             }
-        }
+        });
 
         window.addEventListener('click', $A.getCallback(component.closeDatepicker));
+        
+        component.set('v.isMobile', $A.get('$Browser.formFactor') == 'DESKTOP' ? false : true);
     },
     valueChanged: function(component, event, helper) {
         var dateDebouncer = component.get('v.dateDebouncer');
         var value = component.get('v.value');
         var clickedValue = component.get('v.clickedValue');
 
-        if(value == clickedValue){
+        if (value == clickedValue) {
             return;
         }
 
@@ -31,11 +33,10 @@
         var displayDate = component.get('v.displayDate');
         var datePattern = component.get('v.valueFormat');
         var locale = helper.getLocale();
-        var localeDatePattern = component.get('v.datePatternMap')[locale];
-
+        var localeDatePattern = helper.getLocaleDatePattern(component, locale);
         var selectedDate = $A.localizationService.parseDateTime(displayDate, localeDatePattern, null, true);
 
-        if(selectedDate == null){
+        if (selectedDate == null) {
             component.set('v.value', null);
             component.set('v.timestamp', null);
 
@@ -45,7 +46,7 @@
 
         var formattedDisplayDate = $A.localizationService.formatDate(selectedDate.toString(), datePattern);
 
-        if(currentValue == formattedDisplayDate){
+        if (currentValue == formattedDisplayDate) {
             helper.closeDatepicker(component, event, helper);
             return;
         }
@@ -58,8 +59,10 @@
         event.stopPropagation();
         var notDisabled = !component.get('v.disabled');
         var displayDate = component.get('v.displayDate');
+        var dateInput = component.find('date-input');
 
         if(notDisabled && $A.util.isEmpty(displayDate)){
+            dateInput.blur();
             helper.determineReadOnly(component);
             component.set('v.datePickerOpen', true);
         }
@@ -114,6 +117,9 @@
         component.set('v.selectedMonth', prevMonth);
         component.set('v.calendarRows', helper.getCalendarRows(component));
         component.set('v.selectedMonthText', monthLabels[prevMonth].fullName);
+    },
+    closeDatepicker: function (component, event, helper) {
+        helper.closeDatepicker(component, event, helper);
     },
     yearChanged: function (component, event, helper) {
         component.set('v.calendarRows', helper.getCalendarRows(component));

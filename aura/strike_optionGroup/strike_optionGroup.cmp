@@ -4,10 +4,10 @@
 
     <!-- Internal attributes -->
     <aura:attribute name="hidden" type="Boolean" description="boolean value that affects the markup if the component is hidden during a static search" access="private"/>
-
+    <aura:attribute name="filtered" type="Boolean" description="boolean value that gets set to hidden if filtered by parent"/>
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
 
-    <aura:method name="strike_filterBy" action="{!c.filterBy}" description="is called by strike select when a search term is entered"/>
+    <aura:method name="filterBy" action="{!c.filterBy}" description="is called by strike select when a search term is entered"/>
 
     <li aura:id="optionGroupLabel" role="separator" class="{!'slds-dropdown__header' + if(v.hidden, ' slds-hide', '')}">
         <span class="slds-text-title--caps">{!v.label}</span>

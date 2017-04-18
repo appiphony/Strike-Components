@@ -45,31 +45,52 @@
 
     <aura:attribute name="datePickerOpen" type="Boolean" default="false" access="private"/>
     <aura:attribute name="readOnly" type="Boolean" default="{!false}" access="private"/>
+    <aura:attribute name="isMobile" type="Boolean" default="{!false}" access="private"/>
 
     <!-- Event registration and handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.init}"/>
     <aura:handler name="change" value="{!v.value}" action="{!c.valueChanged}"/>
 
     <!-- Strike Datepicker -->
-    <div class="{!'slds-form-element' + if(v.error, ' slds-has-error', '')}">
+    <div class="{!'slds-form-element' + if(v.error, ' slds-has-error', '') + if(v.isMobile, ' sd-datepicker--mobile ', '')}">
         <div class="strike-datepicker-input slds-input-has-icon slds-input-has-icon--right">
-            <div class="strike-live-area" onclick="{!c.clickedDateInput}">
+            <aura:if isTrue="{!v.isMobile}">
                 <c:strike_input
+                    aura:id="date-input" 
+                    type="date"
                     label="{!v.label}"
                     helpText="{!v.helpText}"
                     name="{!v.name}"
                     class="{!v.class}"
                     placeholder="{!v.placeholder}"
-                    type="text"
                     value="{!v.displayDate}"
                     readonly="{!v.readOnly}"
                     disabled="{!v.disabled}"
                     required="{!v.required}"
                     error="{!v.error}"
-                    onblur="{!c.processNewDate}"
+                    onchange="{!c.processNewDate}"
                     />
-            </div>
-            <lightning:buttonIcon onclick="{!c.clickedDateIcon}" iconName="utility:event" size="medium" variant="bare" alternativeText="Date Picker" disabled="{!v.disabled}" class="strike-datepicker-input__icon"/>
+                <aura:set attribute="else">
+                    <div class="strike-live-area" onclick="{!c.clickedDateInput}">
+                        <c:strike_input
+                            aura:id="date-input" 
+                            type="text"
+                            label="{!v.label}"
+                            helpText="{!v.helpText}"
+                            name="{!v.name}"
+                            class="{!v.class}"
+                            placeholder="{!v.placeholder}"
+                            value="{!v.displayDate}"
+                            readonly="{!v.readOnly}"
+                            disabled="{!v.disabled}"
+                            required="{!v.required}"
+                            error="{!v.error}"
+                            onblur="{!c.processNewDate}"
+                            />
+                    </div>
+                    <lightning:buttonIcon onclick="{!c.clickedDateIcon}" iconName="utility:event" size="medium" variant="bare" alternativeText="Date Picker" disabled="{!v.disabled}" class="strike-datepicker-input__icon"/>
+                </aura:set>
+            </aura:if>
         </div>
         <aura:if isTrue="{!and(v.error, not(empty(v.errorMessage)))}">
             <div class="slds-form-element__help sd-error-message">{!v.errorMessage}</div>
@@ -91,11 +112,16 @@
                         </a>
                     </div>
                 </div>
-                <div class="slds-shrink-none">
+                <div class="slds-shrink-none slds-p-left--small">
                     <div class="sd-select_container">
                         <ui:inputSelect options="{!v.selectYears}" value="{!v.selectedYear}" change="{!c.yearChanged}" />
                     </div>
                 </div>
+                <!--<aura:if isTrue="{!v.isMobile}">
+                    <div class="slds-shrink-none">
+                        <lightning:button label="Cancel" variant="neutral" iconPosition="left" class="slds-m-left-|-small" onclick="{!c.closeDatepicker}" />
+                    </div>
+                </aura:if>-->
             </div>
             <table class="datepicker__month" role="grid" aria-labelledby="month">
                 <thead>

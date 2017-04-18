@@ -19,12 +19,12 @@
             var displayDate = component.get('v.displayDate');
             component.set('v.currentDate', null);
             currentDate = new Date();
-        } else if($A.util.isEmpty(currentDate)){ //invalid date
+        } else if ($A.util.isEmpty(currentDate)) { //invalid date
             component.set('v.currentDate', null);
             return;
         } else { //valid date
             var locale = this.getLocale();
-            var localeDatePattern = component.get('v.datePatternMap')[locale];
+            var localeDatePattern = this.getLocaleDatePattern(component, locale);
             var formattedDisplayDate = $A.localizationService.formatDate(currentDate, localeDatePattern);
             var timestamp = Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
 
@@ -43,11 +43,22 @@
         this.setYearValues(component, year);
         this.buildCalendar(component, currentDate);
     },
+    getLocaleDatePattern: function(component, locale) {
+        var localeDatePattern;
+        
+        if (component.get('v.isMobile')) {
+            localeDatePattern = 'YYYY-MM-DD'; // iOS and Android format
+        } else {
+            localeDatePattern = component.get('v.datePatternMap')[locale];
+        }
+        
+        return localeDatePattern;
+    },
     buildCalendar: function (component, currentDate) {
         var year = currentDate.getFullYear();
-
         var month = currentDate.getMonth();
         var monthLabels = component.get('v.monthLabels');
+        
         component.set("v.selectedYear", parseInt(year));
         component.set("v.selectedMonth", month);
         component.set("v.selectedMonthText", monthLabels[month].fullName);

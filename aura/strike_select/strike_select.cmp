@@ -28,6 +28,9 @@
     <aura:attribute name="openMenu" type="Boolean" access="private" description="Boolean value that determines whether the menu is open"/>
     <aura:attribute name="valueLabel" type="String" access="private" description="String value of the label of the selected option"/>
     <aura:attribute name="isMobile" type="Boolean" default="{!false}" description="Boolean value that determines if the user is in Salesforce1" access="private"/>
+    <aura:attribute name="allChildrenFiltered" type="Boolean" description="is set to true if none of the strikeOption components are displayed" default="{!false}"/>
+    <aura:attribute name="noResultsMessage" type="String" default="No results found for {0}" description="String value that will appear when the component finds 0 results"/>
+    <aura:attribute name="searchTerm" type="String" description="String value of the user's entered search term"/>
 
     <!-- Event registration and handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
@@ -73,9 +76,9 @@
                         <div class="ss-picklist__mobile-header slds-grid slds-grid--pull-padded-xx-small">
                             <div class="{!'ss-picklist__input slds-col slds-p-horizontal--xx-small' + if(v.searchable, '', ' slds-hide')}">
                                 <div class="slds-form-element slds-m-vertical--x-small slds-m-horizontal--small">
-                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon--left">
+                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon--right">
                                         <c:strike_svg class="slds-input__icon slds-icon-text-default" xlinkHref="/resource/icons/utility-sprite/svg/symbols.svg#search" ariaHidden="true"></c:strike_svg>
-                                        <input aura:id="searchTerm" class="slds-input" type="search" onkeyup="{!c.searchTermChanged}" />
+                                        <input aura:id="searchTerm" class="slds-input" type="text" onkeyup="{!c.searchTermChanged}" onclick="{!c.stopProp}" />
                                     </div>
                                 </div>
                             </div>
@@ -86,6 +89,17 @@
                             </aura:if>
                         </div>
                         <ul class="slds-dropdown__list slds-dropdown--length-5" role="menu">
+                            <aura:if isTrue="{!v.allChildrenFiltered}">
+                                <li role="presentation">
+                                    <span class="slds-lookup__item-action slds-media sl-no-results" role="option">
+                                        <div class="slds-media__body">
+                                            <div class="slds-lookup__result-text">
+                                                {!format(v.noResultsMessage, '"' + v.searchTerm + '"')}
+                                            </div>
+                                        </div>
+                                    </span>
+                                </li>
+                            </aura:if>
                             {!v.body}
                         </ul>
                     </ui:scrollerWrapper>

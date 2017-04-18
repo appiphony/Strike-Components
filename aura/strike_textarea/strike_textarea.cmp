@@ -24,13 +24,21 @@
     <!-- Internal -->
     <aura:attribute name="idNumber" type="Integer" description="Random id assigned to pair labels with inputs" access="private"/>
 
+    <!-- Methods -->
+    <aura:method name="focus" action="{!c.focus}"/>
+    <aura:method name="blur" action="{!c.blur}"/>
+    <aura:method name="select" action="{!c.select}"/>
+    <aura:method name="showError" action="{!c.showError}">
+        <aura:attribute name="errorMessage" type="String"/>
+    </aura:method>
+    <aura:method name="hideError" action="{!c.hideError}"/>
+    
     <!-- Event registration and handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
     <aura:handler name="change" value="{!v.size}" action="{!c.sizeChanged}"/>
     <aura:handler name="change" value="{!v.maxlength}" action="{!c.handleMaxLengthChange}"/>
     <aura:handler name="change" value="{!v.value}" action="{!c.updateTextAreaValue}"/>
 
-    <!-- Strike Textarea -->
     <div class="{!'slds-form-element' + if(v.error, ' slds-has-error', '')}">
         <label class="slds-form-element__label" for="{!'strike-textarea-' + v.idNumber}">
             <aura:if isTrue="{!v.required == true}">
@@ -45,7 +53,7 @@
         </label>
         <div class="slds-form-element__control">
             <textarea
-                aura:id="thisTextArea"
+                aura:id="thisTextarea"
                 id="{!'strike-textarea-' + v.idNumber}"
                 name="{!v.name}"
                 class="{!'slds-textarea ' + if(v.resizable, 'strike-resizable ', 'strike-static ') + v.class}"

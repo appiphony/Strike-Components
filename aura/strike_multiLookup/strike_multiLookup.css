@@ -79,10 +79,6 @@
     fill: #9ea9b5;
 }
 
-.THIS .slds-pill__remove .slds-button__icon {
-    pointer-events: none;
-}
-
 
 /* --------------------------------------------------
 Salesforce1 Styles
@@ -98,7 +94,7 @@ Salesforce1 Styles
 .THIS.sl-lookup--mobile .slds-lookup__list .slds-dropdown__item .slds-icon_container,
 .THIS.sl-lookup--mobile .slds-lookup__list .slds-dropdown__item .slds-icon,
 /*.THIS.sl-lookup--mobile .slds-lookup__list .sl-lookup__new,*/
-.THIS.sl-lookup--mobile .slds-pill__icon_container,
+/*.THIS.sl-lookup--mobile .slds-pill__icon_container,*/
 .THIS.sl-lookup--mobile.sl-lookup--open .slds-form-element__label,
 .THIS.sl-lookup--mobile.sl-lookup--open .slds-form-element__help {
     display: none;
@@ -126,12 +122,6 @@ Salesforce1 Styles
     background: white;
     position: relative;
     z-index: 1;
-}
-
-.THIS.sl-lookup--mobile .slds-pill,
-.THIS.sl-lookup--mobile .slds-pill:hover {
-    background: white;
-    border: none;
 }
 
 .THIS.sl-lookup--mobile .sl-input--disabled,

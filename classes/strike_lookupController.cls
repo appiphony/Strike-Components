@@ -55,9 +55,9 @@ public with sharing class strike_lookupController {
     public static String getRecords(String jsonString) {
         strike_responseData responseData = new strike_responseData();
 
+        
         try {
             Map<String, Object> jsonMap = (Map<String, Object>)JSON.deserializeUntyped(jsonString);
-
             responseData.results = strike_lookupController.getData(jsonMap);
         } catch (Exception e) {
             responseData.addError(e.getMessage());
