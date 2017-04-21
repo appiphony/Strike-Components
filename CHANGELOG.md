@@ -1,5 +1,17 @@
 # Strike by Appiphony
 
+### Release 0.5.0 — April 21, 2017
+#### Improvements
+* **Strike Pill:** Renamed the `type` attribute to `variant`
+* **Strike Tile:** Renamed the `source` attribute to `avatarSource`
+#### Bug Fixes
+* **Strike Input:** Fixed an issue where the types `datetime-local` and `month` were incorrectly styled on mobile devices
+* **Strike Pill:** Fixed an issue where clicking SVG icons would not propagate click events in Microsoft Edge
+* **Strike Textarea:** Fixed an issue where assigning a negative value to `maxlength` would cause the component to break
+* **Strike Tile:** Fixed an issue where clicking SVG icons would not propagate click events in Microsoft Edge
+
+---
+
 ### Release 0.4.0 — April 18, 2017
 
 #### New Features
