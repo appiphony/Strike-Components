@@ -16,6 +16,10 @@
     handleEmptyMaxLength: function(component, event, helper){
         if($A.util.isEmpty(component.get('v.maxlength'))){
             component.set('v.maxlength', undefined);
+        } else {
+            let maxlength = component.get('v.maxlength');
+            
+            component.set('v.maxlength', Math.abs(maxlength));
         }
     }
 })

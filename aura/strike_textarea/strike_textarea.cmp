@@ -1,6 +1,6 @@
-<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+<aura:component >
     <!-- Required -->
-    <aura:attribute name="label" type="String" required="true" description="Text that describes the desired textarea input" default="Strike TextArea"/>
+    <aura:attribute name="label" type="String" required="true" description="Text that describes the desired textarea input"/>
 
     <aura:attribute name="helpText" type="String" description="String value when hovering over the help box"/>
     <aura:attribute name="name" type="String" description="Specifies the name of an input element" default="Strike TextArea"/>
@@ -36,7 +36,7 @@
     <!-- Event registration and handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
     <aura:handler name="change" value="{!v.size}" action="{!c.sizeChanged}"/>
-    <aura:handler name="change" value="{!v.maxlength}" action="{!c.handleMaxLengthChange}"/>
+    <aura:handler name="change" value="{!v.maxlength}" action="{!c.handleChangeMaxlength}"/>
     <aura:handler name="change" value="{!v.value}" action="{!c.updateTextAreaValue}"/>
 
     <div class="{!'slds-form-element' + if(v.error, ' slds-has-error', '')}">

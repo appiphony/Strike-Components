@@ -10,7 +10,9 @@
     pointer-events: auto;
 }
 
-.THIS input[type="date"] {
+.THIS input[type="date"],
+.THIS input[type="datetime-local"],
+.THIS input[type="month"] {
     -moz-appearance: none;
     -webkit-appearance: none;
 }
