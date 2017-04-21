@@ -2,16 +2,16 @@
     <!-- Required Attributes -->
     <aura:attribute name="title" required="true" type="String" description="the tile's title"/>
     
-    
     <!-- External Attributes -->
     <aura:attribute name="variant" type="String" default="base" description="Variant of the tile component"/>
     <aura:attribute name="value" type="String" description="value of the selected option"/>
     <aura:attribute name="link" type="String" description="link on the tile's title"/>
     <aura:attribute name="subtitle" type="String" description="the tile's secondary title"/>
-    <aura:attribute name="iconName" type="String" description="icon to be displayed on the tile"/>
-    <aura:attribute name="avatarSource" type="String" description="url of portrait image displayed on the tile" default="http://i.pravatar.cc/300"/>
     <aura:attribute name="alternativeText" type="String" description="alternative text for an avatar image"/>
     <aura:attribute name="destroyable" type="Boolean" default="{!false}" description="determines whether a remove button is displayed or not"/>
+    <aura:attribute name="checked" type="Boolean" default="{!false}" description="A boolean value that determines whether the task is checked"/>
+    <aura:attribute name="iconName" type="String" description="icon to be displayed on the tile"/>
+    <aura:attribute name="avatarSource" type="String" description="url of portrait image displayed on the tile" default="http://i.pravatar.cc/300"/>
     
     <!-- Events -->
     <aura:registerEvent name="strike_evt_componentDestroyed" type="c:strike_evt" description="is fired when a tile is destroyed"/>
@@ -19,9 +19,10 @@
     <!-- Methods -->
     <aura:method name="destroyTile" action="{!c.destroyTile}"/>
     
+
     <div class="{!'slds-tile' + if(v.variant != 'base', ' slds-media', '') + if(v.destroyable == true, ' st-destroyable', '')}">
         <aura:if isTrue="{!v.destroyable}">
-            <lightning:buttonIcon iconName="utility:close" variant="bare" alternativeText="Remove" class="slds-button slds-pill__remove st-remove" onclick="{!c.destroyTile}"/>
+            <lightning:buttonIcon iconName="utility:close" variant="bare" alternativeText="Remove" class="slds-button st-remove" onclick="{!c.destroyTile}"/>
         </aura:if>
         
         <aura:if isTrue="{!or(or(v.variant == 'icon', v.variant == 'task'), v.variant == 'avatar')}">
@@ -30,7 +31,7 @@
                     <lightning:icon iconName="{!v.iconName}" alternativeText="{!v.alternativeText}"/>
                 </aura:if>
                 <aura:if isTrue="{!v.variant == 'task'}">
-                    <lightning:input type="checkbox" label="{!v.title}"/>
+                    <lightning:input type="checkbox" name="checked" label="{!v.title}" checked="{!v.checked}"/>
                 </aura:if>
                 <aura:if isTrue="{!v.variant == 'avatar'}">
                     <lightning:avatar src="{!v.avatarSource}" alternativeText="{!v.alternativeText}" variant="circle"/>
@@ -78,5 +79,4 @@
             </aura:set>
         </aura:if>
     </div>
-
 </aura:component>

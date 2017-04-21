@@ -18,7 +18,7 @@
             component.set('v.value', textareaValue);
         }
     },
-    handleMaxLengthChange: function(component, event, helper){
+    handleChangeMaxlength: function(component, event, helper){
         helper.handleEmptyMaxLength(component, event, helper);
     },
     updateTextAreaValue: function(component, event, helper){

@@ -31,7 +31,8 @@
         var attributes = {
             "value": sourceValue,
             "label": sourceLabel,
-            "iconName": sourceIconName
+            "iconName": sourceIconName,
+            "destroyable": true
         }
 
         var callback = function(newPill, status, errorMessage) {
