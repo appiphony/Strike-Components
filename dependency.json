@@ -2,8 +2,11 @@
   "strike_tooltip": ["strike_tooltip"],
   "strike_badge": ["strike_badge"],
   "strike_chart": ["strike_chart"],
+  "strike_dataGrid": ["strike_row", "strike_dataGrid"],
+  "strike_row": ["strike_row"],
   "strike_modal": ["strike_evt", "strike_modal"],
-  "strike_textarea": ["strike_tooltip", "strike_textarea"],
+  "strike_input": ["strike_evt", "strike_tooltip", "strike_input"],
+  "strike_textarea": ["strike_evt", "strike_tooltip", "strike_textarea"],
   "strike_select": ["strike_tooltip", "defaultTokens", "strike_svg", "strike_evt", "strike_optionGroup", "strike_option", "strike_select"],
   "strike_datepicker": ["defaultTokens", "strike_evt", "strike_tooltip", "strike_input", "strike_datepicker"],
   "strike_multiSelectPicklist": ["defaultTokens", "strike_evt", "strike_pill", "strike_svg", "strike_option", "strike_tooltip", "strike_multiSelectPicklist"],
@@ -17,6 +20,7 @@
   "strike_option": ["defaultTokens", "strike_evt", "strike_svg", "strike_option"],
   "strike_optionGroup": ["defaultTokens", "strike_evt", "strike_svg", "strike_option", "strike_optionGroup"],
   "strike_svg": ["strike_svg"],
-  "defaultTokens": ["defaultTokens"],
-  "strike_input": ["strike_evt", "strike_tooltip", "strike_input"]
+  "strike_evt": ["strike_evt"],
+  "strike_wizard": ["strike_evt", "strike_wizard"],
+  "defaultTokens": ["defaultTokens"]
 }
