@@ -1,5 +1,17 @@
 # Strike by Appiphony
 
+### Release 0.6.0 — May 5, 2017
+#### New Features
+* **Strike Data Grid:** A sortable and responsive data table component which accepts JSON data
+* **Strike Wizard:** A process component used to communicate the progress of a particular process to the user
+#### Improvements
+* **Strike Input:** Added the `onkeydown` and `onkeyup` attributes
+* **Strike Textarea:** Added the `onchange`, `onfocus`, `onblur`, `oninput`, `onkeydown`, and `onkeyup` attributes
+#### Bug Fixes
+* **Strike Input:** Fixed an issue where the `oninput` attribute would not call the specified controller method in certain cases
+
+---
+
 ### Release 0.5.0 — April 21, 2017
 #### Improvements
 * **Strike Pill:** Renamed the `type` attribute to `variant`
