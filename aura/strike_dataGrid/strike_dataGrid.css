@@ -1,0 +1,26 @@
+.THIS .sdg-sort-icon .slds-icon {
+	width: t(spacingSmall);
+    height: t(spacingSmall);
+    margin-left: t(spacingXxSmall);
+    display: none;
+}
+
+.THIS .slds-is-sorted .sdg-sort-icon .slds-icon {
+    display: inline-block;
+}
+
+.THIS .slds-icon_container {
+    min-width: t(spacingMedium);
+}
+
+.THIS.slds-table.slds-table--cell-buffer thead th:not(.slds-is-sortable) {
+    padding: t(spacingXSmall);
+}
+
+.THIS.slds-table.slds-table--cell-buffer tr>th:first-child {
+    padding-left: t(spacingLarge);
+}
+
+.THIS.slds-table.slds-table--cell-buffer tr>th.slds-is-sortable:first-child {
+    padding-left: t(spacingMedium);
+}

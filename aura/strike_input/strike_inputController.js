@@ -8,19 +8,6 @@
         var type = component.get('v.type');
         var pattern = component.get('v.pattern');
         var value = component.get('v.value');
-        // component.set('v.error', false);
-
-        /*if(type == 'email'){
-            helper.checkIfEmail(component, event, helper);
-        }*/
-
-        /*if(!$A.util.isEmpty(pattern) && !$A.util.isEmpty(value)){ // No longer supported
-            var patternMatcher = new RegExp('^' + pattern + '$');
-            if(!value.match(patternMatcher)){
-                component.set('v.errorMessage', component.get('v.messageWhenPatternMismatch'));
-                component.set('v.error', true);
-            }
-        }*/
 
         component.getEvent('onblur').fire();
 
@@ -35,16 +22,20 @@
     handleFocus: function(component, event, helper) {
         component.getEvent('onfocus').fire();
     },
+    handleKeydown: function(component, event, helper) {
+        component.getEvent('onkeydown').fire();
+    },
+    handleKeyup: function(component, event, helper) {
+        component.getEvent('onkeyup').fire();
+    },
     updateValue: function(component, event, helper) {
         var type = component.get('v.type');
         var dateTimeInputTypes = ['date', 'datetime-local', 'month', 'week', 'time'];
         if(dateTimeInputTypes.indexOf(type) === -1) {
             helper.resetValue(component, event, helper);
         }
-
-        if(component.get('v.isInsideIterator')) {
-            component.getEvent('oninput').fire();
-        }
+        
+        component.getEvent('oninput').fire();
     },
     updateChecked: function(component, event, helper) {
         if (component.get('v.type') == 'checkbox'

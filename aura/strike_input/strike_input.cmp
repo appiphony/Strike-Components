@@ -27,7 +27,8 @@
     <aura:registerEvent name="onchange" type="c:strike_evt"/>
     <aura:registerEvent name="onfocus" type="c:strike_evt"/>
     <aura:registerEvent name="oninput" type="c:strike_evt"/>
-    <aura:attribute name="isInsideIterator" type="Boolean" default="{!false}" description="Determines whether input is inside an iterator" />
+    <aura:registerEvent name="onkeydown" type="c:strike_evt"/>
+    <aura:registerEvent name="onkeyup" type="c:strike_evt"/>
 
     <!-- Internal attributes -->
     <aura:attribute name="idNumber" type="Integer" description="randomly generated number to attach as an ID for radio buttons" access="private"/>
@@ -110,6 +111,8 @@
                             onfocus="{!c.handleFocus}"
                             oninput="{!c.updateValue}"
                             onchange="{!c.handleChange}"
+                            onkeyup="{!c.handleKeyup}"
+                            onkeydown="{!c.handleKeydown}"
                             />
                         <aura:if isTrue="{!v.type == 'radio'}">
                             <label class="slds-radio__label" for="{!'strike-input-' + v.idNumber}">

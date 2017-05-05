@@ -10,6 +10,21 @@
     sizeChanged: function(component, event, helper) {
         helper.setHeight(component, event, helper);
     },
+    handleBlur: function(component, event, helper) {
+        component.getEvent('onblur').fire();
+    },
+    handleChange: function(component, event, helper) {
+        component.getEvent('onchange').fire();
+    },
+    handleFocus: function(component, event, helper) {
+        component.getEvent('onfocus').fire();
+    },
+    handleKeydown: function(component, event, helper) {
+        component.getEvent('onkeydown').fire();
+    },
+    handleKeyup: function(component, event, helper) {
+        component.getEvent('onkeyup').fire();
+    },
     handleInput: function(component, event, helper){
         var textareaValue = component.find('thisTextarea').getElement().value;
         var currentValue = component.get('v.value');
@@ -17,6 +32,8 @@
         if(textareaValue != currentValue){
             component.set('v.value', textareaValue);
         }
+        
+        component.getEvent('oninput').fire();
     },
     handleChangeMaxlength: function(component, event, helper){
         helper.handleEmptyMaxLength(component, event, helper);

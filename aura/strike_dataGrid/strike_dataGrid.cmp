@@ -1,0 +1,59 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+    <!-- External -->
+	<aura:attribute name="data" type="Object" description="data provided by end user to build a table"/>
+	<aura:attribute name="fixed" type="Boolean" description="determines if fixed layout class gets added to table" default="{!false}"/>
+    <aura:attribute name="responsive" type="Boolean" description="determines if table is responsive/mobile-friendly" default="{!false}"/>
+    <!-- /External -->
+    
+    <!-- Internal -->
+	<aura:attribute name="formattedData" type="Object" description="formatted grid data" access="private"/>
+    <aura:attribute name="showTable" type="Boolean" description="determines when the table is done being created" default="{!false}" access="private"/>
+	<aura:attribute name="currentSortColumn" type="String" description="name of column that was last used for sorting" access="private"/>
+	<aura:attribute name="ascending" type="Boolean" description="value that determines which way grid data is sorted" access="private"/>
+    <!-- /Internal -->
+
+    <aura:handler name="change" value="{!v.data}" action="{!c.handleDataChange}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+    <aura:if isTrue="{!v.showTable}">
+        <table id="data-grid" class="{!'slds-table slds-table--bordered slds-table--cell-buffer' + if(v.responsive, ' slds-max-medium-table--stacked') + if(v.fixed, ' slds-table--fixed-layout', ' slds-table--resizable-cols')}">
+            <thead>
+                <tr class="slds-text-title--caps">
+                    <aura:iteration items="{!v.formattedData.columns}" var="column">
+                        <aura:if isTrue="{!column.sortable}">
+                            <th class="{!'slds-is-sortable' + if(and(v.currentSortColumn == column.name, v.ascending), ' slds-is-sorted slds-is-sorted--asc') + if(and(v.currentSortColumn == column.name, !v.ascending), ' slds-is-sorted slds-is-sorted--desc')}" onclick="{!c.handleColumnHeaderClick}" data-column-name="{!column.name}" scope="col">
+                                <a class="slds-th__action slds-text-link--reset" tabindex="0">
+                                    <span class="slds-assistive-text">Sort</span>
+                                    <span class="slds-truncate" title="{!column.name}">{!column.label}</span>
+                                    <div class="slds-icon_container">
+                                        <aura:if isTrue="{!column.name == v.currentSortColumn}">
+                                            <span>
+                                                <aura:if isTrue="{!v.ascending}">
+                                                    <lightning:icon iconName="utility:arrowup" size="x-small" class="sdg-sort-icon"/>
+                                                        <aura:set attribute="else">
+                                                            <lightning:icon iconName="utility:arrowdown" size="x-small" class="sdg-sort-icon"/>
+                                                        </aura:set>
+                                                </aura:if>
+                                            </span>
+                                            <aura:set attribute="else">
+                                                <lightning:icon iconName="utility:arrowup" size="x-small" class="sdg-sort-icon" />
+                                            </aura:set>
+                                        </aura:if>
+                                    </div>
+                                </a>
+                            </th>
+                            <aura:set attribute="else">
+                                <th data-column-name="{!column.name}" scope="col">
+                                    <div class="slds-truncate" title="{!column.name}">{!column.label}</div>
+                                </th>
+                            </aura:set>
+                        </aura:if>
+                    </aura:iteration>
+                </tr>
+            </thead>
+            <tbody>
+                {!v.body}
+            </tbody>
+        </table>
+    </aura:if>
+</aura:component>	
