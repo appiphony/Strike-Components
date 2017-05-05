@@ -8,8 +8,8 @@
     <aura:attribute name="link" type="String" description="link on the tile's title"/>
     <aura:attribute name="subtitle" type="String" description="the tile's secondary title"/>
     <aura:attribute name="alternativeText" type="String" description="alternative text for an avatar image"/>
-    <aura:attribute name="destroyable" type="Boolean" default="{!false}" description="determines whether a remove button is displayed or not"/>
-    <aura:attribute name="checked" type="Boolean" default="{!false}" description="A boolean value that determines whether the task is checked"/>
+    <aura:attribute name="destroyable" type="Boolean" default="{!false}" description="Determines whether a remove button is displayed or not"/>
+    <aura:attribute name="checked" type="Boolean" default="{!false}" description="Determines whether the task is checked"/>
     <aura:attribute name="iconName" type="String" description="icon to be displayed on the tile"/>
     <aura:attribute name="avatarSource" type="String" description="url of portrait image displayed on the tile" default="http://i.pravatar.cc/300"/>
     

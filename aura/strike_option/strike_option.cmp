@@ -1,12 +1,12 @@
 <aura:component >
     <aura:attribute name="label" type="String" required="true" description="original, unaltered label"/>
-    <aura:attribute name="customIcon" type="Boolean" description="Boolean value that determines whether or not to use svg to render icon"/>
+    <aura:attribute name="customIcon" type="Boolean" description="Determines whether or not to use svg to render icon"/>
     <aura:attribute name="filtered" type="Boolean" description="boolean value that affects the markup if the component is hidden during a search"/>
     <aura:attribute name="hidden" type="Boolean" description="boolean value that affects the markup if the component is hidden"/>
     <aura:attribute name="iconName" type="String" description="name of the icon to be displayed"/>
     <aura:attribute name="value" type="String" description="the value of the component"/>
     <aura:attribute name="focused" type="Boolean" description="Value that determines whether or not this component has focus"/>
-    <aura:attribute name="disabled" type="Boolean" description="Boolean value that determines whether the option is disabled" />
+    <aura:attribute name="disabled" type="Boolean" description="Determines whether the option is disabled" />
 
     <!-- Internal attributes -->
     <aura:attribute name="labelHtml" type="String" description="label to be displayed on the component" access="private"/>

@@ -26,7 +26,7 @@
     <aura:attribute name="selectedOptionPills" type="Object[]" access="private" description="pills to be populated when an option is selected from the dropdown"/>
     <aura:attribute name="validChildCmps" type="Object[]" access="private" description="stores valid child components to utilize when an iterator is used"/>
     <aura:attribute name="alreadyRendered" type="Boolean" access="private" description="is set to true after the initial render"/>
-    <aura:attribute name="isMobile" type="Boolean" default="{!false}" description="Boolean value that determines if the user is in Salesforce1" access="private"/>
+    <aura:attribute name="isMobile" type="Boolean" default="{!false}" description="Determines if the user is in Salesforce1" access="private"/>
     <aura:attribute name="allChildrenFiltered" type="Boolean" description="is set to true if none of the strikeOption components are displayed" default="{!false}"/>
     <aura:attribute name="noResultsMessage" type="String" default="No results found for {0}" description="String value that will appear when the component finds 0 results"/>
     <aura:attribute name="searchTerm" type="String" description="String value of the user's entered search term"/>

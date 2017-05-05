@@ -1,0 +1,38 @@
+<aura:component access="global">
+	<aura:attribute name="fields" type="Object[]" description="data from the gridData"/>
+
+	<aura:attribute name="sortFieldValue" type="String" description="is set during sort to determine sort order"/>
+	<tr>
+		<aura:iteration items="{!v.fields}" var="field">
+			<td data-label="{!field.name}">
+				<aura:if isTrue="{!field.dataType == 'BOOLEAN'}">
+					<div class="slds-truncate" title="{!field.value}"><ui:outputCheckbox value="{!field.value}"/></div>
+				</aura:if>
+				<aura:if isTrue="{!field.dataType == 'CURRENCY'}">
+					<div class="slds-truncate" title="{!field.value}"><ui:outputCurrency value="{!field.value}"/></div>
+				</aura:if>
+				<aura:if isTrue="{!field.dataType == 'DATE'}">
+					<div class="slds-truncate" title="{!field.value}"><ui:outputDate value="{!field.value}"/></div>
+				</aura:if>
+				<aura:if isTrue="{!field.dataType == 'DATETIME'}">
+					<div class="slds-truncate" title="{!field.value}"><ui:outputDateTime format="M/dd/yyyy H:mm a" value="{!field.value}"/></div>
+				</aura:if>
+				<aura:if isTrue="{!field.dataType == 'EMAIL'}">
+					<div class="slds-truncate" title="{!field.value}"><ui:outputEmail value="{!field.value}"/></div>
+				</aura:if>
+				<aura:if isTrue="{!field.dataType == 'NUMBER'}">
+					<div class="slds-truncate" title="{!field.value}"><ui:outputNumber value="{!field.value}"/></div>
+				</aura:if>
+				<aura:if isTrue="{!field.dataType == 'PHONE'}">
+					<div class="slds-truncate" title="{!field.value}"><ui:outputPhone value="{!field.value}"/></div>
+				</aura:if>
+				<aura:if isTrue="{!field.dataType == 'URL'}">
+					<div class="slds-truncate" title="{!field.value}"><ui:outputURL value="{!field.value}" label="{!field.value}"/></div>
+				</aura:if>
+				<aura:if isTrue="{!field.dataType == 'STRING'}">
+					<div class="slds-truncate" title="{!field.value}">{!field.value}</div>
+				</aura:if>
+			</td>
+		</aura:iteration>
+	</tr>
+</aura:component>	
