@@ -1,5 +1,56 @@
 # Strike by Appiphony
 
+### Release 0.6.0 — May 5, 2017
+#### New Features
+* **Strike Data Grid:** A sortable and responsive data table component which accepts JSON data
+* **Strike Wizard:** A process component used to communicate the progress of a particular process to the user
+#### Improvements
+* **Strike Input:** Added the `onkeydown` and `onkeyup` attributes
+* **Strike Textarea:** Added the `onchange`, `onfocus`, `onblur`, `oninput`, `onkeydown`, and `onkeyup` attributes
+#### Bug Fixes
+* **Strike Input:** Fixed an issue where the `oninput` attribute would not call the specified controller method in certain cases
+
+---
+
+### Release 0.5.0 — April 21, 2017
+#### Improvements
+* **Strike Pill:** Renamed the `type` attribute to `variant`
+* **Strike Tile:** Renamed the `source` attribute to `avatarSource`
+#### Bug Fixes
+* **Strike Input:** Fixed an issue where the types `datetime-local` and `month` were incorrectly styled on mobile devices
+* **Strike Pill:** Fixed an issue where clicking SVG icons would not propagate click events in Microsoft Edge
+* **Strike Textarea:** Fixed an issue where assigning a negative value to `maxlength` would cause the component to break
+* **Strike Tile:** Fixed an issue where clicking SVG icons would not propagate click events in Microsoft Edge
+
+---
+
+### Release 0.4.0 — April 18, 2017
+
+#### New Features
+* **Strike Multi Lookup:** Similar to Strike Multi Select Picklist, Strike Multi Lookup gives the user the ability to select multiple Salesforce records in one field
+* **Strike Popover:** Similar to Strike Tooltip, a Strike Popover appears when a user hovers over its trigger element and can display markup/components in its body
+* **Strike Tile:** A grouping of information that can be used to describe a record (fiddler and documentation coming soon; used in Strike Multi Lookup)
+#### Improvements
+* **Strike Datepicker:** Datepickers now use the system's datepicker on mobile devices <a href="https://github.com/appiphony/Strike-Components/issues/14" target="_blank">[GitHub Issue #14]</a>
+* **Strike Input:** Added support for the `checkbox`, `radio`, and `toggle` types
+* **Strike Input:** Added the `showError(errorMessage)` and `hideError()` methods
+* **Strike Multi Select Picklist:** Added the `onchange` attribute that calls a controller method when a selection is added or removed
+* **Strike Multi Select Picklist:** A "no results" message has been added
+* **Strike Option:** Renamed the `strike_filterBy()` and `strike_optionSelected()` methods to `filterBy()` and `select()` respectively
+* **Strike Option Group:** Renamed the `strike_filterBy()` method to `filterBy()`
+* **Strike Select:** Strike Option Groups no longer display when `searchable` is set to `true` and no results in that group are found
+* **Strike Select:** A "no results" message has been added when searchable is set to true
+* **Strike Textarea:** Added the `blur()`, `focus()`, `select()`, `showError(errorMessage)`, and `hideError()` methods
+#### Bug Fixes
+* **Strike Datepicker:** Fixed an issue where datepickers were unintentionally closing when clicking the Today link, left/right month arrows, and year select <a href="https://github.com/appiphony/Strike-Components/issues/9" target="_blank">[GitHub Issue #9]</a>
+* **Strike Multi Select Picklist:** Fixed an issue where options were not filterable on mobile devices, though the input was still in focus behind the overlay <a href="https://github.com/appiphony/Strike-Components/issues/10" target="_blank">[GitHub Issue #10]</a>
+* **Strike Multi Select Picklist:** Fixed an issue where multiple selections could not be made on iOS <a href="https://github.com/appiphony/Strike-Components/issues/11" target="_blank">[GitHub Issue #11]</a>
+* **Strike Multi Select Picklist:** Fixed an issue where options were not reset after closing the picklist immediately after a search that yielded no results <a href="https://github.com/appiphony/Strike-Components/issues/13" target="_blank">[GitHub Issue #13]</a>
+* **Strike Select:** Fixed an issue where clicking/tapping on the search input (when `searchable` is set to `true`) closes the dropdown
+* **Strike Select:** Fixed an issue where searches also returned option groups and sometimes displayed incorrect results
+
+---
+
 ### Release 0.3.0 — March 31, 2017
 
 #### Improvements
@@ -38,11 +89,11 @@
 * **Strike Textarea:** Added the `helpText` attribute for descriptive tooltips (appears after the form label)
 #### Bug Fixes
 * **Strike Datepicker:** Fixed an issue where the menu opens when tabbing into the input
-* **Strike Datepicker:** Fixed an issue where clicking the SVG portion of the datepicker's button did not open the menu in Microsoft Edge <a href="https://github.com/appiphony/Strike-Components/issues/5" target="_blank">(GitHub Issue #5)</a>
-* **Strike Lookup**: Fixed an issue where records were still selected after closing the menu without confirming a selection <a href="https://github.com/appiphony/Strike-Components/issues/2" target="_blank">(GitHub Issue #2)</a>
-* **Strike Lookup**: Fixed an issue where the menu doesn't close when tabbing out of the input <a href="https://github.com/appiphony/Strike-Components/issues/4" target="_blank">(GitHub Issue #4)</a>
+* **Strike Datepicker:** Fixed an issue where clicking the SVG portion of the datepicker's button did not open the menu in Microsoft Edge <a href="https://github.com/appiphony/Strike-Components/issues/5" target="_blank">[GitHub Issue #5]</a>
+* **Strike Lookup**: Fixed an issue where records were still selected after closing the menu without confirming a selection <a href="https://github.com/appiphony/Strike-Components/issues/2" target="_blank">[GitHub Issue #2]</a>
+* **Strike Lookup**: Fixed an issue where the menu doesn't close when tabbing out of the input <a href="https://github.com/appiphony/Strike-Components/issues/4" target="_blank">[GitHub Issue #4]</a>
 * **Strike Lookup**: Fixed an issue where the input's search icon was incorrectly positioned
-* **Strike Lookup**: Removed `debugger` line <a href="https://github.com/appiphony/Strike-Components/issues/6" target="_blank">(GitHub Issue #6)</a>
+* **Strike Lookup**: Removed `debugger` line <a href="https://github.com/appiphony/Strike-Components/issues/6" target="_blank">[GitHub Issue #6]</a>
 * **Strike Multi Select Picklist**: Fixed an issue where the input's search icon was incorrectly positioned
 * **Strike Multi Select Picklist**: Fixed an issue where selected pills did not have spacing between them
 * **Strike Select:** Fixed an issue where the component was not focusable
@@ -54,7 +105,7 @@
 ### Release 0.1.1 — March 1, 2017
 
 #### Bug Fixes
-* **Lookup:** Fixed an issue where records with `null` values for the `search` and `subtitle` fields caused lookups to throw an exception <a href="https://github.com/appiphony/Strike-Components/issues/1" target="_blank">(GitHub Issue #1)</a>
+* **Lookup:** Fixed an issue where records with `null` values for the `search` and `subtitle` fields caused lookups to throw an exception <a href="https://github.com/appiphony/Strike-Components/issues/1" target="_blank">[GitHub Issue #1]</a>
 
 ---
 

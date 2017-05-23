@@ -1,0 +1,82 @@
+<aura:component >
+    <!-- Required Attributes -->
+    <aura:attribute name="title" required="true" type="String" description="the tile's title"/>
+    
+    <!-- External Attributes -->
+    <aura:attribute name="variant" type="String" default="base" description="Variant of the tile component"/>
+    <aura:attribute name="value" type="String" description="value of the selected option"/>
+    <aura:attribute name="link" type="String" description="link on the tile's title"/>
+    <aura:attribute name="subtitle" type="String" description="the tile's secondary title"/>
+    <aura:attribute name="alternativeText" type="String" description="alternative text for an avatar image"/>
+    <aura:attribute name="destroyable" type="Boolean" default="{!false}" description="Determines whether a remove button is displayed or not"/>
+    <aura:attribute name="checked" type="Boolean" default="{!false}" description="Determines whether the task is checked"/>
+    <aura:attribute name="iconName" type="String" description="icon to be displayed on the tile"/>
+    <aura:attribute name="avatarSource" type="String" description="url of portrait image displayed on the tile" default="http://i.pravatar.cc/300"/>
+    
+    <!-- Events -->
+    <aura:registerEvent name="strike_evt_componentDestroyed" type="c:strike_evt" description="is fired when a tile is destroyed"/>
+    
+    <!-- Methods -->
+    <aura:method name="destroyTile" action="{!c.destroyTile}"/>
+    
+
+    <div class="{!'slds-tile' + if(v.variant != 'base', ' slds-media', '') + if(v.destroyable == true, ' st-destroyable', '')}">
+        <aura:if isTrue="{!v.destroyable}">
+            <lightning:buttonIcon iconName="utility:close" variant="bare" alternativeText="Remove" class="slds-button st-remove" onclick="{!c.destroyTile}"/>
+        </aura:if>
+        
+        <aura:if isTrue="{!or(or(v.variant == 'icon', v.variant == 'task'), v.variant == 'avatar')}">
+            <div class="slds-media__figure">
+                <aura:if isTrue="{!v.variant == 'icon'}">
+                    <lightning:icon iconName="{!v.iconName}" alternativeText="{!v.alternativeText}"/>
+                </aura:if>
+                <aura:if isTrue="{!v.variant == 'task'}">
+                    <lightning:input type="checkbox" name="checked" label="{!v.title}" checked="{!v.checked}"/>
+                </aura:if>
+                <aura:if isTrue="{!v.variant == 'avatar'}">
+                    <lightning:avatar src="{!v.avatarSource}" alternativeText="{!v.alternativeText}" variant="circle"/>
+                </aura:if>
+            </div>
+            <div class="slds-media__body">
+                <!-- Content -->
+                <h3 class="{!'slds-truncate' + if(v.destroyable, ' slds-p-right--xx-large', '')}" title="{!v.title}">
+                    <aura:if isTrue="{!empty(v.link)}">
+                        {!v.title}
+                        <aura:set attribute="else">
+                            <a href="{!v.link}">{!v.title}</a>
+                        </aura:set>
+                    </aura:if>
+                </h3>
+                <div class="{!'slds-tile__detail slds-text-body--small' + if(v.destroyable, ' slds-p-right--xx-large', '')}">
+                    <aura:if isTrue="{!empty(v.body)}">
+                        {!v.subtitle}
+                        <aura:set attribute="else">
+                            {!v.body}
+                        </aura:set>
+                    </aura:if>
+                </div>
+                <!-- Content -->
+            </div>
+            <aura:set attribute="else">
+                <!-- Content -->
+                <h3 class="{!'slds-truncate' + if(v.destroyable, ' slds-p-right--xx-large', '')}" title="{!v.title}">
+                    <aura:if isTrue="{!empty(v.link)}">
+                        {!v.title}
+                        <aura:set attribute="else">
+                            <a href="{!v.link}">{!v.title}</a>
+                        </aura:set>
+                    </aura:if>
+                </h3>
+                <div class="{!'slds-tile__detail slds-text-body--small' + if(v.destroyable, ' slds-p-right--xx-large', '')}">
+                    <aura:if isTrue="{!empty(v.body)}">
+                        {!v.subtitle}
+                        <aura:set attribute="else">
+                            {!v.body}
+                        </aura:set>
+                    </aura:if>
+                </div>
+                <!-- Content -->
+            </aura:set>
+        </aura:if>
+    </div>
+</aura:component>

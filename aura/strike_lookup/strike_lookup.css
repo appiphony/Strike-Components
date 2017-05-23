@@ -79,6 +79,10 @@
     fill: #9ea9b5;
 }
 
+.THIS .slds-pill__remove .slds-button__icon {
+    pointer-events: none;
+}
+
 
 /* --------------------------------------------------
 Salesforce1 Styles

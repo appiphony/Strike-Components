@@ -1,6 +1,6 @@
-<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+<aura:component >
     <!-- Required -->
-    <aura:attribute name="label" type="String" required="true" description="Text that describes the desired textarea input" default="Strike TextArea"/>
+    <aura:attribute name="label" type="String" required="true" description="Text that describes the desired textarea input"/>
 
     <aura:attribute name="helpText" type="String" description="String value when hovering over the help box"/>
     <aura:attribute name="name" type="String" description="Specifies the name of an input element" default="Strike TextArea"/>
@@ -21,16 +21,31 @@
     <aura:attribute name="required" type="Boolean" description="Specifies that an input field must be filled out before submitting the form. This value defaults to false"/>
     <aura:attribute name="error" type="Boolean" description="Specifies whether or not the text area is in an error state. This will trigger messageWhenBadInput"/>
 
+    <aura:registerEvent name="onblur" type="c:strike_evt"/>
+    <aura:registerEvent name="onchange" type="c:strike_evt"/>
+    <aura:registerEvent name="onfocus" type="c:strike_evt"/>
+    <aura:registerEvent name="oninput" type="c:strike_evt"/>
+    <aura:registerEvent name="onkeydown" type="c:strike_evt"/>
+    <aura:registerEvent name="onkeyup" type="c:strike_evt"/>
+
     <!-- Internal -->
     <aura:attribute name="idNumber" type="Integer" description="Random id assigned to pair labels with inputs" access="private"/>
 
+    <!-- Methods -->
+    <aura:method name="focus" action="{!c.focus}"/>
+    <aura:method name="blur" action="{!c.blur}"/>
+    <aura:method name="select" action="{!c.select}"/>
+    <aura:method name="showError" action="{!c.showError}">
+        <aura:attribute name="errorMessage" type="String"/>
+    </aura:method>
+    <aura:method name="hideError" action="{!c.hideError}"/>
+    
     <!-- Event registration and handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
     <aura:handler name="change" value="{!v.size}" action="{!c.sizeChanged}"/>
-    <aura:handler name="change" value="{!v.maxlength}" action="{!c.handleMaxLengthChange}"/>
+    <aura:handler name="change" value="{!v.maxlength}" action="{!c.handleChangeMaxlength}"/>
     <aura:handler name="change" value="{!v.value}" action="{!c.updateTextAreaValue}"/>
 
-    <!-- Strike Textarea -->
     <div class="{!'slds-form-element' + if(v.error, ' slds-has-error', '')}">
         <label class="slds-form-element__label" for="{!'strike-textarea-' + v.idNumber}">
             <aura:if isTrue="{!v.required == true}">
@@ -45,7 +60,7 @@
         </label>
         <div class="slds-form-element__control">
             <textarea
-                aura:id="thisTextArea"
+                aura:id="thisTextarea"
                 id="{!'strike-textarea-' + v.idNumber}"
                 name="{!v.name}"
                 class="{!'slds-textarea ' + if(v.resizable, 'strike-resizable ', 'strike-static ') + v.class}"
@@ -56,7 +71,12 @@
                 tabindex="{!v.tabindex}"
                 disabled="{!v.disabled}"
                 required="{!v.required}"
-                oninput="{!c.handleInput}">
+                oninput="{!c.handleInput}"
+                onblur="{!c.handleBlur}"
+                onfocus="{!c.handleFocus}"
+                onchange="{!c.handleChange}"
+                onkeyup="{!c.handleKeyup}"
+                onkeydown="{!c.handleKeydown}">
                 {!v.value}
             </textarea>
         </div>

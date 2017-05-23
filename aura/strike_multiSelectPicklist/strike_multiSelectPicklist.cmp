@@ -26,9 +26,12 @@
     <aura:attribute name="selectedOptionPills" type="Object[]" access="private" description="pills to be populated when an option is selected from the dropdown"/>
     <aura:attribute name="validChildCmps" type="Object[]" access="private" description="stores valid child components to utilize when an iterator is used"/>
     <aura:attribute name="alreadyRendered" type="Boolean" access="private" description="is set to true after the initial render"/>
-    <aura:attribute name="isMobile" type="Boolean" default="{!false}" description="Boolean value that determines if the user is in Salesforce1" access="private"/>
-
+    <aura:attribute name="isMobile" type="Boolean" default="{!false}" description="Determines if the user is in Salesforce1" access="private"/>
+    <aura:attribute name="allChildrenFiltered" type="Boolean" description="is set to true if none of the strikeOption components are displayed" default="{!false}"/>
+    <aura:attribute name="noResultsMessage" type="String" default="No results found for {0}" description="String value that will appear when the component finds 0 results"/>
+    <aura:attribute name="searchTerm" type="String" description="String value of the user's entered search term"/>
     <!-- Event registration and handlers -->
+    <aura:registerEvent name="onchange" type="c:strike_evt"/>
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
     <aura:handler event="aura:doneRendering" action="{!c.handleDoneRendering}"/>
     <aura:handler name="strike_evt_notifyParent" event="c:strike_evt" action="{!c.handleNotifyParent}" includeFacets="true" description="handles when a StrikeOption is clicked"/>
@@ -54,7 +57,7 @@
                 <input
                     aura:id="inputField"
                     id="{!'strike-multi-select-' + v.idNumber}"
-                    type="search"
+                    type="text"
                     class="slds-lookup__search-input slds-input"
                     placeholder="{!v.placeholder}"
                     role="combobox"
@@ -73,11 +76,40 @@
 
         <ui:scrollerWrapper class="slds-lookup__menu">
             <aura:if isTrue="{!v.isMobile}">
-                <div class="smsp-picklist__mobile-header smsp-full-button_container">
-                    <button class="slds-button slds-button--neutral">Cancel</button>
+                <div class="smsp-picklist__mobile-header smsp-full-button_container slds-grid slds-grid--pull-padded-xx-small">
+                    <div class="slds-col slds-p-horizontal--xx-small">
+                        <div class="slds-input-has-icon slds-input-has-icon--right">
+                            <lightning:icon iconName="utility:search" class="slds-input__icon" size="x-small"/>
+                            <input
+                                aura:id="mobileInputField"
+                                id="{!'strike-multi-select-' + v.idNumber + '--mobile'}"
+                                type="text"
+                                class="slds-lookup__search-input slds-input"
+                                placeholder="{!v.placeholder}"
+                                role="combobox"
+                                aria-expanded="false"
+                                aria-autocomplete="list"
+                                onblur="{!c.handleOnblur}"
+                                onkeyup="{!c.handleOnkeyup}"/>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-no-flex slds-p-horizontal--xx-small">
+                        <button class="slds-button slds-button--neutral">Cancel</button>
+                    </div>
                 </div>
             </aura:if>
             <ul class="slds-dropdown__list slds-dropdown--length-5" role="listbox">
+                <aura:if isTrue="{!v.allChildrenFiltered}">
+                    <li role="presentation">
+                        <span class="slds-lookup__item-action slds-media sl-no-results" role="option">
+                            <div class="slds-media__body">
+                                <div class="slds-lookup__result-text">
+                                    {!format(v.noResultsMessage, '"' + v.searchTerm + '"')}
+                                </div>
+                            </div>
+                        </span>
+                    </li>
+                </aura:if>
                 {!v.body}
             </ul>
         </ui:scrollerWrapper>

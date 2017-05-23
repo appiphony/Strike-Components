@@ -1,0 +1,28 @@
+.THIS.st-destroyable {
+    position: relative
+}
+
+.THIS.st-destroyable .st-remove {
+    position: absolute;
+    top: t(spacingXSmall);
+    right: t(spacingSmall);
+}
+
+.THIS.slds-tile .slds-form-element .slds-checkbox .slds-form-element__label {
+    display: none;
+}
+
+.THIS.slds-tile .slds-form-element .slds-checkbox [type="checkbox"]+.slds-checkbox__label .slds-checkbox--faux {
+    margin-right: 0;
+}
+
+.THIS.slds-pill .slds-pill__icon_container[class*="slds-icon-utility"] .slds-icon {
+    padding: t(spacingXxSmall);
+    position: relative;
+    top: -1px;
+    margin-right: -t(spacingXxSmall);
+}
+
+.THIS .st-remove .slds-button__icon {
+    pointer-events: none;
+}

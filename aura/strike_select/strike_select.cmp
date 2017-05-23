@@ -9,11 +9,11 @@
 
     <aura:attribute name="errorMessage" type="String" description="String value displayed when the input is in an error state" />
 
-    <aura:attribute name="searchable" type="Boolean" description="Boolean value that determines whether a search input is displayed on the component" />
+    <aura:attribute name="searchable" type="Boolean" description="Determines whether a search input is displayed on the component" />
 
-    <aura:attribute name="disabled" type="Boolean" description="Boolean value that determines whether the input is disabled" />
-    <aura:attribute name="required" type="Boolean" description="Boolean value that determines whether a '*' is displayed on the component" />
-    <aura:attribute name="error" type="Boolean" description="Boolean value that determines whether the input is in an error state" />
+    <aura:attribute name="disabled" type="Boolean" description="Determines whether the input is disabled" />
+    <aura:attribute name="required" type="Boolean" description="Determines whether a '*' is displayed on the component" />
+    <aura:attribute name="error" type="Boolean" description="Determines whether the input is in an error state" />
 
     <!-- Methods -->
     <aura:method name="showError" action="{!c.showError}" description="A method which triggers the error state">
@@ -22,12 +22,15 @@
     <aura:method name="hideError" action="{!c.hideError}" description="A method which removes the error state"/>
 
     <!-- Internal -->
-    <aura:attribute name="customIcon" type="Boolean" access="private" description="Boolean value that determines whether the returned icon is a custom or standard icon"/>
+    <aura:attribute name="customIcon" type="Boolean" access="private" description="Determines whether the returned icon is a custom or standard icon"/>
     <aura:attribute name="focusIndex" type="Integer" access="private" description="Integer value that determines which option is currently selected"/>
     <aura:attribute name="iconName" type="String" access="private" description="String value of the icon of the selected option"/>
-    <aura:attribute name="openMenu" type="Boolean" access="private" description="Boolean value that determines whether the menu is open"/>
+    <aura:attribute name="openMenu" type="Boolean" access="private" description="Determines whether the menu is open"/>
     <aura:attribute name="valueLabel" type="String" access="private" description="String value of the label of the selected option"/>
-    <aura:attribute name="isMobile" type="Boolean" default="{!false}" description="Boolean value that determines if the user is in Salesforce1" access="private"/>
+    <aura:attribute name="isMobile" type="Boolean" default="{!false}" description="Determines if the user is in Salesforce1" access="private"/>
+    <aura:attribute name="allChildrenFiltered" type="Boolean" description="is set to true if none of the strikeOption components are displayed" default="{!false}"/>
+    <aura:attribute name="noResultsMessage" type="String" default="No results found for {0}" description="String value that will appear when the component finds 0 results"/>
+    <aura:attribute name="searchTerm" type="String" description="String value of the user's entered search term"/>
 
     <!-- Event registration and handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
@@ -73,9 +76,9 @@
                         <div class="ss-picklist__mobile-header slds-grid slds-grid--pull-padded-xx-small">
                             <div class="{!'ss-picklist__input slds-col slds-p-horizontal--xx-small' + if(v.searchable, '', ' slds-hide')}">
                                 <div class="slds-form-element slds-m-vertical--x-small slds-m-horizontal--small">
-                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon--left">
+                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon--right">
                                         <c:strike_svg class="slds-input__icon slds-icon-text-default" xlinkHref="/resource/icons/utility-sprite/svg/symbols.svg#search" ariaHidden="true"></c:strike_svg>
-                                        <input aura:id="searchTerm" class="slds-input" type="search" onkeyup="{!c.searchTermChanged}" />
+                                        <input aura:id="searchTerm" class="slds-input" type="text" onkeyup="{!c.searchTermChanged}" onclick="{!c.stopProp}" />
                                     </div>
                                 </div>
                             </div>
@@ -86,6 +89,17 @@
                             </aura:if>
                         </div>
                         <ul class="slds-dropdown__list slds-dropdown--length-5" role="menu">
+                            <aura:if isTrue="{!v.allChildrenFiltered}">
+                                <li role="presentation">
+                                    <span class="slds-lookup__item-action slds-media sl-no-results" role="option">
+                                        <div class="slds-media__body">
+                                            <div class="slds-lookup__result-text">
+                                                {!format(v.noResultsMessage, '"' + v.searchTerm + '"')}
+                                            </div>
+                                        </div>
+                                    </span>
+                                </li>
+                            </aura:if>
                             {!v.body}
                         </ul>
                     </ui:scrollerWrapper>

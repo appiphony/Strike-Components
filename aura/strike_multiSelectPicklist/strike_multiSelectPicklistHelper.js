@@ -31,7 +31,8 @@
         var attributes = {
             "value": sourceValue,
             "label": sourceLabel,
-            "iconName": sourceIconName
+            "iconName": sourceIconName,
+            "destroyable": true
         }
 
         var callback = function(newPill, status, errorMessage) {
@@ -53,11 +54,10 @@
         var openMenu;
 
         childCmps.forEach(function(child) {
-            if ($A.util.isUndefined(child.strike_filterBy)) {
+            if ($A.util.isUndefined(child.filterBy)) {
                 var childBody = child.get('v.body');
                 childBody.forEach(function(child2){
                     if(!child2.get('v.hidden')){
-                        
                         openMenu = true;
                     }
                 })
@@ -73,7 +73,8 @@
         }
     },
     closeMenu: function(component) {
-        component.find('inputField').getElement().value = '';
+        var isMobile = component.get('v.isMobile');
+        
         component.set('v.menuIsOpen', false);
         component.set('v.focusIndex', null);
     },
@@ -126,7 +127,7 @@
         var childCmps = component.get('v.validChildCmps');
 
         if (focusIndex < childCmps.length) {
-            childCmps[focusIndex].strike_optionSelected();
+            childCmps[focusIndex].select();
             helper.closeMenu(component);
         }
         component.set('v.validChildCmps', null);
@@ -254,19 +255,45 @@
         }
 
         if (!parentCmp && !menuIsOpen) {
-
             component.set('v.menuIsOpen', true);
         }
+        
         component.get('v.body').forEach(function(child) {
-            if ($A.util.isUndefined(child.strike_filterBy)) {
+            if ($A.util.isUndefined(child.filterBy)) {
                 helper.doSearch(child, event, helper, searchTerm, component);
-
+                
             } else {
-                child.strike_filterBy(searchTerm);
+                child.filterBy(searchTerm);
 
                 helper.updateFocusIndexByFilter(component, event, helper, parentCmp);
+                helper.areChildrenFiltered(component, event, helper, searchTerm, parentCmp);
             }
         });
+        helper.areChildrenFiltered(component, event, helper, searchTerm, parentCmp);
+    },
+    areChildrenFiltered: function(component, event, helper, searchTerm, parentCmp) {
+        var body = component.get('v.body');
+        var filteredCount = 0;
+        var isCorrectBody;
+        
+        body.forEach(function(child) {
+            if (!$A.util.isUndefined(child.filterBy)) {
+                isCorrectBody = true;
+                if (child.get('v.filtered')) {
+                    filteredCount++;
+                }
+            }
+        });
+
+        if (isCorrectBody) {
+            if (filteredCount === body.length) {
+                parentCmp.set('v.searchTerm', searchTerm)
+                parentCmp.set('v.allChildrenFiltered', true);
+            } else {
+                parentCmp.set('v.searchTerm', null);
+                parentCmp.set('v.allChildrenFiltered', false);
+            }
+        }
     },
     updateFocusIndexByFilter: function(component, event, helper, parentCmp) {
         var childCmps = component.get('v.body');
@@ -291,7 +318,7 @@
         var childCmps = component.get('v.body');
 
         childCmps.forEach(function(child) {
-            if ($A.util.isUndefined(child.strike_filterBy)) {
+            if ($A.util.isUndefined(child.filterBy)) {
                 component.set('v.validChildCmps', child.get('v.body'));
             } else {
                 component.set('v.validChildCmps', childCmps);
@@ -307,7 +334,7 @@
         var body = component.get('v.body');
         var childCmps;
         body.forEach(function(child){   
-           if($A.util.isUndefined(child.strike_filterBy)){
+           if($A.util.isUndefined(child.filterBy)){
                 
                 childCmps = child.get('v.body');
            } else {
@@ -319,7 +346,7 @@
             var childValue = child.get('v.value');
 
             if(valueArray.indexOf(childValue) != -1){
-                child.strike_optionSelected();
+                child.select();
             }
         })
 

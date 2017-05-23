@@ -4,3 +4,7 @@
     top: -1px;
     margin-right: -t(spacingXxSmall);
 }
+
+.THIS .sp-remove .slds-button__icon {
+    pointer-events: none;
+}

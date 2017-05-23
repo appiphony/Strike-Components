@@ -1,0 +1,191 @@
+.THIS .sl-pill__label {
+    margin-right: auto;
+}
+
+.THIS .slds-pill.sl-pill--loading {
+    border-color: transparent;
+    padding-left: 9px;
+    position: relative;
+    top: -1px;
+}
+
+.THIS .slds-pill.sl-pill--loading:hover {
+    background: transparent;
+}
+
+.THIS .slds-form-element__control .sl-search-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding-bottom: 1px;
+}
+
+.THIS .slds-form-element__control .sl-search-icon .slds-icon {
+    fill: t(colorTextInputIcon);
+}
+
+.THIS .slds-lookup__item-action .slds-media__figure {
+    margin-right: .5rem;
+    margin-top: .25rem;
+}
+
+.THIS .slds-lookup__item-action .slds-media__figure .slds-icon {
+    margin-right: 0;
+    margin-top: 0;
+}
+
+.THIS .slds-form-element__control .slds-pill_container,
+.THIS .slds-form-element__control .slds-pill {
+    transition: border .1s linear, background-color .1s linear;
+}
+
+.THIS .slds-form-element__control.sl-disabled .slds-pill_container,
+.THIS .slds-form-element__control.sl-disabled .slds-pill {
+    background-color: t(colorBackgroundShade);
+    cursor: not-allowed;
+}
+
+.THIS .slds-form-element__control.sl-disabled .slds-pill_container {
+    border-color: t(colorBorderInputDisabled);
+}
+
+.THIS .slds-form-element__control.sl-disabled .slds-pill {
+    border-color: transparent;
+}
+
+.THIS.slds-form-element.slds-has-error .slds-pill__label {
+    font-weight: normal;
+    color: t(colorTextDefault);
+}
+
+.THIS .slds-lookup__item-action.sl-no-results,
+.THIS .slds-lookup__item-action.sl-no-results:hover,
+.THIS .slds-lookup__item-action.sl-searching,
+.THIS .slds-lookup__item-action.sl-searching:hover {
+    cursor: auto;
+}
+
+.THIS .slds-lookup__item-action.sl-no-results:hover,
+.THIS .slds-lookup__item-action.sl-no-results:focus,
+.THIS .slds-lookup__item-action.sl-no-results:active,
+.THIS .slds-lookup__item-action.sl-searching:hover,
+.THIS .slds-lookup__item-action.sl-searching:focus,
+.THIS .slds-lookup__item-action.sl-searching:active {
+    background: white;
+}
+
+.THIS .sl-help-text-icon .slds-icon {
+    fill: #9ea9b5;
+}
+
+
+/* --------------------------------------------------
+Salesforce1 Styles
+-------------------------------------------------- */
+
+.THIS:not(.sl-lookup--mobile).scrollable,
+.THIS:not(.sl-lookup--open).scrollable {
+    overflow: initial;
+}
+
+.THIS.sl-lookup--mobile.slds-is-open .slds-lookup__menu,
+.THIS.sl-lookup--mobile .sl-lookup--mobile__cancel,
+.THIS.sl-lookup--mobile .slds-lookup__list .slds-dropdown__item .slds-icon_container,
+.THIS.sl-lookup--mobile .slds-lookup__list .slds-dropdown__item .slds-icon,
+/*.THIS.sl-lookup--mobile .slds-lookup__list .sl-lookup__new,*/
+/*.THIS.sl-lookup--mobile .slds-pill__icon_container,*/
+.THIS.sl-lookup--mobile.sl-lookup--open .slds-form-element__label,
+.THIS.sl-lookup--mobile.sl-lookup--open .slds-form-element__help {
+    display: none;
+}
+
+.THIS.sl-lookup--mobile.slds-is-open.sl-lookup--open .slds-lookup__menu,
+.THIS.sl-lookup--mobile.sl-lookup--open .sl-lookup--mobile__cancel {
+    display: block;
+}
+
+.THIS.sl-lookup--mobile .slds-lookup__item-action {
+    padding-left: t(spacingXSmall);
+    padding-right: t(spacingXSmall);
+}
+
+.THIS.sl-lookup--mobile.sl-lookup--open .sl-lookup__input {
+    position: relative;
+}
+
+.THIS.sl-lookup--mobile.sl-lookup--open .sl-lookup__input_container {
+    padding: t(spacingXSmall);
+}
+
+.THIS.sl-lookup--mobile .slds-pill_container {
+    background: white;
+    position: relative;
+    z-index: 1;
+}
+
+.THIS.sl-lookup--mobile .sl-input--disabled,
+.THIS.sl-lookup--mobile .sl-input--disabled:hover {
+    background: t(colorBackgroundInputDisabled);
+}
+
+.THIS.sl-lookup--mobile .slds-form-element__control {
+    height: 100%;
+}
+
+.THIS.sl-lookup--mobile.sl-lookup--open .slds-form-element__control {
+    background: t(colorBackground);
+}
+
+.THIS.sl-lookup--mobile.sl-lookup--open {
+    padding: 0;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border: none;
+    overflow: initial;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: t(zIndexOverlay);
+    background: white;
+    -webkit-overflow-scrolling: touch;
+}
+
+.THIS.sl-lookup--mobile .slds-lookup__menu {
+    padding: 0;
+    margin-bottom: 52px;
+    position: relative;
+    z-index: 0;
+    top: initial;
+    border: none;
+    background: t(colorBackground);
+}
+
+.THIS.sl-lookup--mobile .slds-lookup__list {
+    max-height: none;
+    overflow: initial;
+    overflow-x: initial;
+    overflow-y: initial;
+}
+
+.THIS.sl-lookup--mobile .slds-lookup__list li {
+    border-bottom: 1px solid t(colorBorder);
+    padding: t(spacingXSmall);
+}
+
+.THIS.sl-lookup--mobile .slds-lookup__list li:first-child {
+    border-top: 1px solid t(colorBorder);
+}
+
+.THIS.sl-lookup--mobile .sl-lookup--mobile__dropdown-header strong {
+    vertical-align: middle;
+    display: inline-block;
+    font-size: 18px;
+    margin-top: 4px;
+}
+
+.THIS.sl-lookup--mobile .slds-lookup__list .sl-lookup__new .slds-icon {
+    margin-top: 0;
+}

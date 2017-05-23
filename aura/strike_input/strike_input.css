@@ -1,3 +1,18 @@
 .THIS .si-help-text-icon .slds-icon {
     fill: #9ea9b5;
 }
+
+.THIS label.slds-checkbox--toggle {
+    pointer-events: none;
+}
+
+.THIS label.slds-checkbox--toggle > * {
+    pointer-events: auto;
+}
+
+.THIS input[type="date"],
+.THIS input[type="datetime-local"],
+.THIS input[type="month"] {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
