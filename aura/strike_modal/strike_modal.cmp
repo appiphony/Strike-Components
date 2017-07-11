@@ -12,6 +12,7 @@ License: BSD 2-Clause License
     <aura:attribute name="primaryButtonLabel" type="String" default="Ok"/>
     <aura:attribute name="secondaryButtonLabel" type="String" default="Cancel"/>
     <aura:attribute name="variant" type="String"/>
+    <aura:attribute name="size" type="String"/>
 
     <aura:attribute name="showHeader" type="Boolean" default="{!true}"/>
     <aura:attribute name="showFooter" type="Boolean" default="{!true}"/>
@@ -39,7 +40,7 @@ License: BSD 2-Clause License
 
     <!-- Strike Modal -->
     <div aria-hidden="{!not(v.showingModal)}" class="{!if(v.showingModal, '', 'slds-hide')}">
-        <div id="modal" aura:id="modal" role="dialog" tabindex="{!if(showingModal, 0, -1)}" aria-labelledby="{!'header-' + v.modalHeaderId}" class="{!if(v.fadeIn, 'slds-fade-in-open', '') + ' slds-modal ' + if(empty(v.variant), '', 'slds-modal--prompt')}">
+        <div id="modal" aura:id="modal" role="dialog" tabindex="{!if(showingModal, 0, -1)}" aria-labelledby="{!'header-' + v.modalHeaderId}" class="{!if(v.fadeIn, 'slds-fade-in-open', '') + ' slds-modal ' + if(empty(v.variant), '', 'slds-modal--prompt') + if(empty(v.size), '', ' slds-modal--' +v.size)}">
             <div class="slds-modal__container">
                 <div class="{!'slds-modal__header' + if(empty(v.variant), '', ' slds-theme--alert-texture slds-theme--' + v.variant) + if(v.showHeader == false, ' slds-modal__header--empty', '')}">
                     <lightning:buttonIcon onclick="{!c.hide}" iconName="utility:close" alternativeText="Close" name="Close" size="large" variant="bare" class="slds-button slds-modal__close slds-button--icon-inverse"/>
