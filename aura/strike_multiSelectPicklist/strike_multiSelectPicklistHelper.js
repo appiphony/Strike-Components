@@ -3,9 +3,12 @@
 
         var selectedOptionValue = event.getParams('params').data.value;
         var componentValue = component.get('v.value');
-
         var valueArray = !componentValue ? [] : componentValue.split(';');
-        valueArray.push(selectedOptionValue);
+        
+        if (valueArray.indexOf(selectedOptionValue) == -1) {
+            valueArray.push(selectedOptionValue);
+        }
+        
         var newValue = valueArray.join(';');
         component.set('v.value', newValue);
 

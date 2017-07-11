@@ -1,4 +1,3 @@
-
 ({
 	formatData : function(component, event, helper) {
 		var data = component.get("v.data");
@@ -18,14 +17,16 @@
 				for(var key in row){
 					if(dataTypeByName[key]){
 						var value = '';
-						if(dataTypeByName[key] != 'BOOLEAN' && 
-						   dataTypeByName[key] !=  'CURRENCY' && 
-						   dataTypeByName[key] != 'DATE' && 
-						   dataTypeByName[key] != 'DATETIME' && 
-						   dataTypeByName[key] != 'EMAIL' && 
-						   dataTypeByName[key] != 'NUMBER' && 
-						   dataTypeByName[key] != 'PHONE' && 
-						   dataTypeByName[key] != 'URL'){
+						if(dataTypeByName[key] != 'BOOLEAN' &&
+							dataTypeByName[key] != 'CURRENCY' &&
+							dataTypeByName[key] != 'DATE' &&
+							dataTypeByName[key] != 'DATETIME' &&
+							dataTypeByName[key] != 'EMAIL' &&
+							dataTypeByName[key] != 'NUMBER' &&
+							dataTypeByName[key] != 'PERCENT' &&
+							dataTypeByName[key] != 'PHONE' &&
+							dataTypeByName[key] != 'URL' &&
+							dataTypeByName[key] != 'COMPONENT'){
 						   	if(dataTypeByName[key] == 'ADDRESS'){
 						   		if(row[key].street){
 						   			value += row[key].street + ' ';
@@ -43,8 +44,8 @@
 						   			value += row[key].country;
 						   		}
 						   	}
-							type = 'STRING'
-						} else{
+							type = 'STRING';
+						} else {
 							type = dataTypeByName[key]
 						}
 						if(!value){
@@ -58,7 +59,8 @@
 						var field = {
 							"name":key,
 							"value":value,
-							"dataType":type
+							"dataType":type,
+							"label":''
 						}
 						fields.push(field);
 					}
@@ -67,6 +69,7 @@
 				columns.forEach(function(column, i){
 					fields.forEach(function(field){
 						if(field.name === column.name){
+							field.label = column.label;
 							sortedFields[i] = field;
 						}
 					})
@@ -77,13 +80,13 @@
 			formattedData.rows = formattedRows;
 			formattedData.columns = columns;
 			component.set('v.formattedData', formattedData);
-			helper.createRowComponents(component,event,helper);
+			helper.createRowComponents(component, event, helper);
 		}
 	},
-	createRowComponents : function(component,event,helper){
+	createRowComponents : function(component, event, helper){
 		var formattedData = component.get('v.formattedData');
 		var body = [];
-		
+
 		var createRowCallback = function(newCmp, status, errorMessage){
 			if(status === 'SUCCESS'){
 				body.push(newCmp);
@@ -91,63 +94,74 @@
 				component.set('v.showTable', true);
 			}
 		}
-		formattedData.rows.forEach(function(row){		
+
+		formattedData.rows.forEach(function(row){
 			$A.createComponent(
 				"c:strike_row",
 				{
 					"fields": row.fields
 				},
 				createRowCallback
-				)
+			)
 		});
+
+		helper.sortTable(component, null, helper);
 	},
 	sortTable : function(component, event, helper){
-            var selectedColumnName = event.currentTarget.dataset.columnName || component.get('v.currentSortColumn');
-			var body = component.get('v.body');
+		var selectedColumnName;
 
-			body.forEach(function(row){
-				var fields = row.get('v.fields');
+		if (event === null) {
+			selectedColumnName = component.get('v.currentSortColumn');
+		} else {
+			selectedColumnName = event.currentTarget.dataset.columnName || component.get('v.currentSortColumn');
+		}
 
-				fields.forEach(function(field){
-					if(field.name === selectedColumnName){
-						row.set('v.sortFieldValue', field.value);
-					}
-				});
+		var body = component.get('v.body');
+
+		body.forEach(function(row){
+			var fields = row.get('v.fields');
+
+			fields.forEach(function(field){
+				if(field.name === selectedColumnName){
+					row.set('v.sortFieldValue', field.value);
+				}
 			});
+		});
 
-			var ascending = component.get('v.ascending');
+		var ascending = component.get('v.ascending');
 
+		if(event !== null) {
 			if(selectedColumnName != component.get('v.currentSortColumn')){
-				
 				component.set('v.ascending', true);
 				ascending = true;
 			} else {
-				ascending = !ascending
-				component.set('v.ascending', ascending)
+				ascending = !ascending;
+				component.set('v.ascending', ascending);
 			}
-
-			
-			body.sort(function(a,b){
-				if(ascending){
-					if (a.get('v.sortFieldValue').toUpperCase() < b.get('v.sortFieldValue').toUpperCase()) {
-						return -1;
-					}
-					if (a.get('v.sortFieldValue').toUpperCase() > b.get('v.sortFieldValue').toUpperCase()) {
-						return 1;
-					}
-				} else{
-					if (a.get('v.sortFieldValue').toUpperCase() < b.get('v.sortFieldValue').toUpperCase()) {
-						return 1;
-					}
-					if (a.get('v.sortFieldValue').toUpperCase() > b.get('v.sortFieldValue').toUpperCase()) {
-						return -1;
-					}
-				}
-			});
-
-			
-			
-			component.set('v.body', body);
-			component.set('v.currentSortColumn', selectedColumnName);
 		}
+
+		body.sort(function(a,b){
+			var aValue = typeof(a) === 'string' ? a.get('v.sortFieldValue').toUpperCase() : a.get('v.sortFieldValue');
+			var bValue = typeof(b) === 'string' ? b.get('v.sortFieldValue').toUpperCase() : b.get('v.sortFieldValue');
+
+			if(ascending){
+				if (aValue < bValue) {
+					return -1;
+				}
+				if (aValue > bValue) {
+					return 1;
+				}
+			} else{
+				if (aValue < bValue) {
+					return 1;
+				}
+				if (aValue > bValue) {
+					return -1;
+				}
+			}
+		});
+
+		component.set('v.body', body);
+		component.set('v.currentSortColumn', selectedColumnName);
+	}
 })
