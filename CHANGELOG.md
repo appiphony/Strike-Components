@@ -1,5 +1,44 @@
 # Strike by Appiphony
 
+### Release 0.7.0 — July 14, 2017
+#### New Features
+* **Strike Radio Group:** A form element for accepting a single selection based on descriptive options
+#### Improvements
+* **All Strike Components:** Added version numbers and the BSD 2-Clause License to all `*.cmp` and `*.cls` files <a href="https://github.com/appiphony/Strike-Components/issues/29" target="_blank">[GitHub Issue #29]</a>
+* **Strike Datepicker:** Added the `yearsBefore` and `yearsAfter` attributes to limit the year select options <a href="https://github.com/appiphony/Strike-Components/issues/3" target="_blank">[GitHub Issue #3]</a>
+* **Strike Datepicker:** Added the `helpTextPlacement` attribute to enable custom `helpText` popover positioning <a href="https://github.com/appiphony/Strike-Components/issues/20" target="_blank">[GitHub Issue #20]</a>
+* **Strike Input:** Added the `helpTextPlacement` attribute to enable custom `helpText` popover positioning <a href="https://github.com/appiphony/Strike-Components/issues/20" target="_blank">[GitHub Issue #20]</a>
+* **Strike Lookup:** Added the `helpTextPlacement` attribute to enable custom `helpText` popover positioning <a href="https://github.com/appiphony/Strike-Components/issues/20" target="_blank">[GitHub Issue #20]</a>
+* **Strike Modal:** Added the `size` attribute to enable large modals <a href="https://github.com/appiphony/Strike-Components/pull/35" target="_blank">[GitHub Pull Request #35]</a>&nbsp;<a href="https://github.com/mbowen000" target="_blank">[Credit: mbowen000]</a>
+* **Strike Multi Lookup:** Added the `helpTextPlacement` attribute to enable custom `helpText` popover positioning <a href="https://github.com/appiphony/Strike-Components/issues/20" target="_blank">[GitHub Issue #20]</a>
+* **Strike Multi Select Picklist:** Added the `helpTextPlacement` attribute to enable custom `helpText` popover positioning <a href="https://github.com/appiphony/Strike-Components/issues/20" target="_blank">[GitHub Issue #20]</a>
+* **Strike Multi Select Picklist:** Added the `externalValueChange` Aura method to enable rerendering of selection pills based on the `value` attribute <a href="https://github.com/appiphony/Strike-Components/issues/33" target="_blank">[GitHub Issue #33]</a>
+* **Strike Popover:** Added support for the `'auto '` prefix on all `placement` values <a href="https://github.com/appiphony/Strike-Components/pull/27" target="_blank">[GitHub Pull Request #27]</a>&nbsp;<a href="https://github.com/dsharrison" target="_blank">[Credit: dsharrison]</a>
+* **Strike Select:** Added the `helpTextPlacement` attribute to enable custom `helpText` popover positioning <a href="https://github.com/appiphony/Strike-Components/issues/20" target="_blank">[GitHub Issue #20]</a>
+* **Strike Textarea:** Added the `helpTextPlacement` attribute to enable custom `helpText` popover positioning <a href="https://github.com/appiphony/Strike-Components/issues/20" target="_blank">[GitHub Issue #20]</a>
+* **Strike Tooltip:** Added support for the `'auto '` prefix on all `placement` values <a href="https://github.com/appiphony/Strike-Components/pull/27" target="_blank">[GitHub Pull Request #27]</a>&nbsp;<a href="https://github.com/dsharrison" target="_blank">[Credit: dsharrison]</a>
+#### Bug Fixes
+* **Strike Chart:** Fixed an issue where pie charts were being cut off with certain legend text lengths <a href="https://github.com/appiphony/Strike-Components/issues/32" target="_blank">[GitHub Issue #32]</a>
+* **Strike Data Grid:** Fixed an issue where responsive mobile headers were displaying incorrect values <a href="https://github.com/appiphony/Strike-Components/issues/30" target="_blank">[GitHub Issue #30]</a>
+* **Strike Input:** Fixed a typo where the `tabindex` attribute was incorrectly camel-cased <a href="https://github.com/appiphony/Strike-Components/issues/37" target="_blank">[GitHub Issue #37]</a>
+* **Strike Input:** Fixed an issue where `tabindex` was not being applied to toggles
+* **Strike Multi Select Picklist:** Fixed an issue where pre-populated selection would appear twice on load <a href="https://github.com/appiphony/Strike-Components/issues/15" target="_blank">[GitHub Issue #15]</a>
+* **Strike Multi Select Picklist:** Fixed an issue where the component was causing a warning with Locker Service enabled <a href="https://github.com/appiphony/Strike-Components/issues/25" target="_blank">[GitHub Issue #25]</a>
+
+---
+
+### Release 0.5.0 — April 21, 2017
+#### Improvements
+* **Strike Pill:** Renamed the `type` attribute to `variant`
+* **Strike Tile:** Renamed the `source` attribute to `avatarSource`
+#### Bug Fixes
+* **Strike Input:** Fixed an issue where the types `datetime-local` and `month` were incorrectly styled on mobile devices
+* **Strike Pill:** Fixed an issue where clicking SVG icons would not propagate click events in Microsoft Edge
+* **Strike Textarea:** Fixed an issue where assigning a negative value to `maxlength` would cause the component to break
+* **Strike Tile:** Fixed an issue where clicking SVG icons would not propagate click events in Microsoft Edge
+
+---
+
 ### Release 0.6.0 — May 5, 2017
 #### New Features
 * **Strike Data Grid:** A sortable and responsive data table component which accepts JSON data

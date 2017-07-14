@@ -1,10 +1,19 @@
-<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+<!--
+Strike by Appiphony
+
+Version: 0.7.0
+Website: http://www.lightningstrike.io
+GitHub: https://github.com/appiphony/Strike-Components
+License: BSD 2-Clause License
+-->
+<aura:component >
     <!-- External -->
 	<aura:attribute name="data" type="Object" description="data provided by end user to build a table"/>
 	<aura:attribute name="fixed" type="Boolean" description="determines if fixed layout class gets added to table" default="{!false}"/>
     <aura:attribute name="responsive" type="Boolean" description="determines if table is responsive/mobile-friendly" default="{!false}"/>
+    <aura:attribute name="class" type="String" description="classlist that can be added to the table"/>
     <!-- /External -->
-    
+
     <!-- Internal -->
 	<aura:attribute name="formattedData" type="Object" description="formatted grid data" access="private"/>
     <aura:attribute name="showTable" type="Boolean" description="determines when the table is done being created" default="{!false}" access="private"/>
@@ -16,7 +25,7 @@
     <aura:handler name="init" value="{!this}" action="{!c.init}"/>
 
     <aura:if isTrue="{!v.showTable}">
-        <table id="data-grid" class="{!'slds-table slds-table--bordered slds-table--cell-buffer' + if(v.responsive, ' slds-max-medium-table--stacked') + if(v.fixed, ' slds-table--fixed-layout', ' slds-table--resizable-cols')}">
+        <table class="{!'slds-table slds-table--bordered slds-table--cell-buffer ' + if(v.responsive, 'slds-max-medium-table--stacked ') + if(v.fixed, 'slds-table--fixed-layout ', 'slds-table--resizable-cols ') + v.class}">
             <thead>
                 <tr class="slds-text-title--caps">
                     <aura:iteration items="{!v.formattedData.columns}" var="column">
@@ -56,4 +65,14 @@
             </tbody>
         </table>
     </aura:if>
-</aura:component>	
+</aura:component>
+<!--
+Copyright 2017 Appiphony, LLC
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->

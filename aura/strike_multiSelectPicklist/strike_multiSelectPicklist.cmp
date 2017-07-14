@@ -1,3 +1,11 @@
+<!--
+Strike by Appiphony
+
+Version: 0.7.0
+Website: http://www.lightningstrike.io
+GitHub: https://github.com/appiphony/Strike-Components
+License: BSD 2-Clause License
+-->
 <aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
     <!-- Required -->
     <aura:attribute name="label" type="String" required="true" description="Text that describes the desired textarea input" default="Strike Multi-Select"/>
@@ -12,13 +20,16 @@
     <aura:attribute name="required" type="Boolean" description="displays an * indicating that the field is required"/>
     <aura:attribute name="error" type="Boolean" description="Specifies whether or not the text area is in an error state. This will trigger errorMessage"/>
     <aura:attribute name="helpText" type="String" description="Specifies helper text to be displayed as a tooltip"/>
+    <aura:attribute name="helpTextPlacement" type="String" default="auto top" description="Determines position of the helpText"/>
 
     <!-- Methods -->
     <aura:method name="showError" action="{!c.showError}" description="A method which triggers the error state">
         <aura:attribute name="errorMessage" type="String"/>
     </aura:method>
     <aura:method name="hideError" action="{!c.hideError}" description="A method which removes the error state"/>
-
+    <aura:method name="externalValueChange" action="{!c.externalValueChange}" description="A method that can be called to change the value of the component from a source other than the strike_multiSelectPicklist component">
+        <aura:attribute name="externalValue" type="String" description="value that is to be added to the value of the strike_multiSelectPicklist Component"/>
+    </aura:method>
     <!-- Internal -->
     <aura:attribute name="idNumber" type="Integer" access="private" description="Random id assigned to pair labels with inputs"/>
     <aura:attribute name="focusIndex" type="Integer" access="private" description="Index to determine focus location when keyboard is used"/>
@@ -30,6 +41,7 @@
     <aura:attribute name="allChildrenFiltered" type="Boolean" description="is set to true if none of the strikeOption components are displayed" default="{!false}"/>
     <aura:attribute name="noResultsMessage" type="String" default="No results found for {0}" description="String value that will appear when the component finds 0 results"/>
     <aura:attribute name="searchTerm" type="String" description="String value of the user's entered search term"/>
+
     <!-- Event registration and handlers -->
     <aura:registerEvent name="onchange" type="c:strike_evt"/>
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
@@ -45,7 +57,7 @@
             </aura:if>
             {!v.label}
             <aura:if isTrue="{!and(v.helpText, v.helpText != '')}">
-                <c:strike_tooltip placement="top" text="{!v.helpText}" class="smsp-help-text-icon slds-m-left--x-small">
+                <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="smsp-help-text-icon slds-m-left--x-small">
                     <lightning:icon iconName="utility:info" size="xx-small"/>
                 </c:strike_tooltip>
             </aura:if>
@@ -114,11 +126,21 @@
             </ul>
         </ui:scrollerWrapper>
         <aura:if isTrue="{!not(empty(v.selectedOptionPills))}">
-            <div class="slds-pill_container slds-pill_container--bare">
+            <div aura:id="optionPillContainer" class="slds-pill_container slds-pill_container--bare slds-wrap">
                 <aura:iteration items="{!v.selectedOptionPills}" var="pill">
-                    <span class="smsp-pill">{!pill}</span>
+                    <span class="smsp-pill"><c:strike_pill label="{!pill.label}" value="{!pill.value}" iconName="{!pill.iconName}" destroyable="{!pill.destroyable}" /></span>
                 </aura:iteration>
             </div>
         </aura:if>
     </div>
 </aura:component>
+<!--
+Copyright 2017 Appiphony, LLC
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->

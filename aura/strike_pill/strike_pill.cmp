@@ -1,3 +1,11 @@
+<!--
+Strike by Appiphony
+
+Version: 0.7.0
+Website: http://www.lightningstrike.io
+GitHub: https://github.com/appiphony/Strike-Components
+License: BSD 2-Clause License
+-->
 <aura:component access="global">
     <!-- Required Attributes -->
     <aura:attribute name="label" required="true" type="String" description="label to be displayed on the pill"/>
@@ -14,12 +22,12 @@
 
     <!-- Events -->
     <aura:registerEvent name="strike_evt_componentDestroyed" type="c:strike_evt" description="is fired when a pill is destroyed"/>
-    
+
     <!-- Methods -->
     <aura:method name="destroyPill" action="{!c.destroyPill}"/>
 
 
-    <aura:if isTrue="{!v.withContainer}"> 
+    <aura:if isTrue="{!v.withContainer}">
         <div class="slds-pill_container">
             <span class="{!'slds-pill' + (v.variant == 'error' ? ' slds-has-error' : '')}">
                 <aura:if isTrue="{!v.variant == 'withIcon'}">
@@ -30,7 +38,7 @@
 
                 <aura:if isTrue="{!v.variant == 'withPortrait'}">
                     <span class="slds-avatar slds-avatar--x-small slds-avatar--circle slds-m-right--xx-small">
-                        <lightning:avatar src="{!v.avatarSource}" variant="circle" alternativeText="{!v.alternativeText}"/>
+                        <lightning:avatar src="{!v.avatarSource}" variant="circle" alternativeText="{!v.alternativeText}" fallbackIconName="standard:avatar" size="x-small"/>
                     </span>
                 </aura:if>
 
@@ -48,15 +56,15 @@
                         </aura:set>
                     </aura:if>
                 </span>
-                
+
                 <aura:if isTrue="{!v.destroyable}">
                     <lightning:buttonIcon iconName="utility:close" variant="bare" alternativeText="Remove" class="slds-button slds-pill__remove sp-remove" onclick="{!c.destroyPill}"/>
                 </aura:if>
             </span>
         </div>
-    </aura:if> 
+    </aura:if>
 
-   
+
     <aura:if isTrue="{!not(v.withContainer)}">
         <span class="{!'slds-pill' + (v.variant == 'error' ? ' slds-has-error' : '')}">
             <aura:if isTrue="{!v.variant == 'withIcon'}">
@@ -67,7 +75,7 @@
 
             <aura:if isTrue="{!v.variant == 'withPortrait'}">
                 <span class="slds-avatar slds-avatar--x-small slds-avatar--circle slds-m-right--xx-small">
-                    <lightning:avatar src="{!v.avatarSource}" variant="circle" alternativeText="{!v.alternativeText}"/>
+                    <lightning:avatar src="{!v.avatarSource}" variant="circle" alternativeText="{!v.alternativeText}" fallbackIconName="standard:avatar" size="x-small"/>
                 </span>
             </aura:if>
 
@@ -85,10 +93,20 @@
                     </aura:set>
                 </aura:if>
             </span>
-            
+
             <aura:if isTrue="{!v.destroyable}">
                 <lightning:buttonIcon iconName="utility:close" variant="bare" alternativeText="Remove" class="slds-button slds-pill__remove sp-remove" onclick="{!c.destroyPill}"/>
             </aura:if>
         </span>
     </aura:if>
 </aura:component>
+<!--
+Copyright 2017 Appiphony, LLC
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->

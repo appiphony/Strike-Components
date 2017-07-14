@@ -23,6 +23,7 @@
         
     },
     handleDoneRendering: function(component,event,helper){
+
         var value = component.get('v.value');
         var alreadyRendered = component.get('v.alreadyRendered');
 
@@ -31,8 +32,8 @@
                 helper.handleValueOnInit(component,event,helper);
             }
         }
-
         component.set('v.alreadyRendered', true);
+
     },
     handleOnfocus: function(component, event, helper) {
         var isMobile = component.get('v.isMobile');
@@ -51,18 +52,19 @@
         helper.openMenu(component);
     },
     handleNotifyParent: function(component, event, helper) {
+        
         helper.addToComponentValue(component, event, helper);
         helper.createOptionPill(component, event, helper);
         helper.removeOptionFromList(component, event, helper);
         helper.closeMenu(component);
-        
+        helper.clearInputValue(component);
         component.getEvent('onchange').fire();
     },
     handleComponentDestroyed: function(component, event, helper) {
         helper.removeOptionPill(component, event);
         helper.addOptionToList(component, event, helper);
         helper.removeFromComponentValue(component, event);
-        
+        helper.doSearch(component,event,helper,component.get('v.searchTerm'),component);
         component.getEvent('onchange').fire();
     },
     handleOnblur: function(component, event, helper) {
@@ -89,6 +91,9 @@
             searchTerm = component.find('inputField').getElement().value;
         }
 
+        var menuIsOpen = component.get('v.menuIsOpen');
+        if(!menuIsOpen){component.set('v.menuIsOpen', true);}
+        
         var keyCode = event.which || event.keyCode || 0;
         
         if (keyCode == KEYCODE_ENTER) {
@@ -110,5 +115,17 @@
     hideError: function(component, event, helper) {
         component.set('v.errorMessage', null);
         component.set('v.error', false);
+    },
+    externalValueChange: function(component,event,helper){
+        
+        var externalValue = event.getParam('arguments').externalValue;
+        component.set('v.value', externalValue);
+
+        var inputField = component.find('inputField');
+        inputField.getElement().value = '';
+
+        if(externalValue || externalValue === ''){
+            helper.handleValueOnInit(component,event,helper);
+        }
     }
 })

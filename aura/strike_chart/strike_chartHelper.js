@@ -620,7 +620,7 @@
         var chartWidth = component.get('v.containerWidth');
         var chartHeight = helper.getHeight(chartWidth);
 
-        var size = chartWidth * .6;
+        var size = chartWidth * .55;
         var radius = size / 2;
         var colors = helper.getColors();
 
@@ -698,7 +698,7 @@
 
         var circleParams = {
             parent: legend,
-            circleX: 0,
+            circleX: -11,
             circleY: -legendCircleRadius / 2,
             radius: legendCircleRadius,
             cssClass: '',
@@ -710,14 +710,15 @@
         helper.addCircle(circleParams);
 
         var getLabel = function (d) {
-            return d.data.segment;
+            let label = d.data.segment;
+            return label.length > 15 ? label.slice(0, 12) + '...' : label
         }
 
         var legendLabelParams = {
             parent: legend,
             cssClass: '',
             rotation: 0,
-            x: legendCircleRadius + 15,
+            x: legendCircleRadius - 6,
             y: 0,
             fontSize: size * .04,
             textAnchor: '',
@@ -775,7 +776,7 @@
 
         var parentGroupingWidth = parentGrouping._groups[0][0].getBBox().width;
         var parentGroupingHeight = parentGrouping._groups[0][0].getBBox().height;
-        var centeredX = Math.ceil(((chartWidth - parentGroupingWidth) / 2) + radius);
+        var centeredX = Math.ceil(((chartWidth - parentGroupingWidth) / 2) + radius) + 10;
         var centeredY = Math.ceil(((chartHeight - parentGroupingHeight) / 2) + radius);
 
         parentGrouping.attr('transform', 'translate(' + centeredX + ',' + centeredY + ')');

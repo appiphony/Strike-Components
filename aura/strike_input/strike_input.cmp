@@ -1,14 +1,23 @@
+<!--
+Strike by Appiphony
+
+Version: 0.7.0
+Website: http://www.lightningstrike.io
+GitHub: https://github.com/appiphony/Strike-Components
+License: BSD 2-Clause License
+-->
 <aura:component >
     <aura:attribute name="auraId" type="String" description="the aura id of the input" default="inputField"/>
     <aura:attribute name="name" type="String" description="the name of the input"/>
     <aura:attribute name="class" type="String" description="the class of the input" default=""/>
-    <aura:attribute name="label" type="String" description="the label of the component" required="true"/>
+    <aura:attribute name="label" type="String" description="the label of the component" />
     <aura:attribute name="value" type="String" description="the value of the component"/>
     <aura:attribute name="checked" type="Boolean" description="the checked value of the component"/>
     <aura:attribute name="type" type="String" description="The type of value that the input supports"/>
     <aura:attribute name="placeholder" type="String" description="Placeholder text to populate in the input if there is no value"/>
     <aura:attribute name="tabindex" type="Integer" description="Determines the tab ordering of the input"/>
     <aura:attribute name="helpText" type="String" description="Text to be displayed as a tooltip on the component"/>
+    <aura:attribute name="helpTextPlacement" type="String" default="auto top" description="Determines position of the helpText"/>
     <aura:attribute name="required" type="Boolean" description="determines whether a * will be displayed in the label"/>
     <aura:attribute name="error" type="Boolean" description="triggers an error state"/>
     <aura:attribute name="errorMessage" type="String" description="error message that will display when in an error state"/>
@@ -54,7 +63,7 @@
                     {!v.label}
                 </span>
                 <aura:if isTrue="{!not(empty(v.helpText))}">
-                    <c:strike_tooltip placement="top" text="{!v.helpText}" class="si-help-text-icon slds-m-horizontal--x-small">
+                    <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="si-help-text-icon slds-m-horizontal--x-small">
                         <lightning:icon iconName="utility:info" size="xx-small"/>
                     </c:strike_tooltip>
                 </aura:if>
@@ -64,6 +73,7 @@
                     type="checkbox"
                     name="{!v.name}"
                     disabled="{!v.disabled}"
+                    tabindex="{!v.tabindex}"
                     aria-describedby="toggle-desc" />
                 <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                     <span class="slds-checkbox--faux"></span>
@@ -80,7 +90,7 @@
                         </aura:if>
                         {!v.label}
                         <aura:if isTrue="{!not(empty(v.helpText))}">
-                            <c:strike_tooltip placement="top" text="{!v.helpText}" class="si-help-text-icon slds-m-left--x-small">
+                            <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="si-help-text-icon slds-m-left--x-small">
                                 <lightning:icon iconName="utility:info" size="xx-small"/>
                             </c:strike_tooltip>
                         </aura:if>
@@ -102,7 +112,7 @@
                             maxlength="{!or(empty(v.maxlength), v.maxlength gt 524288) ? 524288 : v.maxlength}"
                             minlength="{!v.minlength}"
                             step="{!v.step}"
-                            tabindex="{!v.tabIndex}"
+                            tabindex="{!v.tabindex}"
                             readonly="{!v.readonly}"
                             disabled="{!v.disabled}"
                             checked="{!v.checked}"
@@ -119,7 +129,7 @@
                                 <span class="slds-radio--faux"></span>
                                 <span class="{!'slds-form-element__label' + if (empty(v.helpText), '', ' slds-m-right--none')}">{!v.label}</span>
                                 <aura:if isTrue="{!not(empty(v.helpText))}">
-                                    <c:strike_tooltip placement="top" text="{!v.helpText}" class="si-help-text-icon slds-m-left--x-small">
+                                    <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="si-help-text-icon slds-m-left--x-small">
                                         <lightning:icon iconName="utility:info" size="xx-small"/>
                                     </c:strike_tooltip>
                                 </aura:if>
@@ -130,7 +140,7 @@
                                 <span class="slds-checkbox--faux"></span>
                                 <span class="{!'slds-form-element__label' + if (empty(v.helpText), '', ' slds-m-right--none')}">{!v.label}</span>
                                 <aura:if isTrue="{!not(empty(v.helpText))}">
-                                    <c:strike_tooltip placement="top" text="{!v.helpText}" class="si-help-text-icon slds-m-left--x-small">
+                                    <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="si-help-text-icon slds-m-left--x-small">
                                         <lightning:icon iconName="utility:info" size="xx-small"/>
                                     </c:strike_tooltip>
                                 </aura:if>
@@ -145,3 +155,13 @@
         </aura:if>
     </div>
 </aura:component>
+<!--
+Copyright 2017 Appiphony, LLC
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->

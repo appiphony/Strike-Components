@@ -1,7 +1,16 @@
-<aura:component access="global">
-    <aura:attribute name="label" type="String" required="true" description="String value displayed above the menu used to describe the component" />
+<!--
+Strike by Appiphony
+
+Version: 0.7.0
+Website: http://www.lightningstrike.io
+GitHub: https://github.com/appiphony/Strike-Components
+License: BSD 2-Clause License
+-->
+<aura:component implements="flexipage:availableForAllPageTypes" access="global">
+    <aura:attribute name="label" type="String" description="String value displayed above the menu used to describe the component" />
 
     <aura:attribute name="helpText" type="String" description="String value when hovering over the help box"/>
+    <aura:attribute name="helpTextPlacement" type="String" default="auto top" description="Determines position of the helpText"/>
     <aura:attribute name="class" type="String" description="A CSS class that will be applied to the outer element. This style is in addition to base classes associated with the component"/>
     <aura:attribute name="name" type="String" description="String value of the component's form name"/>
     <aura:attribute name="placeholder" type="String" default="Select an Option" description="String value that will appear when no option is selected" />
@@ -49,15 +58,16 @@
             </aura:if>
             {!v.label}
             <aura:if isTrue="{!not(empty(v.helpText))}">
-                <c:strike_tooltip placement="top" text="{!v.helpText}" class="ss-help-text-icon slds-m-left--x-small">
+                <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="ss-help-text-icon slds-m-left--x-small">
                     <lightning:icon iconName="utility:info" size="xx-small"/>
                 </c:strike_tooltip>
             </aura:if>
         </label>
         <input name="{!v.name}" value="{!v.value}" type="hidden" />
+        
         <div class="{!'slds-picklist slds-dropdown-trigger slds-dropdown-trigger--click' + if(v.openMenu, ' slds-is-open', '') + if(v.disabled, ' ss-disabled', '')}" aria-expanded="true">
             <div class="slds-form-element__control">
-                <div aura:id="dropdown-trigger" class="slds-button slds-button--neutral slds-input slds-picklist__input slds-text-color--default slds-picklist__label ss-menu-button" aria-haspopup="true" tabIndex="0" onfocus="{!c.toggleMenu}" onclick="{!c.stopProp}">
+                <div aura:id="dropdown-trigger" class="slds-button slds-button--neutral slds-input slds-picklist__input slds-text-color--default slds-picklist__label ss-menu-button" aria-haspopup="true" tabindex="0" onfocus="{!c.toggleMenu}" onclick="{!c.stopProp}">
                     <span class="slds-truncate ss-selected-text" title="{!v.valueLabel}">
                         <aura:if isTrue="{!and(not(empty(v.iconName)), not(v.customIcon))}">
                             <lightning:icon class="ss-selected-icon slds-input__icon" iconName="{!v.iconName}" size="x-small" />
@@ -109,5 +119,16 @@
                 <div class="slds-form-element__help">{!v.errorMessage}</div>
             </aura:if>
         </div>
+        
     </div>
 </aura:component>
+<!--
+Copyright 2017 Appiphony, LLC
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
