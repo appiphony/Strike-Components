@@ -1,6 +1,9 @@
 ({
-    calculateNubbinPlacement: function(component){
-        var placement = component.get('v.placement');
+    calculateNubbinPlacement: function(component, placement){
+        if(!placement) {
+            var placement = component.get('v.placement');
+        }
+        placement = placement.replace('auto ', '');
         var nubbinPlacement;
 
         switch (placement){
@@ -27,6 +30,45 @@
         var containerRight = containerBoundingBox.right;
 
         var placement = component.get('v.placement');
+
+        // Check for auto placement
+        if(placement.startsWith('auto ')) {
+
+            // Remove auto placement to perform bounding checks on preferred placement
+            placement = placement.replace('auto ', '');
+
+            // Construct the window bounding box.
+
+            // The height of the sticky global header is not accessible in any way
+            // so it must be hardcoded. This may change during releases.
+            // var globalHeaderHeight = 90;
+
+            // In LEX, document.body.getBoundingClientRect() does not return the
+            // correct values so we will construct a box ourselves using the
+            // inner width and height of the window (viewport)
+            var windowBoundingBox = {
+                top: 0,
+                right: window.innerWidth,
+                bottom: window.innerHeight,
+                left: 0
+            };
+
+            // Validate that there is space for the preferred placements. If there is
+            // not, invert the placement
+            if(placement === 'top' && (containerBoundingBox.top - tooltipBoundingBox.height) < windowBoundingBox.top) {
+                placement = 'bottom';
+            } else if(placement === 'right' && (containerBoundingBox.right + tooltipBoundingBox.width) > windowBoundingBox.right) {
+                placement = 'left';
+            } else if(placement === 'bottom' && (containerBoundingBox.bottom + tooltipBoundingBox.height) > windowBoundingBox.bottom) {
+                placement = 'top';
+            } else if(placement === 'left' && (containerBoundingBox.left - tooltipBoundingBox.width) < windowBoundingBox.left) {
+                placement = 'right';
+            }
+
+            // update nubbin since placement may have changed from the last
+            // display
+            this.calculateNubbinPlacement(component, placement);
+        }
 
         var tooltipYPos, tooltipXPos;
         var nubbinPadding = 14;

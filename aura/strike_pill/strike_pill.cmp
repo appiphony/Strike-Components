@@ -1,7 +1,7 @@
 <!--
 Strike by Appiphony
 
-Version: 0.6.0
+Version: 0.7.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 2-Clause License
@@ -22,12 +22,12 @@ License: BSD 2-Clause License
 
     <!-- Events -->
     <aura:registerEvent name="strike_evt_componentDestroyed" type="c:strike_evt" description="is fired when a pill is destroyed"/>
-    
+
     <!-- Methods -->
     <aura:method name="destroyPill" action="{!c.destroyPill}"/>
 
 
-    <aura:if isTrue="{!v.withContainer}"> 
+    <aura:if isTrue="{!v.withContainer}">
         <div class="slds-pill_container">
             <span class="{!'slds-pill' + (v.variant == 'error' ? ' slds-has-error' : '')}">
                 <aura:if isTrue="{!v.variant == 'withIcon'}">
@@ -38,7 +38,7 @@ License: BSD 2-Clause License
 
                 <aura:if isTrue="{!v.variant == 'withPortrait'}">
                     <span class="slds-avatar slds-avatar--x-small slds-avatar--circle slds-m-right--xx-small">
-                        <lightning:avatar src="{!v.avatarSource}" variant="circle" alternativeText="{!v.alternativeText}"/>
+                        <lightning:avatar src="{!v.avatarSource}" variant="circle" alternativeText="{!v.alternativeText}" fallbackIconName="standard:avatar" size="x-small"/>
                     </span>
                 </aura:if>
 
@@ -56,15 +56,15 @@ License: BSD 2-Clause License
                         </aura:set>
                     </aura:if>
                 </span>
-                
+
                 <aura:if isTrue="{!v.destroyable}">
                     <lightning:buttonIcon iconName="utility:close" variant="bare" alternativeText="Remove" class="slds-button slds-pill__remove sp-remove" onclick="{!c.destroyPill}"/>
                 </aura:if>
             </span>
         </div>
-    </aura:if> 
+    </aura:if>
 
-   
+
     <aura:if isTrue="{!not(v.withContainer)}">
         <span class="{!'slds-pill' + (v.variant == 'error' ? ' slds-has-error' : '')}">
             <aura:if isTrue="{!v.variant == 'withIcon'}">
@@ -75,7 +75,7 @@ License: BSD 2-Clause License
 
             <aura:if isTrue="{!v.variant == 'withPortrait'}">
                 <span class="slds-avatar slds-avatar--x-small slds-avatar--circle slds-m-right--xx-small">
-                    <lightning:avatar src="{!v.avatarSource}" variant="circle" alternativeText="{!v.alternativeText}"/>
+                    <lightning:avatar src="{!v.avatarSource}" variant="circle" alternativeText="{!v.alternativeText}" fallbackIconName="standard:avatar" size="x-small"/>
                 </span>
             </aura:if>
 
@@ -93,7 +93,7 @@ License: BSD 2-Clause License
                     </aura:set>
                 </aura:if>
             </span>
-            
+
             <aura:if isTrue="{!v.destroyable}">
                 <lightning:buttonIcon iconName="utility:close" variant="bare" alternativeText="Remove" class="slds-button slds-pill__remove sp-remove" onclick="{!c.destroyPill}"/>
             </aura:if>

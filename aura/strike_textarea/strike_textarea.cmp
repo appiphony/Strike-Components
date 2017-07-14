@@ -1,7 +1,7 @@
 <!--
 Strike by Appiphony
 
-Version: 0.6.0
+Version: 0.7.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 2-Clause License
@@ -10,7 +10,7 @@ License: BSD 2-Clause License
     <!-- Required -->
     <aura:attribute name="label" type="String" description="Text that describes the desired textarea input"/>
     <aura:attribute name="helpText" type="String" description="String value when hovering over the help box"/>
-    <aura:attribute name="helpTextPlacement" type="String" default="top" description="Determines position of the helpText"/>
+    <aura:attribute name="helpTextPlacement" type="String" default="auto top" description="Determines position of the helpText"/>
     <aura:attribute name="name" type="String" description="Specifies the name of an input element" default="Strike TextArea"/>
     <aura:attribute name="class" type="String" description="A CSS class that will be applied to the outer element. This style is in addition to base classes associated with the component"/>
     <aura:attribute name="placeholder" type="String" description="Text that is displayed when the field is empty, to prompt the user for a valid entry"/>

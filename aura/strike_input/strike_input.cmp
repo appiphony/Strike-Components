@@ -1,7 +1,7 @@
 <!--
 Strike by Appiphony
 
-Version: 0.6.0
+Version: 0.7.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 2-Clause License
@@ -17,7 +17,7 @@ License: BSD 2-Clause License
     <aura:attribute name="placeholder" type="String" description="Placeholder text to populate in the input if there is no value"/>
     <aura:attribute name="tabindex" type="Integer" description="Determines the tab ordering of the input"/>
     <aura:attribute name="helpText" type="String" description="Text to be displayed as a tooltip on the component"/>
-    <aura:attribute name="helpTextPlacement" type="String" default="top" description="Determines position of the helpText"/>
+    <aura:attribute name="helpTextPlacement" type="String" default="auto top" description="Determines position of the helpText"/>
     <aura:attribute name="required" type="Boolean" description="determines whether a * will be displayed in the label"/>
     <aura:attribute name="error" type="Boolean" description="triggers an error state"/>
     <aura:attribute name="errorMessage" type="String" description="error message that will display when in an error state"/>
@@ -73,6 +73,7 @@ License: BSD 2-Clause License
                     type="checkbox"
                     name="{!v.name}"
                     disabled="{!v.disabled}"
+                    tabindex="{!v.tabindex}"
                     aria-describedby="toggle-desc" />
                 <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                     <span class="slds-checkbox--faux"></span>

@@ -1,7 +1,7 @@
 <!--
 Strike by Appiphony
 
-Version: 0.6.0
+Version: 0.7.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 2-Clause License
@@ -13,7 +13,7 @@ License: BSD 2-Clause License
     <aura:attribute name="searchField" type="String" required="true" description="String value that determines which field on the object will be displayed and searched against"/>
 
     <aura:attribute name="helpText" type="String" description="String value when hovering over the help box"/>
-    <aura:attribute name="helpTextPlacement" type="String" default="top" description="Determines position of the helpText"/>
+    <aura:attribute name="helpTextPlacement" type="String" default="auto top" description="Determines position of the helpText"/>
     <aura:attribute name="class" type="String" description="A CSS class that will be applied to the outer element. This style is in addition to base classes associated with the component"/>
     <aura:attribute name="placeholder" type="String" description="String value that will appear when no record is selected"/>
     <aura:attribute name="value" type="String" description="String value that holds the Id of the selected record"/>

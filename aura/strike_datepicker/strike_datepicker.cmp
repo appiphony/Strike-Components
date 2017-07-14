@@ -1,7 +1,7 @@
 <!--
 Strike by Appiphony
 
-Version: 0.6.0
+Version: 0.7.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 2-Clause License
@@ -11,7 +11,7 @@ License: BSD 2-Clause License
     <aura:attribute name="label" type="String" required="true"/>
 
     <aura:attribute name="helpText" type="String"/>
-    <aura:attribute name="helpTextPlacement" type="String" default="top" description="Determines position of the helpText"/>
+    <aura:attribute name="helpTextPlacement" type="String" default="auto top" description="Determines position of the helpText"/>
     <aura:attribute name="name" type="String"/>
     <aura:attribute name="class" type="String"/>
     <aura:attribute name="placeholder" type="String"/>

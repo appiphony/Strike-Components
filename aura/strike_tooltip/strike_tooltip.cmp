@@ -1,7 +1,7 @@
 <!--
 Strike by Appiphony
 
-Version: 0.6.0
+Version: 0.7.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 2-Clause License
@@ -9,7 +9,7 @@ License: BSD 2-Clause License
 <aura:component>
     <aura:attribute name="text" type="String" required="true"/>
 
-    <aura:attribute name="placement" type="String" default="top"/>
+    <aura:attribute name="placement" type="String" default="auto top"/>
     <aura:attribute name="class" type="String"/>
 
     <!-- Internal -->

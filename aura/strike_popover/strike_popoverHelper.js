@@ -1,7 +1,7 @@
 ({
     calculateNubbinPlacement: function(component, placement){
         if(!placement) {
-            placement = component.get('v.placement');
+            var placement = component.get('v.placement');
         }
         placement = placement.replace('auto ', '');
         var variant = component.get('v.variant');
@@ -47,13 +47,13 @@
 
             // The height of the sticky global header is not accessible in any way
             // so it must be hardcoded. This may change during releases.
-            var globalHeaderHeight = 90;
+            // var globalHeaderHeight = 90;
 
             // In LEX, document.body.getBoundingClientRect() does not return the
             // correct values so we will construct a box ourselves using the
             // inner width and height of the window (viewport)
             var windowBoundingBox = {
-                top: globalHeaderHeight,
+                top: 0,
                 right: window.innerWidth,
                 bottom: window.innerHeight,
                 left: 0
