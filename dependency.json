@@ -22,5 +22,6 @@
   "strike_svg": ["strike_svg"],
   "strike_evt": ["strike_evt"],
   "strike_wizard": ["defaultTokens", "strike_evt", "strike_wizard"],
+  "strike_radioGroup": ["strike_tooltip", "strike_input", "strike_radioGroup"],
   "defaultTokens": ["defaultTokens"]
 }
