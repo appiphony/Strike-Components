@@ -1,38 +1,63 @@
-<aura:component access="global">
-	<aura:attribute name="fields" type="Object[]" description="data from the gridData"/>
+<!--
+Strike by Appiphony
 
-	<aura:attribute name="sortFieldValue" type="String" description="is set during sort to determine sort order"/>
+Version: 0.7.0
+Website: http://www.lightningstrike.io
+GitHub: https://github.com/appiphony/Strike-Components
+License: BSD 2-Clause License
+-->
+<aura:component access="global">
+	<aura:attribute name="fields" type="Object[]" description="Data from strike_dataGrid" required="true"/>
+	<aura:attribute name="sortFieldValue" type="String" description="Set during sort to determine sort order"/>
+
+	<aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+
 	<tr>
-		<aura:iteration items="{!v.fields}" var="field">
-			<td data-label="{!field.name}">
-				<aura:if isTrue="{!field.dataType == 'BOOLEAN'}">
-					<div class="slds-truncate" title="{!field.value}"><ui:outputCheckbox value="{!field.value}"/></div>
-				</aura:if>
-				<aura:if isTrue="{!field.dataType == 'CURRENCY'}">
-					<div class="slds-truncate" title="{!field.value}"><ui:outputCurrency value="{!field.value}"/></div>
-				</aura:if>
-				<aura:if isTrue="{!field.dataType == 'DATE'}">
-					<div class="slds-truncate" title="{!field.value}"><ui:outputDate value="{!field.value}"/></div>
-				</aura:if>
-				<aura:if isTrue="{!field.dataType == 'DATETIME'}">
-					<div class="slds-truncate" title="{!field.value}"><ui:outputDateTime format="M/dd/yyyy H:mm a" value="{!field.value}"/></div>
-				</aura:if>
-				<aura:if isTrue="{!field.dataType == 'EMAIL'}">
-					<div class="slds-truncate" title="{!field.value}"><ui:outputEmail value="{!field.value}"/></div>
-				</aura:if>
-				<aura:if isTrue="{!field.dataType == 'NUMBER'}">
-					<div class="slds-truncate" title="{!field.value}"><ui:outputNumber value="{!field.value}"/></div>
-				</aura:if>
-				<aura:if isTrue="{!field.dataType == 'PHONE'}">
-					<div class="slds-truncate" title="{!field.value}"><ui:outputPhone value="{!field.value}"/></div>
-				</aura:if>
-				<aura:if isTrue="{!field.dataType == 'URL'}">
-					<div class="slds-truncate" title="{!field.value}"><ui:outputURL value="{!field.value}" label="{!field.value}"/></div>
-				</aura:if>
-				<aura:if isTrue="{!field.dataType == 'STRING'}">
-					<div class="slds-truncate" title="{!field.value}">{!field.value}</div>
-				</aura:if>
+		<aura:iteration items="{!v.fields}" var="field" indexVar="index">
+			<td data-label="{!field.label}">
+				<div aura:id="value-output" class="{!if(field.dataType != 'COMPONENT', 'slds-truncate', '')}" title="{!if(field.dataType == 'COMPONENT', '', field.value)}">
+					<aura:if isTrue="{!field.dataType == 'BOOLEAN'}">
+						<ui:outputCheckbox value="{!field.value}"/>
+					</aura:if>
+					<aura:if isTrue="{!field.dataType == 'CURRENCY'}">
+						<ui:outputCurrency value="{!field.value}"/>
+					</aura:if>
+					<aura:if isTrue="{!field.dataType == 'DATE'}">
+						<ui:outputDate value="{!field.value}"/>
+					</aura:if>
+					<aura:if isTrue="{!field.dataType == 'DATETIME'}">
+						<ui:outputDateTime format="M/dd/yyyy H:mm a" value="{!field.value}"/>
+					</aura:if>
+					<aura:if isTrue="{!field.dataType == 'EMAIL'}">
+						<ui:outputEmail value="{!field.value}"/>
+					</aura:if>
+					<aura:if isTrue="{!field.dataType == 'NUMBER'}">
+						<ui:outputNumber value="{!field.value}"/>
+					</aura:if>
+					<aura:if isTrue="{!field.dataType == 'PERCENT'}">
+						<ui:outputNumber value="{!field.value}"/>%
+					</aura:if>
+					<aura:if isTrue="{!field.dataType == 'PHONE'}">
+						<ui:outputPhone value="{!field.value}"/>
+					</aura:if>
+					<aura:if isTrue="{!field.dataType == 'URL'}">
+						<ui:outputURL value="{!field.value}" label="{!field.value}"/>
+					</aura:if>
+					<aura:if isTrue="{!field.dataType == 'STRING'}">
+						{!field.value}
+					</aura:if>
+				</div>
 			</td>
 		</aura:iteration>
 	</tr>
-</aura:component>	
+</aura:component>
+<!--
+Copyright 2017 Appiphony, LLC
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->

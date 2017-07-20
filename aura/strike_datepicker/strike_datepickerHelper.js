@@ -66,8 +66,10 @@
     },
     setYearValues: function (component, year) {
         var selectYears = [];
+        var yearsBefore = component.get('v.yearsBefore');
+        var yearsAfter = component.get('v.yearsAfter');
 
-        for (var i = year - 100; i <= year + 30; i++) {
+        for (var i = year - parseInt(yearsBefore); i <= year + parseInt(yearsAfter); i++) {
             selectYears.push({
                 label: i.toString(),
                 value: i,
