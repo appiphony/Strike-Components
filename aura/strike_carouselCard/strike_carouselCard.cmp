@@ -1,0 +1,61 @@
+<!--
+Strike by Appiphony
+
+Version: 0.8.0
+Website: http://www.lightningstrike.io
+GitHub: https://github.com/appiphony/Strike-Components
+License: BSD 2-Clause License
+-->
+<aura:component >
+    <aura:attribute name="imgSrc" type="String"/>
+    <aura:attribute name="imgHref" type="String"/>
+    <aura:attribute name="title" type="String"/>
+    <aura:attribute name="titleHref" type="String"/>
+    <aura:attribute name="buttonHref" type="String"/>
+    <aura:attribute name="buttonLabel" type="String"/>
+
+
+    <div class="sc-card slds-box slds-theme_default">
+        <aura:if isTrue="{!not(empty(v.imgHref))}">
+            <a href="{!v.imgHref}" target="_blank"><div class="{!'sc-card__image-container' + if(not(empty(v.imgHref)), ' sc-cursor--pointer')}" style="{!'background-image: url(' + v.imgSrc + ')'}"></div></a>
+
+            <aura:set attribute="else">
+                <div class="sc-card__image-container" style="{!'background-image: url(' + v.imgSrc + ')'}"></div>
+            </aura:set>
+        </aura:if>
+
+        <div class="sc-card__body">
+            <div class="sc-card__title_container">
+                <aura:if isTrue="{!not(empty(v.titleHref))}">
+                    <h4 class="sc-card__title slds-text-heading_small" title="{!v.title}"><a href="{!v.titleHref}" target="_blank">{!v.title}</a></h4>
+
+                    <aura:set attribute="else">
+                        <h4 class="sc-card__title slds-text-heading_small" title="{!v.title}">{!v.title}</h4>
+                    </aura:set>
+                </aura:if>
+            </div>
+            
+            <aura:if isTrue="{!not(empty(v.buttonLabel))}">
+                <p class="slds-m-top_small">
+                    <aura:if isTrue="{!not(empty(v.buttonHref))}">
+                        <a href="{!v.buttonHref}" target="_blank" class="slds-button slds-button_neutral slds-truncate" title="{!v.buttonLabel}">{!v.buttonLabel}</a>
+
+                        <aura:set attribute="else">
+                            <div class="slds-button slds-button_neutral slds-truncate" title="{!v.buttonLabel}">{!v.buttonLabel}</div>
+                        </aura:set>
+                    </aura:if> 
+                </p>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>
+<!--
+Copyright 2017 Appiphony, LLC
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->

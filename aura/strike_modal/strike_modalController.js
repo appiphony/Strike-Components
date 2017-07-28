@@ -25,11 +25,6 @@
     determineModalState: function(component, event, helper){
         var showModal = component.get('v.showModal');
         var showingModal = component.get('v.showingModal');
-
-        if(showModal == showingModal){
-            return;
-        }
-
         showModal ? helper.show(component, event, helper) : helper.hide(component, event, helper);
     },
     clickedPrimary: function(component, event, helper) {

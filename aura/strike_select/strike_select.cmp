@@ -1,7 +1,7 @@
 <!--
 Strike by Appiphony
 
-Version: 0.7.0
+Version: 0.8.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 2-Clause License
@@ -57,12 +57,12 @@ License: BSD 2-Clause License
                 <abbr class="slds-required" title="required">*</abbr>
             </aura:if>
             {!v.label}
-            <aura:if isTrue="{!not(empty(v.helpText))}">
-                <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="ss-help-text-icon slds-m-left--x-small">
-                    <lightning:icon iconName="utility:info" size="xx-small"/>
-                </c:strike_tooltip>
-            </aura:if>
         </label>
+        <aura:if isTrue="{!not(empty(v.helpText))}">
+            <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="ss-help-text-icon">
+                <lightning:icon iconName="utility:info" size="xx-small"/>
+            </c:strike_tooltip>
+        </aura:if>
         <input name="{!v.name}" value="{!v.value}" type="hidden" />
         
         <div class="{!'slds-picklist slds-dropdown-trigger slds-dropdown-trigger--click' + if(v.openMenu, ' slds-is-open', '') + if(v.disabled, ' ss-disabled', '')}" aria-expanded="true">

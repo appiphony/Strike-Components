@@ -9,6 +9,7 @@
             targetEl: 'modal'
         }
 
+        component.set('v.showModal', params.showModal);
         helper.modalTransitioner(component, params);
     },
     hide: function(component, event, helper) {
@@ -21,6 +22,7 @@
             targetEl: 'backdrop'
         }
 
+        component.set('v.showModal', params.showModal);
         helper.modalTransitioner(component, params);
     },
     modalTransitioner: function(component, params){
@@ -46,7 +48,6 @@
 
                 afterEvent.fire();
                 targetEl.removeEventListener('transitionend', transitionListener);
-                component.set('v.showModal', showModal);
             }
         });
 

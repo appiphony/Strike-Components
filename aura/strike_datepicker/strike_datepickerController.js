@@ -57,6 +57,11 @@
     clickedDateInput: function(component, event, helper) {
         event.preventDefault();
         event.stopPropagation();
+        
+        if (event.srcElement.tagName == 'use' || event.srcElement.tagName == 'svg') {
+            return;
+        }
+        
         var notDisabled = !component.get('v.disabled');
         var displayDate = component.get('v.displayDate');
         var dateInput = component.find('date-input');

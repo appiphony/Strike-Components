@@ -4,7 +4,7 @@
         var radioName = 'sf-radio-button-' + (new Date()).valueOf();
 
         body.forEach(function(el) {
-            if (el.type === 'aura:iteration') {
+            if (el.toString().match(/aura:iteration/)) {
                 var children = el.get('v.body');
 
                 children.forEach(function(child) {

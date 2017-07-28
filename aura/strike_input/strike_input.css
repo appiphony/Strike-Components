@@ -2,6 +2,19 @@
     fill: #9ea9b5;
 }
 
+.THIS .si-help-text-icon,
+.THIS .si-help-text-icon .slds-icon {
+    cursor: default;
+}
+
+.THIS .si-help-text-icon.si-help-text-icon--negate-spacing {
+    margin-left: -0.25rem;
+}
+
+.THIS .si-has-help-text {
+    vertical-align: top;
+}
+
 .THIS label.slds-checkbox--toggle {
     pointer-events: none;
 }
@@ -15,4 +28,24 @@
 .THIS input[type="month"] {
     -moz-appearance: none;
     -webkit-appearance: none;
+}
+.THIS .slds-icon-text-light .slds-icon {
+    fill: t(colorTextInputIcon);
+}
+
+.THIS .slds-checkbox__label,
+.THIS .slds-radio__label {
+    display: inline-flex;
+}
+
+.THIS .slds-checkbox__label .slds-checkbox--faux,
+.THIS .slds-radio__label .slds-radio--faux {
+    min-width: t(spacingMedium);
+    min-height: t(spacingMedium);
+}
+
+.THIS .slds-checkbox__label .slds-checkbox--faux,
+.THIS .slds-radio__label .slds-radio--faux {
+    min-width: t(spacingMedium);
+    min-height: t(spacingMedium);
 }

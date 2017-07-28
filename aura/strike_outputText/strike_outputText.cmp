@@ -1,0 +1,51 @@
+<!--
+Strike by Appiphony
+
+Version: 0.8.0
+Website: http://www.lightningstrike.io
+GitHub: https://github.com/appiphony/Strike-Components
+License: BSD 2-Clause License
+-->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+	<aura:attribute name="value" type="String"/>
+	<aura:attribute name="valueData" type="Object" />
+
+	<aura:handler name="init" value="{!this}" action="{!c.handleInit}"/>
+	<aura:handler name="change" value="{!v.value}" action="{!c.handleChange}"/>
+	
+	<aura:handler name="strikeEvent" event="c:strike_evt" action="{!c.handleChildEvent}" includeFacets="true"/>
+
+	<aura:iteration items="{!v.valueData}" var="valueDataPiece">
+	    <aura:if isTrue="{!empty(valueDataPiece.type)}">
+	        {!valueDataPiece.value}
+	    </aura:if>
+
+	    <aura:if isTrue="{!valueDataPiece.type == 'date'}">
+	        <ui:outputDate value="{!valueDataPiece.value}" format="{!valueDataPiece.format}"/>
+	    </aura:if>
+
+	    <aura:if isTrue="{!valueDataPiece.type == 'datetime'}">
+	        <ui:outputDateTime value="{!valueDataPiece.value}" format="{!valueDataPiece.format}"/>
+	    </aura:if>
+
+	    <aura:if isTrue="{!valueDataPiece.type == 'number'}">
+	    	<ui:outputNumber value="{!valueDataPiece.value}" format="{!valueDataPiece.format}"/>
+	    </aura:if>
+
+	    <aura:if isTrue="{!valueDataPiece.type == 'currency'}">
+	    	<ui:outputCurrency value="{!valueDataPiece.value}" format="{!valueDataPiece.format}"/>
+	    </aura:if>
+	</aura:iteration>
+
+	{!v.body}
+</aura:component>	
+<!--
+Copyright 2017 Appiphony, LLC
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->

@@ -87,6 +87,13 @@
 /* --------------------------------------------------
 Salesforce1 Styles
 -------------------------------------------------- */
+.THIS:not(.sl-lookup--mobile).sl-lookup--open.scrollable {
+    overflow: visible;
+}
+
+.THIS:not(.sl-lookup--mobile):not(.sl-lookup--open).scrollable {
+    overflow: hidden;
+}
 
 .THIS:not(.sl-lookup--mobile).scrollable,
 .THIS:not(.sl-lookup--open).scrollable {

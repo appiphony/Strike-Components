@@ -1,7 +1,7 @@
 <!--
 Strike by Appiphony
 
-Version: 0.7.0
+Version: 0.8.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 2-Clause License
@@ -85,13 +85,13 @@ License: BSD 2-Clause License
             <aura:if isTrue="{!v.required}">
                 <abbr class="slds-required" title="required">*</abbr>
             </aura:if>
-            {!v.label}
-            <aura:if isTrue="{!not(empty(v.helpText))}">
-                <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="sl-help-text-icon slds-m-left--x-small">
-                    <lightning:icon iconName="utility:info" size="xx-small"/>
-                </c:strike_tooltip>
-            </aura:if>
+            {!v.label}  
         </label>
+        <aura:if isTrue="{!not(empty(v.helpText))}">
+            <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="sl-help-text-icon">
+                <lightning:icon iconName="utility:info" size="xx-small"/>
+            </c:strike_tooltip>
+        </aura:if>
         <div class="{!'slds-form-element__control slds-input-has-icon slds-input-has-icon--right' + if(v.disabled, ' sl-disabled', '')}" onclick="{!c.cancelLookup}">
             <div class="{!'slds-pill_container' + if(or(not(empty(v.value)), greaterthan(v.initCallsRunning, 0)), '', ' slds-hide')}">
                 <span class="{!'slds-pill slds-size--1-of-1' + if(greaterthan(v.initCallsRunning, 0), ' sl-pill--loading', '')}">
@@ -111,8 +111,8 @@ License: BSD 2-Clause License
                     </button>
                 </span>
             </div>
-            <div class="{!'sl-lookup__input_container slds-grid slds-grid--pull-padded-xx-small' + if(and(equals(v.initCallsRunning, 0), empty(v.value)), '', ' slds-hide')}">
-                <div class="sl-lookup__input slds-col slds-p-horizontal--xx-small">
+            <div class="{!'sl-lookup__input_container' + if(v.isMobile == true, ' slds-grid slds-grid--pull-padded-xx-small', '') + if(and(equals(v.initCallsRunning, 0), empty(v.value)), '', ' slds-hide')}">
+                <div class="{!'sl-lookup__input' + if(v.isMobile == true, ' slds-col slds-p-horizontal--xx-small', '')}">
                     <lightning:icon iconName="utility:search" size="x-small" class="sl-search-icon"/>
                     <input
                         aura:id="lookupInput"
