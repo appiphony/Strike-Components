@@ -1,5 +1,16 @@
 # Strike by Appiphony
 
+### Release 0.8.0 — July 28, 2017
+#### New Features
+* **Strike Carousel:** A paginated list of items that scroll left and right
+* **Strike Output Text:** An element designed to output various types of data as text
+#### Improvements
+* **All Strike Components:** Updated API versions to 40
+#### Bug Fixes
+* **Strike Lookup:** Fixed an issue where IE and Edge browsers were incorrectly displaying scrollbars around the component's container <a href="https://github.com/appiphony/Strike-Components/issues/42" target="_blank">[GitHub Issue #42]</a>
+
+---
+
 ### Release 0.7.0 — July 14, 2017
 #### New Features
 * **Strike Radio Group:** A form element for accepting a single selection based on descriptive options
