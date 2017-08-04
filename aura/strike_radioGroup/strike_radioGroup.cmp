@@ -1,6 +1,7 @@
 <aura:component >
 	<aura:attribute name="value" type="String" description="This attribute binds to the selected radio option in the group"/>
     <aura:attribute name="label" type="String" default="" description="The radio group's label"/>
+    <aura:attribute name="class" type="String" default="" description="The class list applied in the fieldset element"/>
     <aura:attribute name="radioName" type="String" description="A unique name for each radio option in the group"/>
     <aura:attribute name="required" type="Boolean" description="Visually indicates whether selecting a radio option is required or not"/>
     <aura:attribute name="radioButtons" type="Map[]"/>
@@ -8,8 +9,7 @@
     <aura:attribute name="helpText" type="String" description="Specifies helper text to be displayed as a tooltip"/>
     <aura:attribute name="helpTextPlacement" type="String" default="auto top" description="Determines position of the helpText"/>
 
-
-    <fieldset class="{!v.errorMessage != '' ? 'slds-has-error slds-form-element slds-p-top--small slds-p-left--large' : 'slds-form-element slds-p-top--small slds-p-left--large'}">
+    <fieldset class="{!'slds-form-element' + if(empty(v.errorMessage), '', ' slds-has-error') + if(empty(v.class), '', ' ' + v.class)}">
         <div class="slds-form-element__control">
             <aura:if isTrue="{!v.label != ''}">
                 <legend class="slds-form-element__legend slds-form-element__label">
@@ -18,12 +18,11 @@
                     </aura:if>
                     {!v.label}
                     <aura:if isTrue="{!and(v.helpText, v.helpText != '')}">
-                        <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="srg-help-text-icon slds-m-left--x-small">
+                        <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="srg-help-text-icon slds-m-left--small">
                             <lightning:icon iconName="utility:info" size="xx-small"/>
                         </c:strike_tooltip>
                     </aura:if>
                 </legend>
-                    
             </aura:if>
             <aura:iteration items="{!v.body}" var="el">
                 <div class="slds-form-element strike-radio-container">
@@ -31,6 +30,8 @@
                 </div>
             </aura:iteration>
         </div>
-        <div class="slds-form-element__help">{!v.errorMessage}</div>
+		<aura:if isTrue="{!not(empty(v.errorMessage))}">
+	        <div class="slds-form-element__help">{!v.errorMessage}</div>
+		</aura:if>
     </fieldset>
 </aura:component>

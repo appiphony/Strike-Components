@@ -23,5 +23,9 @@
   "strike_evt": ["strike_evt"],
   "strike_wizard": ["defaultTokens", "strike_evt", "strike_wizard"],
   "strike_radioGroup": ["strike_tooltip", "strike_input", "strike_radioGroup"],
+  "strike_param": ["strike_param"],
+  "strike_outputText": ["strike_param", "strike_outputText"],
+  "strike_carouselCard": ["strike_carouselCard"],
+  "strike_carousel": ["strike_carouselCard", "strike_carousel"],
   "defaultTokens": ["defaultTokens"]
 }

@@ -1,0 +1,28 @@
+.THIS.slds-scope .sc-carousel-body > .slds-col {
+    display: flex;
+    align-items: stretch;
+}
+.THIS.slds-scope .sc-pagination {
+    list-style: none;
+    display: block;
+    text-align: center;
+}
+.THIS.slds-scope .sc-pagination__dot {
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-radius: 12px;
+    border: 1px solid #c8cfda;
+    background: white;
+}
+.THIS.slds-scope .sc-pagination__dot_selected {
+    background: #d0d6e1;
+}
+.THIS.slds-scope .sc-pagination li {
+    display: inline-block;
+    padding-left: t(spacingXxSmall);
+    padding-right: t(spacingXxSmall);
+}
+.THIS.slds-scope .sc-p_none {
+    padding: 0;
+}

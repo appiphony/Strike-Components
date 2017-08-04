@@ -1,7 +1,7 @@
 <!--
 Strike by Appiphony
 
-Version: 0.7.0
+Version: 0.8.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 2-Clause License
@@ -86,13 +86,13 @@ License: BSD 2-Clause License
             <aura:if isTrue="{!v.required}">
                 <abbr class="slds-required" title="required">*</abbr>
             </aura:if>
-            {!v.label}
-            <aura:if isTrue="{!not(empty(v.helpText))}">
-                <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="sl-help-text-icon slds-m-left--x-small">
-                    <lightning:icon iconName="utility:info" size="xx-small"/>
-                </c:strike_tooltip>
-            </aura:if>
+            {!v.label}  
         </label>
+        <aura:if isTrue="{!not(empty(v.helpText))}">
+            <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="sl-help-text-icon">
+                <lightning:icon iconName="utility:info" size="xx-small"/>
+            </c:strike_tooltip>
+        </aura:if>
         <div class="{!'slds-form-element__control slds-input-has-icon slds-input-has-icon--right' + if(v.disabled, ' sl-disabled', '')}" onclick="{!c.cancelLookup}">
             <div class="{!'slds-pill_container' + if(greaterthan(v.initCallsRunning, 0), '', ' slds-hide')}">
                 <span class="slds-pill slds-size--1-of-1 sl-pill--loading">
@@ -182,7 +182,7 @@ License: BSD 2-Clause License
         </div>
         
         <aura:if isTrue="{!not(empty(v.selectedOptionTiles))}">
-            <ul class="slds-has-dividers--bottom-space slds-m-top--x-small">
+            <ul class="slds-has-dividers--bottom-space slds-m-top--small">
                 <aura:iteration items="{!v.selectedOptionTiles}" var="option">
                     <li class="slds-item">
                         <c:strike_tile aura:id="tiles" destroyable="true" value="{!option.value}" title="{!option.title}" subtitle="{!option.subtitle}" iconName="{!if(and(not(empty(v.iconName)), not(v.customIcon)), v.iconName, '')}" variant="{!if(and(not(empty(v.iconName)), not(v.customIcon)), 'icon', 'base')}"/>

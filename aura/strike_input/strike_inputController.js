@@ -16,6 +16,12 @@
             helper.resetValue(component, event, helper);
         }
     },
+    handleTypeChange: function(component, event, helper) {
+        var type = component.get('v.type');
+        if(type === 'search') {
+            component.set('v.error', false);
+        }    
+    },
     handleChange: function(component, event, helper) {
         component.getEvent('onchange').fire();
     },
@@ -27,6 +33,10 @@
     },
     handleKeyup: function(component, event, helper) {
         component.getEvent('onkeyup').fire();
+    },
+    handleClickHelpText: function(component, evenet, helper) {
+        event.preventDefault();
+        event.stopPropagation();
     },
     updateValue: function(component, event, helper) {
         var type = component.get('v.type');
@@ -73,5 +83,8 @@
     hideError: function(component, event, helper) {
         component.set('v.errorMessage', null);
         component.set('v.error', false);
+    },
+    clearInput: function(component, event, helper) {
+        component.set('v.value', null);
     }
 })

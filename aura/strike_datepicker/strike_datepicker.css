@@ -3,7 +3,8 @@
 }
 
 .THIS .strike-live-area .slds-form-element__label,
-.THIS .strike-live-area .slds-input {
+.THIS .strike-live-area .slds-input,
+.THIS .strike-live-area .si-help-text-icon {
     pointer-events: auto;
 }
 

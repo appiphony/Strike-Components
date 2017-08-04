@@ -1,12 +1,13 @@
 # Strike by Appiphony
 ### Work smarter (not harder) with Salesforce Lightning Components
-Current release: 0.7.0  
+Current release: 0.8.0  
 See it in action here: <a href="http://www.lightningstrike.io" target="_blank">http://www.lightningstrike.io</a>
 
 ---
 
 ### Available Strike Components
 * Badges
+* Carousels
 * Charts
 * Datepickers
 * Data Grids
@@ -15,6 +16,7 @@ See it in action here: <a href="http://www.lightningstrike.io" target="_blank">h
 * Modals
 * Multi Lookups
 * Multi Select Picklists
+* Output Text
 * Pills
 * Popovers
 * Radio Group

@@ -146,7 +146,8 @@
 
             return;
         }
-
+        
+        component.set('v.openMenu', true);
         component.set('v.searching', true);
 
         component.set('v.searchTimeout', setTimeout($A.getCallback(function() {

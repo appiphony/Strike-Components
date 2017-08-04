@@ -1,0 +1,29 @@
+.THIS.slds-box.sc-card {
+    padding: 0;
+    width: 100%;
+    overflow: hidden;
+}
+.THIS .sc-card__image-container {
+    height: 180px;
+    background-size: cover;
+    background-position: center center;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+.THIS .sc-cursor--pointer {
+    cursor: pointer;
+}
+.THIS .sc-card__body {
+    padding: t(spacingMedium);
+    text-align: center;
+}
+.THIS .sc-card__title {
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+.THIS .sc-card__title_container {
+    position: relative;
+}

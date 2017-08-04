@@ -1,7 +1,7 @@
 <!--
 Strike by Appiphony
 
-Version: 0.7.0
+Version: 0.8.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 2-Clause License
@@ -25,13 +25,15 @@ License: BSD 2-Clause License
     <aura:attribute name="step" type="Object" description="used in conjunction with number type to define the incremental amounts the arrow buttons will use"/>
     <aura:attribute name="min" type="Decimal" description="Expected lower bound for the value in Floating-Point number"/>
     <aura:attribute name="max" type="Decimal" description="Expected upper bound for the value in Floating-Point number"/>
-    <aura:attribute name="pattern" type="String" description="Specifies the regular expression that the input's value is checked against. This attributed is supported for text, date, search, url, tel, email, and password types."/>
+    <aura:attribute name="pattern" type="String" description="Specifies the regular expression that the input's value is checked against. This attribute is supported for text, date, search, url, tel, email, and password types."/>
     <aura:attribute name="maxlength" type="Integer" description="maximum number of characters to be used in the input"/>
     <aura:attribute name="minlength" type="Integer" description="minimum number of characters to be used in the input field"/>
     <aura:attribute name="readonly" type="Boolean" description="determines whether or not the input can be written to"/>
     <aura:attribute name="disabled" type="Boolean" description="determines whether or not the field is disabled"/>
 
     <aura:handler name="change" value="{!v.maxlength}" action="{!c.handleChangeMaxlength}" />
+    <aura:handler name="change" value="{!v.type}" action="{!c.handleTypeChange}" />
+
     <aura:registerEvent name="onblur" type="c:strike_evt"/>
     <aura:registerEvent name="onchange" type="c:strike_evt"/>
     <aura:registerEvent name="onfocus" type="c:strike_evt"/>
@@ -88,68 +90,79 @@ License: BSD 2-Clause License
                         <aura:if isTrue="{!v.required}">
                             <abbr class="slds-required" title="required">*</abbr>
                         </aura:if>
-                        {!v.label}
-                        <aura:if isTrue="{!not(empty(v.helpText))}">
-                            <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="si-help-text-icon slds-m-left--x-small">
-                                <lightning:icon iconName="utility:info" size="xx-small"/>
-                            </c:strike_tooltip>
-                        </aura:if>
+                        {!v.label}    
                     </label>
+                    <aura:if isTrue="{!not(empty(v.helpText))}">
+                        <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="si-help-text-icon si-help-text-icon--negate-spacing">
+                            <lightning:icon iconName="utility:info" size="xx-small"/>
+                        </c:strike_tooltip>
+                    </aura:if>
                 </aura:if>
                 <div class="{!'slds-form-element__control' + if(v.error, ' slds-has-error', '')}">
-                    <span class="{!if(v.type == 'radio', 'slds-radio', '') + if(v.type == 'checkbox', 'slds-checkbox', '') + if(v.type == 'toggle')}">
-                        <input
-                            aura:id="inputField"
-                            name="{!v.name}"
-                            type="{!v.type}"
-                            class="{!(v.type == 'checkbox' || v.type == 'radio' ? '' : 'slds-input')}"
-                            id="{!'strike-input-' + v.idNumber}"
-                            placeholder="{!v.placeholder}"
-                            value="{!v.value}"
-                            pattern="{!v.pattern}"
-                            max="{!v.max}"
-                            min="{!v.min}"
-                            maxlength="{!or(empty(v.maxlength), v.maxlength gt 524288) ? 524288 : v.maxlength}"
-                            minlength="{!v.minlength}"
-                            step="{!v.step}"
-                            tabindex="{!v.tabindex}"
-                            readonly="{!v.readonly}"
-                            disabled="{!v.disabled}"
-                            checked="{!v.checked}"
-                            onclick="{!c.updateChecked}"
-                            onblur="{!c.handleBlur}"
-                            onfocus="{!c.handleFocus}"
-                            oninput="{!c.updateValue}"
-                            onchange="{!c.handleChange}"
-                            onkeyup="{!c.handleKeyup}"
-                            onkeydown="{!c.handleKeydown}"
-                            />
-                        <aura:if isTrue="{!v.type == 'radio'}">
-                            <label class="slds-radio__label" for="{!'strike-input-' + v.idNumber}">
-                                <span class="slds-radio--faux"></span>
-                                <span class="{!'slds-form-element__label' + if (empty(v.helpText), '', ' slds-m-right--none')}">{!v.label}</span>
-                                <aura:if isTrue="{!not(empty(v.helpText))}">
-                                    <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="si-help-text-icon slds-m-left--x-small">
-                                        <lightning:icon iconName="utility:info" size="xx-small"/>
-                                    </c:strike_tooltip>
-                                </aura:if>
-                            </label>
+                    <div class="{!v.type == 'search' ? 'slds-input-has-icon slds-input-has-icon_left-right' : ''}">
+                        <span class="{!if(v.type == 'radio', 'slds-radio', '') + if(v.type == 'checkbox', 'slds-checkbox', '')}">
+                            <input
+                                aura:id="inputField"
+                                name="{!v.name}"
+                                type="{!v.type}"
+                                class="{!(v.type == 'checkbox' || v.type == 'radio' ? '' : 'slds-input')}"
+                                id="{!'strike-input-' + v.idNumber}"
+                                placeholder="{!v.placeholder}"
+                                value="{!v.value}"
+                                pattern="{!v.pattern}"
+                                max="{!v.max}"
+                                min="{!v.min}"
+                                maxlength="{!or(empty(v.maxlength), v.maxlength gt 524288) ? 524288 : v.maxlength}"
+                                minlength="{!v.minlength}"
+                                step="{!v.step}"
+                                tabindex="{!v.tabindex}"
+                                readonly="{!v.readonly}"
+                                disabled="{!v.disabled}"
+                                checked="{!v.checked}"
+                                onclick="{!c.updateChecked}"
+                                onblur="{!c.handleBlur}"
+                                onfocus="{!c.handleFocus}"
+                                oninput="{!c.updateValue}"
+                                onchange="{!c.handleChange}"
+                                onkeyup="{!c.handleKeyup}"
+                                onkeydown="{!c.handleKeydown}"
+                                />
+                                
+                            <aura:if isTrue="{!or(v.type == 'checkbox', v.type == 'radio')}">
+                                <label class="{!'slds-' + v.type + '__label'}" for="{!'strike-input-' + v.idNumber}">
+                                    <span class="{!'slds-' + v.type + '--faux'}"></span>
+                                    <aura:if isTrue="{!not(empty(v.helpText))}">
+                                        <div>
+                                            <span class="slds-form-element__label si-has-help-text">{!v.label}</span>
+                                            <span onclick="{!c.handleClickHelpText}">
+                                                <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="si-help-text-icon">
+                                                    <lightning:icon iconName="utility:info" size="xx-small"/>
+                                                </c:strike_tooltip>
+                                            </span>
+                                        </div>
+                                        <aura:set attribute="else">
+                                            <span class="slds-form-element__label">{!v.label}</span> 
+                                        </aura:set>
+                                    </aura:if>  
+                                </label>
+                            </aura:if>
+                            
+                            <aura:if isTrue="{!v.type == 'search'}">    
+                                <lightning:icon iconName="utility:search" size="x-small" class="slds-input__icon slds-input__icon--left slds-icon-text-light"/>
+                                <div class="slds-input--icon-group slds-input__icon-group--right">
+                                    <aura:if isTrue="{!and(not(empty(v.value)), not(v.readonly))}">
+                                        <button onclick="{!c.clearInput}" id="{!v.idNumber}" class="slds-input__icon slds-input__icon--right slds-button slds-button--icon" title="Remove" disabled="{!v.disabled}">
+                                            <c:strike_svg ariaHidden="true" class="slds-button__icon" xlinkHref="/resource/icons/utility-sprite/svg/symbols.svg#clear"/>
+                                            <span class="slds-assistive-text">Remove</span>
+                                        </button>
+                                    </aura:if>
+                                </div>
+                            </aura:if>
+                        </span>
+                        <aura:if isTrue="{!and(v.error, not(empty(v.errorMessage)))}">
+                            <div class="slds-form-element__help">{!v.errorMessage}</div>
                         </aura:if>
-                        <aura:if isTrue="{!v.type == 'checkbox'}">
-                            <label class="slds-checkbox__label" for="{!'strike-input-' + v.idNumber}">
-                                <span class="slds-checkbox--faux"></span>
-                                <span class="{!'slds-form-element__label' + if (empty(v.helpText), '', ' slds-m-right--none')}">{!v.label}</span>
-                                <aura:if isTrue="{!not(empty(v.helpText))}">
-                                    <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="si-help-text-icon slds-m-left--x-small">
-                                        <lightning:icon iconName="utility:info" size="xx-small"/>
-                                    </c:strike_tooltip>
-                                </aura:if>
-                            </label>
-                        </aura:if>
-                    </span>
-                    <aura:if isTrue="{!and(v.error, not(empty(v.errorMessage)))}">
-                        <div class="slds-form-element__help">{!v.errorMessage}</div>
-                    </aura:if>
+                    </div>
                 </div>
             </aura:set>    
         </aura:if>

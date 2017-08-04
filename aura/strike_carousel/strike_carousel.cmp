@@ -1,0 +1,116 @@
+<!--
+Strike by Appiphony
+
+Version: 0.8.0
+Website: http://www.lightningstrike.io
+GitHub: https://github.com/appiphony/Strike-Components
+License: BSD 2-Clause License
+-->
+<aura:component >
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+    <aura:registerEvent name="navigate" type="c:fiddle_evt_navigate"/>
+
+    <!-- External -->
+    <aura:attribute name="iconName" type="String" default="standard:carousel"/>
+    <aura:attribute name="title" type="String" default="Cards"/>
+    <aura:attribute name="showTotal" type="Boolean" default="{!true}"/>
+    <aura:attribute name="cards" type="Map[]"/>
+    <!-- /External -->
+
+    <!-- Internal -->
+    <aura:attribute name="pages" type="Integer[]"/>
+    <aura:attribute name="spacers" type="Integer[]"/>
+    <aura:attribute name="containerWidth" type="Integer" default="480"/>
+    <aura:attribute name="currentPage" type="Integer" default="0"/>
+    <aura:handler name="change" value="{!v.currentPage}" action="{!c.handleChangeCurrentPage}"/>
+    <!-- Internal -->
+
+
+    <aura:if isTrue="{!not(empty(v.cards))}">
+        <div class="slds-scope">
+            <div class="slds-box sc-p_none slds-theme_shade">
+                <aura:if isTrue="{!not(empty(v.title))}">
+                    <header class="slds-card__header slds-media slds-media_center slds-has-flexi-truncate">
+                        <aura:if isTrue="{!not(empty(v.iconName))}">
+                            <div class="slds-media__figure">
+                                <lightning:icon iconName="{!v.iconName}" size="small" title="title" />
+                            </div>
+                        </aura:if>
+
+                        <div class="slds-media__body">
+                            <h2 class="slds-text-heading_small">{!v.title} <aura:if isTrue="{!v.showTotal}"> ({!v.cards.length})</aura:if></h2>
+                        </div>
+                    </header>
+                </aura:if>
+
+                <!-- Empty State -->
+                <aura:if isTrue="{!not(v.cards.length gt 0)}">
+                    <div class="slds-p-horizontal_small slds-text-align_center slds-m-bottom_xx-large slds-p-top_xxx-small"><em class="slds-text-color_weak">No records to display</em></div>
+                </aura:if>
+                <!-- /Empty State -->
+
+                <div class="{!'slds-grid slds-align_absolute-center slds-p-horizontal_large' + if(empty(v.title), ' slds-m-top_medium', '')}">
+                    
+                    <!-- Previous Button -->
+                    <aura:if isTrue="{!and(v.containerWidth gt 480, v.cards.length gt 3)}">
+                        <div class="slds-col slds-no-flex slds-p-right_x-small">
+                            <lightning:buttonIcon iconName="utility:chevronleft" alternativeText="Previous" size="small" variant="border-filled" onclick="{!c.handleClickPrevious}" />
+                        </div>
+                    </aura:if>
+                    <!-- /Previous Button -->
+
+                    <!-- Carousel Body -->
+                    <div class="slds-col slds-scrollable_none">
+                        <div aura:id="carousel-body" class="{!'sc-carousel-body slds-grid slds-grid_vertical-stretch slds-scrollable_none' + if(v.containerWidth lt 481, ' slds-wrap', '') + if(or(v.cards.length lt 4, v.containerWidth lt 481), ' slds-grid_pull-padded-x-small', '')}">
+
+                            <aura:iteration items="{!v.cards}" var="card">
+                                <!-- Card -->
+                                <div class="{!'slds-col slds-no-flex slds-p-horizontal_x-small' + if(v.containerWidth gt 480, ' slds-size_1-of-3', ' slds-size_1-of-1') + if(or(v.cards.length lt 4, v.containerWidth lt 481), ' slds-m-bottom_large', '')}">
+                                    {!card}
+                                </div>
+                                <!-- /Card -->
+                            </aura:iteration>
+                            <aura:iteration items="{!v.spacers}" var="spacer">
+                                <!-- Spacer -->
+                                <div class="slds-col slds-no-flex slds-size_1-of-3 slds-p-horizontal_x-small"></div>
+                                <!-- /Spacer -->
+                            </aura:iteration>
+                        </div>
+                    </div>
+                    <!-- /Carousel Body -->
+
+                    <!-- Next Button -->
+                    <aura:if isTrue="{!and(v.containerWidth gt 480, v.cards.length gt 3)}">
+                        <div class="slds-col slds-no-flex slds-p-left_x-small">
+                            <lightning:buttonIcon iconName="utility:chevronright" alternativeText="Next" size="small" variant="border-filled" onclick="{!c.handleClickNext}" />
+                        </div>
+                    </aura:if>
+                    <!-- /Next Button -->
+
+                </div>
+
+                <!-- Pagination -->
+                <aura:if isTrue="{!and(v.containerWidth gt 480, v.cards.length gt 3)}">
+                    <div class="slds-m-around_small">
+                        <ul class="sc-pagination">
+                            <aura:iteration items="{!v.pages}" var="page" indexVar="index">
+                                <li><a aura:id="dot" href="javascript:void(0);" class="{!'sc-pagination__dot' + if(v.currentPage == index, ' sc-pagination__dot_selected', '')}" data-page="{!index}" onclick="{!c.handleClickDot}"></a></li>
+                            </aura:iteration>
+                        </ul>
+                    </div>
+                </aura:if>
+                <!-- /Pagination -->
+            </div>
+        </div>
+    </aura:if>
+</aura:component>
+<!--
+Copyright 2017 Appiphony, LLC
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
