@@ -4,15 +4,38 @@ Version: 0.9.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License*/
-.THIS.slds-pill .slds-pill__icon_container[class*="slds-icon-utility"] .slds-icon {
-    padding: t(spacingXxSmall);
+.THIS.slds-scope .spm-ring-container {
     position: relative;
-    top: -1px;
-    margin-right: -t(spacingXxSmall);
+}
+.THIS.slds-scope .spm-ring__value {
+    -webkit-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+    -ms-transform: rotateZ(-90deg);
+    -ms-transform-origin: 50% 50%;
+    -webkit-transform: rotateZ(-90deg);
+    -webkit-transform-origin: 50% 50%;
+    transform: rotateZ(-90deg);
+    transform-origin: 50% 50%;
+}
+.THIS.slds-scope .spm-ring__label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
 }
 
-.THIS .sp-remove .slds-button__icon {
-    pointer-events: none;
+.THIS.slds-scope .spm-bar-container {
+    position: relative;
+}
+.THIS.slds-scope .spm-bar__value {
+    -webkit-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+}
+.THIS.slds-scope .spm-bar-header {
+    display: flex;
+    justify-content: space-between;
 }
 /*Copyright 2017 Appiphony, LLC
 
@@ -31,5 +54,5 @@ INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FIT
 DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
 SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
 SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
-WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/

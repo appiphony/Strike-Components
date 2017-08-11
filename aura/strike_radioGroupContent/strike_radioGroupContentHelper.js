@@ -4,16 +4,13 @@ Version: 0.9.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License*/
-.THIS.slds-pill .slds-pill__icon_container[class*="slds-icon-utility"] .slds-icon {
-    padding: t(spacingXxSmall);
-    position: relative;
-    top: -1px;
-    margin-right: -t(spacingXxSmall);
-}
-
-.THIS .sp-remove .slds-button__icon {
-    pointer-events: none;
-}
+({
+    showHideContent: function(component) {
+        var selectedValue = component.get('v.selectedValue');
+        var showWhenValueEquals = component.get('v.showWhenValueEquals');
+        component.set('v.shouldShow', selectedValue === showWhenValueEquals);
+    }
+})
 /*Copyright 2017 Appiphony, LLC
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
