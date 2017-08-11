@@ -1,6 +1,6 @@
 # Strike by Appiphony
 ### Work smarter (not harder) with Salesforce Lightning Components
-Current release: 0.8.0  
+Current release: 0.9.0  
 See it in action here: <a href="http://www.lightningstrike.io" target="_blank">http://www.lightningstrike.io</a>
 
 ---
