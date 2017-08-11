@@ -1,5 +1,22 @@
 # Strike by Appiphony
 
+### Release 0.9.0 — August 11, 2017
+#### New Features
+* **Strike Progress Meter:** Progress meter used to represent progress or keep track of an inventory
+#### Improvements
+* **Strike Radio Group:** Added onchange event handler <a href="https://github.com/appiphony/Strike-Components/issues/43" target="_blank">[GitHub Issue #43]</a>
+* **Strike Radio Group:** Value is always cast into a string <a href="https://github.com/appiphony/Strike-Components/issues/44" target="_blank">[GitHub Issue #44]</a>
+* **Strike Radio Group Content:** A child component of Strike Radio Group that represents conditional content that can be displayed based on the Radio Group's value
+#### Bug Fixes
+* **Strike Modal:** Fixed an issue where the value of showModal attribute was always set to false <a href="https://github.com/appiphony/Strike-Components/issues/41" target="_blank">[GitHub Issue #41]</a>
+* **Strike Multi Lookup:** Fixed an issue where browsers were throwing an error when a function was being called twice <a href="https://github.com/appiphony/Strike-Components/issues/49" target="_blank">[GitHub Issue #49]</a> and <a href="https://github.com/appiphony/Strike-Components/issues/55" target="_blank">[GitHub Issue #55]</a>
+* **Strike Datepicker:** Fixed an issue where a warning was being thrown due to a deprecated function call <a href="https://github.com/appiphony/Strike-Components/issues/50" target="_blank">[GitHub Issue #50]</a>
+* **Strike Carousel:** Removed an improperly registered event <a href="https://github.com/appiphony/Strike-Components/issues/60" target="_blank">[GitHub Issue #60]</a>
+#### Notes
+* **All Strike Components:** Updated licensing to BSD 3-Clause License
+
+---
+
 ### Release 0.8.0 — July 28, 2017
 #### New Features
 * **Strike Carousel:** A paginated list of items that scroll left and right

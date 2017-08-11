@@ -27,5 +27,7 @@
   "strike_outputText": ["strike_param", "strike_outputText"],
   "strike_carouselCard": ["strike_carouselCard"],
   "strike_carousel": ["strike_carouselCard", "strike_carousel"],
+  "strike_progressMeter": ["strike_progressMeter"],
+  "strike_radioGroupContent": ["strike_radioGroupContent"],
   "defaultTokens": ["defaultTokens"]
 }
