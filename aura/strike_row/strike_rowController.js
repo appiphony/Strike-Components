@@ -15,7 +15,7 @@ License: BSD 3-Clause License*/
 
                 $A.createComponent(type, attributes, function(newCmp, status, errorMessage) {
 					if (status === 'SUCCESS') {
-						var valueOutput = component.find('value-output')[index];
+						var valueOutput = $A.util.isArray(component.find('value-output')) ? component.find('value-output')[index] : component.find('value-output');
                         valueOutput.set('v.body', newCmp);
                     }
 				});
