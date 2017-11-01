@@ -1,5 +1,38 @@
 # Strike by Appiphony
 
+### Release 0.10.0 — November 1, 2017
+#### Improvements
+* **All Strike Components:** Updated API versions to 41
+* **All Strike Components:** Components now utilize `lightning:icon` in place of `strike_svg` wherever applicable <a href="https://github.com/appiphony/Strike-Components/issues/77" target="_blank">[GitHub Issue #77]</a>
+* **Strike Data Grid:** Added the `sortValue` property on the object being passed in when the column's `type` is set to `'COMPONENT'`; represents the string value to be sorted on the component's behalf <a href="https://github.com/appiphony/Strike-Components/issues/67" target="_blank">[GitHub Issue #67]</a>
+* **Strike Input:** Inputs with `required` set to `true` will now automatically set `error` to `true` and `errorMessage` to `'Complete this field'` when the input is empty and a change event occurs <a href="https://github.com/appiphony/Strike-Components/issues/51" target="_blank">[GitHub Issue #51]</a>
+* **Strike Modal:** Added the `showCloseButton` attribute (default set to `true`) to allow control over the close button's visibility <a href="https://github.com/appiphony/Strike-Components/issues/94" target="_blank">[GitHub Issue #94]</a>
+* **Strike Modal:** Removed an event listener that is no longer needed in Winter '18 <a href="https://github.com/appiphony/Strike-Components/issues/109" target="_blank">[GitHub Issue #109]</a>
+* **Strike Modal:** New events have been added to expose how a modal was dismissed (`strike_evt_modalSecondaryButtonClicked` and `strike_evt_modalCloseButtonClicked`) <a href="https://github.com/appiphony/Strike-Components/issues/110" target="_blank">[GitHub Issue #110]</a>
+* **Strike Select:** Removed the `placeholder` default value to match all other Strike form elements' functionality <a href="https://github.com/appiphony/Strike-Components/issues/81" target="_blank">[GitHub Issue #81]</a>
+#### Bug Fixes
+* **All Strike Components:** Updated use of an event property for Firefox compliance <a href="https://github.com/appiphony/Strike-Components/issues/39" target="_blank">[GitHub Issue #39]</a> <a href="https://github.com/appiphony/Strike-Components/issues/106" target="_blank">[GitHub Issue #106]</a>
+* **Strike Carousel:** Updated helptext for icon name <a href="https://github.com/appiphony/Strike-Components/issues/104" target="_blank">[GitHub Issue #104]</a>
+* **Strike Data Grid:** Fixed an issue where the component would throw an error if too many rows were passed in <a href="https://github.com/appiphony/Strike-Components/issues/66" target="_blank">[GitHub Issue #66]</a>
+* **Strike Data Grid:** Fixed an issue where the component would throw an error if only one row object was provided <a href="https://github.com/appiphony/Strike-Components/issues/70" target="_blank">[GitHub Issue #70]</a>
+* **Strike Datepicker:** Fixed an issue where the form element border is missing in Winter '18 <a href="https://github.com/appiphony/Strike-Components/issues/97" target="_blank">[GitHub Issue #97]</a><a href="https://github.com/appiphony/Strike-Components/issues/115" target="_blank">[GitHub Issue #115]</a>
+* **Strike Datepicker:** Fixed an issue where the help text tooltip styling was not consistent with other Strike form elements <a href="https://github.com/appiphony/Strike-Components/issues/99" target="_blank">[GitHub Issue #99]</a>
+* **Strike Icon Picker:** Fixed an issue where same icon couldn't be selected across multiple options <a href="https://github.com/appiphony/Strike-Components/issues/103" target="_blank">[GitHub Issue #103]</a>
+* **Strike Icon Picker:** Fixed an issue where the form element border is missing in Winter '18 <a href="https://github.com/appiphony/Strike-Components/issues/111" target="_blank">[GitHub Issue #111]</a>
+* **Strike Input:** Fixed an issue where the `disabled` attribute is incorrectly handled on Edge <a href="https://github.com/appiphony/Strike-Components/issues/96" target="_blank">[GitHub Issue #96]</a>
+* **Strike Lookup:** Fixed an issue where help text would only appear if the form element was in focus <a href="https://github.com/appiphony/Strike-Components/issues/93" target="_blank">[GitHub Issue #93]</a>
+* **Strike Multi Select Picklist:** Fixed an issue where cycling through options using arrow keys stopped working in Summer '17 <a href="https://github.com/appiphony/Strike-Components/issues/107" target="_blank">[GitHub Issue #107]</a>
+* **Strike Radio Group:** Fixed an issue where radio group content was incorrectly showing and hiding <a href="https://github.com/appiphony/Strike-Components/issues/90" target="_blank">[GitHub Issue #90]</a>
+* **Strike Select:** Fixed an issue where multiple dropdowns could be open at once <a href="https://github.com/appiphony/Strike-Components/issues/87" target="_blank">[GitHub Issue #87]</a>
+* **Strike Select:** Fixed an issue where cycling through options using arrow keys stopped working in Summer '17 <a href="https://github.com/appiphony/Strike-Components/issues/88" target="_blank">[GitHub Issue #88]</a>
+* **Strike Select:** Fixed an issue where an infinite loop would occur in certain rendering situations <a href="https://github.com/appiphony/Strike-Components/issues/92" target="_blank">[GitHub Issue #92]</a>
+* **Strike Textarea:** Fixed an issue where the `disabled` attribute is incorrectly handled on Edge <a href="https://github.com/appiphony/Strike-Components/issues/96" target="_blank">[GitHub Issue #96]</a>
+* **Strike Textarea:** Fixed an issue where live example doesn’t fully reset <a href="https://github.com/appiphony/Strike-Components/issues/98" target="_blank">[GitHub Issue #98]</a>
+#### Notes
+* **All Strike Components:** Components are now Lightning Linter compliant <a href="https://github.com/appiphony/Strike-Components/issues/59" target="_blank">[GitHub Issue #59]</a>
+
+---
+
 ### Release 0.9.0 — August 11, 2017
 #### New Features
 * **Strike Progress Meter:** Progress meter used to represent progress or keep track of an inventory

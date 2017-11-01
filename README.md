@@ -1,6 +1,6 @@
 # Strike by Appiphony
 ### Work smarter (not harder) with Salesforce Lightning Components
-Current release: 0.9.0  
+Current release: 0.10.0  
 See it in action here: <a href="http://www.lightningstrike.io" target="_blank">http://www.lightningstrike.io</a>
 
 ---
@@ -36,4 +36,4 @@ Strike is developed and maintained by <a href="http://appiphony.com" target="_bl
 Feedback, questions, and bugs can be posted on this repository. Pull requests will be carefully considered for open issues or proposed enhancements. **Please make all pull requests on our `testing` branch.**
 
 ### License
-The Strike source code is licensed under the <a href="http://opensource.org/licenses/BSD-2-Clause" target="_blank">BSD 3-Clause License</a>
+The Strike source code is licensed under the <a href="http://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD 3-Clause License</a>
