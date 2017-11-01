@@ -1,9 +1,11 @@
-/*Strike by Appiphony
+/*
+Strike by Appiphony
 
-Version: 0.9.0
+Version: 0.10.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
-License: BSD 3-Clause License*/
+License: BSD 3-Clause License
+*/
 ({
     checkIfInitialized: function(component, event, helper) {
         var initCallsRunning = component.get('v.initCallsRunning');
@@ -152,7 +154,7 @@ License: BSD 3-Clause License*/
             }
 
             return;
-        } else if (searchTerm == lastSearchTerm) {
+        } else if (searchTerm === lastSearchTerm) {
             component.set('v.searching', false);
             helper.openMenu(component, event, helper);
 
@@ -179,7 +181,7 @@ License: BSD 3-Clause License*/
                 if (res.getState() === 'SUCCESS') {
                     var returnValue = JSON.parse(res.getReturnValue());
                     
-                    if (returnValue.isSuccess && returnValue.results.searchTerm == component.find('lookupInput').getElement().value) {
+                    if (returnValue.isSuccess && returnValue.results.searchTerm === component.find('lookupInput').getElement().value) {
                         var returnedRecords = [];
 
                         returnValue.results.data.forEach(function(record) {
@@ -251,7 +253,7 @@ License: BSD 3-Clause License*/
             component.set('v.lastSearchTerm', '');
 
             helper.closeMenu(component, event, helper);
-        } else if (focusIndex == records.length) {
+        } else if (focusIndex === records.length) {
             helper.addNewRecord(component, event, helper);
         }
 
@@ -285,7 +287,7 @@ License: BSD 3-Clause License*/
             var focusIndex = component.get('v.focusIndex');
             var options = component.find('lookupMenu').getElement().getElementsByTagName('li');
 
-            if (focusIndex == null || focusIndex == 0) {
+            if (focusIndex === null || focusIndex === 0) {
                 focusIndex = options.length - 1;
             } else {
                 --focusIndex;
@@ -301,7 +303,7 @@ License: BSD 3-Clause License*/
             var focusIndex = component.get('v.focusIndex');
             var options = component.find('lookupMenu').getElement().getElementsByTagName('li');
 
-            if (focusIndex == null || focusIndex == options.length - 1) {
+            if (focusIndex === null || focusIndex === options.length - 1) {
                 focusIndex = 0;
             } else {
                 ++focusIndex;
@@ -317,7 +319,7 @@ License: BSD 3-Clause License*/
         var destroyedIndex;
 
         currentOptionTiles.forEach(function(tileObj, index){
-            if(tileObj.value == sourceCmpValue){
+            if(tileObj.value === sourceCmpValue){
                 destroyedIndex = index;
             }
         });
@@ -341,7 +343,8 @@ License: BSD 3-Clause License*/
         component.set('v.value', newValue);
     }
 })
-/*Copyright 2017 Appiphony, LLC
+/*
+Copyright 2017 Appiphony, LLC
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
 following conditions are met:
@@ -359,4 +362,5 @@ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
 SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
 SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/

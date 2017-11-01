@@ -1,19 +1,21 @@
-/*Strike by Appiphony
+/*
+Strike by Appiphony
 
-Version: 0.9.0
+Version: 0.10.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
-License: BSD 3-Clause License*/
+License: BSD 3-Clause License
+*/
 ({
     setHeight: function(component, event, helper) {
         var height = component.get('v.height');
         var size = component.get('v.size');
 
-        if (size == 'small') {
+        if (size === 'small') {
             component.set('v.height', '56px');
-        } else if (size == 'medium') {
+        } else if (size === 'medium') {
             component.set('v.height', '72px');
-        } else if (size == 'large') {
+        } else if (size === 'large') {
             component.set('v.height', '210px');
         } else {
             component.set('v.height', height);
@@ -23,13 +25,24 @@ License: BSD 3-Clause License*/
         if($A.util.isEmpty(component.get('v.maxlength'))){
             component.set('v.maxlength', undefined);
         } else {
-            let maxlength = component.get('v.maxlength');
+            var maxlength = component.get('v.maxlength');
             
             component.set('v.maxlength', Math.abs(maxlength));
         }
+    },
+    disableInput: function(component, event, helper) {
+        var inputEl = component.find('thisTextarea').getElement();
+        
+        inputEl.setAttribute('disabled', 'disabled');
+    },
+    enableInput: function(component, event, helper) {
+        var inputEl = component.find('thisTextarea').getElement();
+        
+        inputEl.removeAttribute('disabled');
     }
 })
-/*Copyright 2017 Appiphony, LLC
+/*
+Copyright 2017 Appiphony, LLC
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
 following conditions are met:
@@ -47,4 +60,5 @@ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
 SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
 SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/

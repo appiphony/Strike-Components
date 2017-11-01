@@ -1,19 +1,21 @@
-/*Strike by Appiphony
+/*
+Strike by Appiphony
 
-Version: 0.9.0
+Version: 0.10.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
-License: BSD 3-Clause License*/
+License: BSD 3-Clause License
+*/
 ({
     addToComponentValue: function(component, event, helper) {
         var selectedOptionValue = event.getParams('params').data.value;
         var componentValue = component.get('v.value');
         var valueArray = !componentValue ? [] : componentValue.split(';');
         
-        if (valueArray.indexOf(selectedOptionValue) == -1) {
+        if (valueArray.indexOf(selectedOptionValue) === -1) {
             valueArray.push(selectedOptionValue);
         }
-        
+
         var newValue = valueArray.join(';');
         component.set('v.value', newValue);
 
@@ -25,7 +27,7 @@ License: BSD 3-Clause License*/
     },
     createOptionPill: function(component, event, helper) {
         var sourceValue, sourceLabel, sourceIconName;
-        if (event.getName() == 'strike_evt_notifyParent') {
+        if (event.getName() === 'strike_evt_notifyParent') {
             sourceValue = event.getParams('params').data.value;
             sourceLabel = event.getParams('params').data.label;
             sourceIconName = event.getParams('params').data.iconName;
@@ -48,7 +50,7 @@ License: BSD 3-Clause License*/
         if(sourceLabel && selectedOptionPills.map(function(x){return x.value}).indexOf(sourceValue) === -1){
 
             selectedOptionPills.push(pillAttributes);
-            
+
             window.setTimeout($A.getCallback(function() {
                 component.set('v.selectedOptionPills', Array.prototype.concat.apply([], selectedOptionPills));
             }), 100);
@@ -73,14 +75,14 @@ License: BSD 3-Clause License*/
                 }
             }
         })
-        
+
         if(openMenu){
             component.set('v.menuIsOpen', true);
         }
     },
     closeMenu: function(component) {
         var isMobile = component.get('v.isMobile');
-        
+
         component.set('v.menuIsOpen', false);
         component.set('v.focusIndex', null);
     },
@@ -92,13 +94,13 @@ License: BSD 3-Clause License*/
         validChildCmps.forEach(function(child){
             child.filterBy('');
         })
-        
+
     },
     removeOptionPill: function(component, event) {
-        
+
         var currentOptionPills = component.get('v.selectedOptionPills');
         var destroyedCmp = event.getSource();
-        
+
         var destroyedCmpIndex = currentOptionPills.map(function(x) {return(x.value)}).indexOf(destroyedCmp.get('v.value'));
 
         currentOptionPills.splice(destroyedCmpIndex, 1);
@@ -106,7 +108,7 @@ License: BSD 3-Clause License*/
 
     },
     addOptionToList: function(component, event, helper) {
-        
+
         var sourceCmpValue = event.getParam('data').value;
         helper.findValidChildCmps(component, event, helper);
         var dropDownOptions = component.get('v.validChildCmps');
@@ -139,7 +141,7 @@ License: BSD 3-Clause License*/
     updateValueByFocusIndex: function(component, event, helper) {
         var focusIndex = component.get('v.focusIndex');
 
-        if (focusIndex == null) {
+        if (focusIndex === null) {
             return
         }
         helper.findValidChildCmps(component, event, helper);
@@ -170,7 +172,7 @@ License: BSD 3-Clause License*/
                 }
             });
 
-            if (focusIndex == null || focusIndex == indecesToShow[0]) {
+            if (focusIndex === null || focusIndex === indecesToShow[0]) {
                 focusIndex = indecesToShow[indecesToShow.length - 1];
 
             } else {
@@ -184,7 +186,7 @@ License: BSD 3-Clause License*/
 
             component.set('v.focusIndex', focusIndex);
 
-            helper.setFocus(component, event, helper);
+            helper.setFocus(component, event, helper, null, 'up');
         }
     },
     moveRecordFocusDown: function(component, event, helper) {
@@ -207,7 +209,7 @@ License: BSD 3-Clause License*/
                 }
             });
 
-            if (focusIndex == null || focusIndex == indecesToShow[indecesToShow.length - 1]) {
+            if (focusIndex === null || focusIndex === indecesToShow[indecesToShow.length - 1]) {
                 focusIndex = indecesToShow[0];
             } else {
 
@@ -221,13 +223,15 @@ License: BSD 3-Clause License*/
 
             component.set('v.focusIndex', focusIndex);
 
-            helper.setFocus(component, event, helper);
+            //passsing null value for parentCmp bc we are already in the list and it wont be necessary to pass value
+
+            helper.setFocus(component, event, helper, null, 'down');
         } else {
 
             helper.openMenu(component,event,helper);
         }
     },
-    setFocus: function(component, event, helper, parentCmp) {
+    setFocus: function(component, event, helper, parentCmp, direction) {
         if ($A.util.isUndefined(component.find)) {
             component = parentCmp;
         };
@@ -235,42 +239,34 @@ License: BSD 3-Clause License*/
         var focusIndex = component.get('v.focusIndex');
 
         var multiSelectMenu = component.find('multiSelectMenu');
-        if (focusIndex == null) {
+        if (focusIndex === null) {
             return;
         }
         helper.findValidChildCmps(component, event, helper);
         var childCmps = component.get('v.validChildCmps');
         component.set('v.validChildCmps', null);
 
-        var focusScrollTop = 0;
-        var focusScrollBottom = 0;
-
         for (var i = 0; i < childCmps.length; i++) {
-
             if (i < focusIndex) {
-                focusScrollTop += childCmps[i].scrollHeight;
-
                 childCmps[i].set('v.focused', false);
 
-            } else if (i == focusIndex) {
-
+            } else if (i === focusIndex) {
+                if (direction === 'down') {
+                    childCmps[i].getElement().scrollIntoView({block: "start", behavior: "auto"});
+                } else {
+                    childCmps[i].getElement().scrollIntoView({block: "end", behavior: "auto"});
+                }
                 childCmps[i].set('v.focused', true);
+                
             } else {
                 childCmps[i].set('v.focused', false);
-
             }
         }
-
-        focusScrollBottom = focusScrollTop + childCmps[focusIndex].scrollHeight;
-
-        if (focusScrollTop < multiSelectMenu.scrollTop) {
-            multiSelectMenu.scrollTop = focusScrollTop;
-        } else if (focusScrollBottom > multiSelectMenu.scrollTop + multiSelectMenu.clientHeight) {
-            multiSelectMenu.scrollTop = focusScrollBottom - multiSelectMenu.clientHeight;
-        }
+        
+        window.scrollTo(0, component.get('v.scrollPosition'));
     },
     doSearch: function(component, event, helper, searchTerm, parentCmp) {
-        
+
         if (!parentCmp) {
             var menuIsOpen = component.get('v.menuIsOpen');
         }
@@ -278,13 +274,13 @@ License: BSD 3-Clause License*/
         if (!parentCmp && !menuIsOpen) {
             component.set('v.menuIsOpen', true);
         }
-        
+
         if(!searchTerm){searchTerm = '';}
-        
+
         component.get('v.body').forEach(function(child) {
             if ($A.util.isUndefined(child.filterBy)) {
                 helper.doSearch(child, event, helper, searchTerm, component);
-                
+
             } else {
 
                 child.filterBy(searchTerm);
@@ -296,11 +292,11 @@ License: BSD 3-Clause License*/
         helper.areChildrenFiltered(component, event, helper, searchTerm, parentCmp);
     },
     areChildrenFiltered: function(component, event, helper, searchTerm, parentCmp) {
-        
+
         var body = component.get('v.body');
         var filteredCount = 0;
         var isCorrectBody;
-        
+
         body.forEach(function(child) {
             if (!$A.util.isUndefined(child.filterBy)) {
                 isCorrectBody = true;
@@ -358,9 +354,9 @@ License: BSD 3-Clause License*/
 
         var body = component.get('v.body');
         var childCmps;
-        body.forEach(function(child){   
+        body.forEach(function(child){
            if($A.util.isUndefined(child.filterBy)){
-                
+
                 childCmps = child.get('v.body');
            } else {
                 childCmps = body;
@@ -369,16 +365,16 @@ License: BSD 3-Clause License*/
         childCmps.forEach(function(child){
             var childValue = child.get('v.value');
 
-            if(valueArray.indexOf(childValue) != -1){
+            if(valueArray.indexOf(childValue) !== -1){
                 child.select();
-            } 
-            
+            }
+
         });
-        
-        helper.checkForValidValue(component, value, valueArray, childCmps); 
+
+        helper.checkForValidValue(component, value, valueArray, childCmps);
     },
     checkForValidValue: function(component, originalValue, valueArray, childCmps){
-        
+
         valueArray.forEach(function(thisValue){
             if(childCmps.map(function(child){return child.get('v.value')}).indexOf(thisValue) === -1){
                 valueArray.splice(valueArray.indexOf(thisValue));
@@ -393,13 +389,13 @@ License: BSD 3-Clause License*/
         }
     },
     checkForPillDeletion: function(component, valueArray){
-        
+
         var selectedOptionPills = component.get('v.selectedOptionPills');
         if(valueArray.length < selectedOptionPills.length){
             var pillContainer = component.find('optionPillContainer');
             var pillContainerBody = pillContainer.get('v.body');
             var pills = pillContainerBody[0].get('v.body');
-            
+
             pills.forEach(function(pill){
                 var pillCmp = pill.get('v.body')[0];
                 if(valueArray.indexOf(pillCmp.get('v.value')) === -1){
@@ -411,22 +407,24 @@ License: BSD 3-Clause License*/
 
     }
 })
-/*Copyright 2017 Appiphony, LLC
+/*
+Copyright 2017 Appiphony, LLC
 
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
 following conditions are met:
 
-1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following 
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following
 disclaimer.
-2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following 
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following
 disclaimer in the documentation and/or other materials provided with the distribution.
-3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote 
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote
 products derived from this software without specific prior written permission.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
-SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
-WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/

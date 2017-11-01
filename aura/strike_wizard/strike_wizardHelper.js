@@ -1,9 +1,11 @@
-/*Strike by Appiphony
+/*
+Strike by Appiphony
 
-Version: 0.9.0
+Version: 0.10.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
-License: BSD 3-Clause License*/
+License: BSD 3-Clause License
+*/
 ({
     buildInitState: function(component, displayMode) {
         var stageNames = component.get('v.stageNames');
@@ -15,27 +17,27 @@ License: BSD 3-Clause License*/
         var chevrons = [];
 
         for (var i = 0; i < stageNames.length; i++) {
-            if (displayMode == 'simple') {
+            if (displayMode === 'simple') {
                 chevrons.push({
-                    'active': (i == activeChevron) ? true : false,
-                    'class': (i == activeChevron) ? 'slds-is-active' : 'slds-is-incomplete',
+                    'active': (i === activeChevron) ? true : false,
+                    'class': (i === activeChevron) ? 'slds-is-active' : 'slds-is-incomplete',
                     'current': false,
                     'name': stageNames[i],
                     'status': 'incomplete',
                     'disabled': false
                 })
-            } else if (displayMode == 'wizard') {
-                if (activeChevron == 0 && i == 0) {
+            } else if (displayMode === 'wizard') {
+                if (activeChevron === 0 && i === 0) {
                     chevrons.push({
-                        'active': (i == activeChevron) ? true : false,
-                        'class': (i == activeChevron) ? (error) ? 'slds-is-current slds-is-lost' : 'slds-is-current' : 'slds-is-incomplete',
-                        'current': (i == activeChevron) ? true : false,
+                        'active': (i === activeChevron) ? true : false,
+                        'class': (i === activeChevron) ? (error) ? 'slds-is-current slds-is-lost' : 'slds-is-current' : 'slds-is-incomplete',
+                        'current': (i === activeChevron) ? true : false,
                         'name': stageNames[i],
                         'status': 'incomplete',
                         'disabled': forceProcessFlow
                     })
                 } else {
-                    if (i == activeChevron) {
+                    if (i === activeChevron) {
                         chevrons.push({
                             'name': stageNames[i],
                             'active': true,
@@ -68,8 +70,8 @@ License: BSD 3-Clause License*/
                 }
             }
         }
-        if (activeChevron != 0) component.set('v.initialized', true);
-        (activeChevron == 0) ? component.set('v.currentChevron', 1): component.set('v.currentChevron', activeChevron);
+        if (activeChevron !== 0) component.set('v.initialized', true);
+        (activeChevron === 0) ? component.set('v.currentChevron', 1): component.set('v.currentChevron', activeChevron);
         component.set('v.chevrons', chevrons);
         component.set('v.processComplete', false);
         component.set('v.advanceButtonText', component.get('v.advanceButtonNextLabel'));
@@ -81,7 +83,7 @@ License: BSD 3-Clause License*/
         for (var i = 0; i < chevrons.length; i++) {
             var chevron = chevrons[i];
             chevron.class = '';
-            if (i == targetChevron) {
+            if (i === targetChevron) {
                 chevron.active = true;
                 chevron.current = false;
                 results.current = i || 0;
@@ -104,14 +106,14 @@ License: BSD 3-Clause License*/
         var error = component.get('v.error');
         var setNextAsCurrent = false;
         
-        if (component.get('v.forceProcessFlow') == true) return;
+        if (component.get('v.forceProcessFlow') === true) return;
         
         for (var i = 0; i < chevrons.length; i++) {
             var chevron = chevrons[i];
             chevron.class = '';
 
-            if (i == targetChevron) {
-                if (chevron.current == true) {
+            if (i === targetChevron) {
+                if (chevron.current === true) {
                     chevron.active = false;
                     results.current = i || 0;
                     chevron.class = 'slds-is-current';
@@ -125,16 +127,16 @@ License: BSD 3-Clause License*/
                     chevron.class = 'slds-is-active';
                     component.set('v.advanceButtonText', component.get('v.advanceButtonSelectLabel'));
                     component.set('v.toggleButtonStyle', false);
-                    (chevron.status == 'complete') ? chevron.class += ' slds-is-complete': chevron.class += ' slds-is-incomplete';
+                    (chevron.status === 'complete') ? chevron.class += ' slds-is-complete': chevron.class += ' slds-is-incomplete';
                 }
             } else {
-                if (chevron.current == true) {
+                if (chevron.current === true) {
                     results.current = i || 0;
                     chevron.class = 'slds-is-current';
                     if (error) chevron.class += ' slds-is-lost';
                 } else {
                     chevron.current = false;
-                    (chevron.status == 'complete') ? chevron.class += ' slds-is-complete': chevron.class += ' slds-is-incomplete';
+                    (chevron.status === 'complete') ? chevron.class += ' slds-is-complete': chevron.class += ' slds-is-incomplete';
                 }
                 chevron.active = false;
             }
@@ -161,7 +163,7 @@ License: BSD 3-Clause License*/
                     chevron.class = '';
                 }
                 
-                if (i == activeChevron) {
+                if (i === activeChevron) {
                     chevron.active = false;
                     chevron.class += ' slds-is-current slds-is-lost';
                     chevron.current = true;
@@ -196,13 +198,13 @@ License: BSD 3-Clause License*/
         var disableForwardNavOnIncomplete = component.get('v.disableForwardNavOnIncomplete');
         var forceProcessFlow = component.get('v.forceProcessFlow');
 
-        if (component.get('v.displayMode').toLowerCase() == 'simple') return;
+        if (component.get('v.displayMode').toLowerCase() === 'simple') return;
         
         var chevrons = component.get('v.chevrons');
         var error = component.get('v.error');
         var results = {};
 
-        if (activeChevron == chevrons.length) {
+        if (activeChevron === chevrons.length) {
             chevrons[activeChevron - 1].class = 'slds-is-complete';
             chevrons[activeChevron - 1].status = 'complete';
             chevrons[activeChevron - 1].active = true;
@@ -214,10 +216,10 @@ License: BSD 3-Clause License*/
             return;
         }
 
-        (component.get('v.initialized') == true) ? activeChevron += 1 : activeChevron;
+        (component.get('v.initialized') === true) ? activeChevron += 1 : activeChevron;
         
         for (var i = 0; i < chevrons.length; i++) {
-            if (i == activeChevron) {
+            if (i === activeChevron) {
                 chevrons[i].class = 'slds-is-current';
                 if (error) chevrons[i].class += ' slds-is-lost';
                 chevrons[i].status = 'incomplete';
@@ -237,8 +239,8 @@ License: BSD 3-Clause License*/
                 chevrons[i].disabled = forceProcessFlow || disableForwardNavOnIncomplete;
             }
             
-            if (chevrons[i].current == true) results.current = i || 0;
-            if (chevrons[i].active == true) results.active = i || 0;
+            if (chevrons[i].current === true) results.current = i || 0;
+            if (chevrons[i].active === true) results.active = i || 0;
         }
 
         component.set('v.advanceButtonText', component.get('v.advanceButtonNextLabel'));
@@ -258,7 +260,7 @@ License: BSD 3-Clause License*/
         clickEvent.fire();
     },
     showToast: function(component, event) {
-        if (component.get('v.displayMode').toLowerCase() == 'simple') return;
+        if (component.get('v.displayMode').toLowerCase() === 'simple') return;
         var params = event.getParam('arguments');
         var toastEvent = $A.get("e.force:showToast");
         if (typeof(toastEvent) !== 'undefined') {
@@ -277,7 +279,8 @@ License: BSD 3-Clause License*/
         }
     }
 })
-/*Copyright 2017 Appiphony, LLC
+/*
+Copyright 2017 Appiphony, LLC
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
 following conditions are met:
@@ -295,4 +298,5 @@ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
 SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
 SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/

@@ -1,9 +1,11 @@
-/*Strike by Appiphony
+/*
+Strike by Appiphony
 
-Version: 0.9.0
+Version: 0.10.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
-License: BSD 3-Clause License*/
+License: BSD 3-Clause License
+*/
 ({
     onInit: function(component, event, helper) {
         component.handleClick = $A.getCallback(function() {
@@ -27,7 +29,7 @@ License: BSD 3-Clause License*/
 
         component.set('v.idNumber', randomNumber);
 
-        component.set('v.isMobile', $A.get('$Browser.formFactor') == 'DESKTOP' ? false : true);
+        component.set('v.isMobile', $A.get('$Browser.formFactor') === 'DESKTOP' ? false : true);
     },
     handleInputClick: function(component, event, helper) {
         event.stopPropagation();
@@ -52,11 +54,11 @@ License: BSD 3-Clause License*/
             return;
         }
 
-        const KEYCODE_TAB = 9;
+        var KEYCODE_TAB = 9;
 
         var keyCode = event.which || event.keyCode || 0;
 
-        if (keyCode == KEYCODE_TAB) {
+        if (keyCode === KEYCODE_TAB) {
             helper.closeMenu(component, event, helper);
         }
     },
@@ -70,17 +72,17 @@ License: BSD 3-Clause License*/
             return;
         }
 
-        const KEYCODE_ENTER = 13;
-        const KEYCODE_UP = 38;
-        const KEYCODE_DOWN = 40;
+        var KEYCODE_ENTER = 13;
+        var KEYCODE_UP = 38;
+        var KEYCODE_DOWN = 40;
 
         var keyCode = event.which || event.keyCode || 0;
 
-        if (keyCode == KEYCODE_ENTER) {
+        if (keyCode === KEYCODE_ENTER) {
             helper.updateValueByFocusIndex(component, event, helper);
-        } else if (keyCode == KEYCODE_UP) {
+        } else if (keyCode === KEYCODE_UP) {
             helper.moveRecordFocusUp(component, event, helper);
-        } else if (keyCode == KEYCODE_DOWN) {
+        } else if (keyCode === KEYCODE_DOWN) {
             helper.moveRecordFocusDown(component, event, helper);
         } else {
             
@@ -113,7 +115,7 @@ License: BSD 3-Clause License*/
         for (var i = 0; i < options.length; i++) {
             var optionSpan = options[i].getElementsByTagName('span')[0];
 
-            if (i == focusIndex) {
+            if (i === focusIndex) {
                 $A.util.addClass(optionSpan, 'slds-has-focus');
             } else {
                 if (i < focusIndex) {
@@ -151,7 +153,7 @@ License: BSD 3-Clause License*/
                     tile.destroyTile();
                 });
             }
-        } else if(value != internalValue){
+        } else if(value !== internalValue){
             helper.getRecordByValue(component, event, helper);
         }
     },
@@ -223,7 +225,8 @@ License: BSD 3-Clause License*/
         component.set('v.error', false);
     }
 })
-/*Copyright 2017 Appiphony, LLC
+/*
+Copyright 2017 Appiphony, LLC
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
 following conditions are met:
@@ -241,4 +244,5 @@ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
 SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
 SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/

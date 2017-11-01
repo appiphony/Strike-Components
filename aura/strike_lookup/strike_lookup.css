@@ -1,6 +1,6 @@
 /*Strike by Appiphony
 
-Version: 0.9.0
+Version: 0.10.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License*/
@@ -98,12 +98,14 @@ Salesforce1 Styles
 }
 
 .THIS:not(.sl-lookup--mobile):not(.sl-lookup--open).scrollable {
-    overflow: hidden;
+    /*overflow: hidden;*/
+    overflow: visible;
 }
 
 .THIS:not(.sl-lookup--mobile).scrollable,
 .THIS:not(.sl-lookup--open).scrollable {
-    overflow: initial;
+    /*overflow: initial;*/
+    overflow: visible;
 }
 
 .THIS.sl-lookup--mobile.slds-is-open .slds-lookup__menu,
@@ -113,7 +115,8 @@ Salesforce1 Styles
 /*.THIS.sl-lookup--mobile .slds-lookup__list .sl-lookup__new,*/
 .THIS.sl-lookup--mobile .slds-pill__icon_container,
 .THIS.sl-lookup--mobile.sl-lookup--open .slds-form-element__label,
-.THIS.sl-lookup--mobile.sl-lookup--open .slds-form-element__help {
+.THIS.sl-lookup--mobile.sl-lookup--open .slds-form-element__help,
+.THIS.sl-lookup--mobile.sl-lookup--open .sl-help-text-icon {
     display: none;
 }
 

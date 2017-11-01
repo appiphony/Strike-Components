@@ -1,9 +1,11 @@
-/*Strike by Appiphony
+/*
+Strike by Appiphony
 
-Version: 0.9.0
+Version: 0.10.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
-License: BSD 3-Clause License*/
+License: BSD 3-Clause License
+*/
 ({
     onInit: function(component, event, helper) {
         var total = component.get('v.total');
@@ -23,8 +25,8 @@ License: BSD 3-Clause License*/
             var svgContainer = component.find('svg-container');
             
             var value = svgContainer.getElement().innerText;
-            if (!value.replace(/\s/g, '') == '') {
-                var color = color || defaultColor;
+            if (value.replace(/\s/g, '') !== '') {
+                color = color || defaultColor;
                 var percent = Math.round((completed / total) * 100);
                 component.set('v.percent', percent);
                 var remainder = 100 - percent;
@@ -45,7 +47,8 @@ License: BSD 3-Clause License*/
         }
     }
 })
-/*Copyright 2017 Appiphony, LLC
+/*
+Copyright 2017 Appiphony, LLC
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
 following conditions are met:
@@ -63,4 +66,5 @@ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
 SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
 SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
-THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/

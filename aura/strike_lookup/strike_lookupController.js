@@ -1,6 +1,6 @@
 /*Strike by Appiphony
 
-Version: 0.9.0
+Version: 0.10.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License*/
@@ -28,7 +28,7 @@ License: BSD 3-Clause License*/
 
         component.set('v.idNumber', randomNumber);
         
-        component.set('v.isMobile', $A.get('$Browser.formFactor') == 'DESKTOP' ? false : true);
+        component.set('v.isMobile', $A.get('$Browser.formFactor') === 'DESKTOP' ? false : true);
     },
     handleInputClick: function(component, event, helper) {
         event.stopPropagation();
@@ -53,11 +53,11 @@ License: BSD 3-Clause License*/
             return;
         }
 
-        const KEYCODE_TAB = 9;
+        var KEYCODE_TAB = 9;
 
         var keyCode = event.which || event.keyCode || 0;
 
-        if (keyCode == KEYCODE_TAB) {
+        if (keyCode === KEYCODE_TAB) {
             helper.closeMenu(component, event, helper);
         }
     },
@@ -71,17 +71,17 @@ License: BSD 3-Clause License*/
             return;
         }
 
-        const KEYCODE_ENTER = 13;
-        const KEYCODE_UP = 38;
-        const KEYCODE_DOWN = 40;
+        var KEYCODE_ENTER = 13;
+        var KEYCODE_UP = 38;
+        var KEYCODE_DOWN = 40;
 
         var keyCode = event.which || event.keyCode || 0;
 
-        if (keyCode == KEYCODE_ENTER) {
+        if (keyCode === KEYCODE_ENTER) {
             helper.updateValueByFocusIndex(component, event, helper);
-        } else if (keyCode == KEYCODE_UP) {
+        } else if (keyCode === KEYCODE_UP) {
             helper.moveRecordFocusUp(component, event, helper);
-        } else if (keyCode == KEYCODE_DOWN) {
+        } else if (keyCode === KEYCODE_DOWN) {
             helper.moveRecordFocusDown(component, event, helper);
         } else {
             helper.getRecordsBySearchTerm(component, event, helper);
@@ -112,40 +112,43 @@ License: BSD 3-Clause License*/
 
         helper.getRecordsBySearchTerm(component, event, helper);
 
-        setTimeout(function() {
+        window.setTimeout($A.getCallback(function() {
             component.find('lookupInput').getElement().focus();
-        }, 1);
+        }), 1);
     },
 
     handleFocusIndexChange: function(component, event, helper) {
         var focusIndex = component.get('v.focusIndex');
         var lookupMenu = component.find('lookupMenu').getElement();
-        var options = lookupMenu.getElementsByTagName('li');
-        var focusScrollTop = 0;
-        var focusScrollBottom = 0;
 
-        for (var i = 0; i < options.length; i++) {
-            var optionSpan = options[i].getElementsByTagName('span')[0];
+        if (!$A.util.isEmpty(lookupMenu)) {
+            var options = lookupMenu.getElementsByTagName('li');
+            var focusScrollTop = 0;
+            var focusScrollBottom = 0;
 
-            if (i == focusIndex) {
-                $A.util.addClass(optionSpan, 'slds-has-focus');
-            } else {
-                if (i < focusIndex) {
-                    focusScrollTop += options[i].scrollHeight;
+            for (var i = 0; i < options.length; i++) {
+                var optionSpan = options[i].getElementsByTagName('span')[0];
+
+                if (i === focusIndex) {
+                    $A.util.addClass(optionSpan, 'slds-has-focus');
+                } else {
+                    if (i < focusIndex) {
+                        focusScrollTop += options[i].scrollHeight;
+                    }
+
+                    $A.util.removeClass(optionSpan, 'slds-has-focus');
                 }
-
-                $A.util.removeClass(optionSpan, 'slds-has-focus');
             }
-        }
 
-        if (focusIndex !== null) {
-            focusScrollBottom = focusScrollTop + options[focusIndex].scrollHeight;
-        }
+            if (focusIndex !== null) {
+                focusScrollBottom = focusScrollTop + options[focusIndex].scrollHeight;
+            }
 
-        if (focusScrollTop < lookupMenu.scrollTop) {
-            lookupMenu.scrollTop = focusScrollTop;
-        } else if (focusScrollBottom > lookupMenu.scrollTop + lookupMenu.clientHeight) {
-            lookupMenu.scrollTop = focusScrollBottom - lookupMenu.clientHeight;
+            if (focusScrollTop < lookupMenu.scrollTop) {
+                lookupMenu.scrollTop = focusScrollTop;
+            } else if (focusScrollBottom > lookupMenu.scrollTop + lookupMenu.clientHeight) {
+                lookupMenu.scrollTop = focusScrollBottom - lookupMenu.clientHeight;
+            }
         }
     },
     handleValueChange: function(component, event, helper) {

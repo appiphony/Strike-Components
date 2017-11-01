@@ -1,9 +1,11 @@
-/*Strike by Appiphony
+/*
+Strike by Appiphony
 
-Version: 0.9.0
+Version: 0.10.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
-License: BSD 3-Clause License*/
+License: BSD 3-Clause License
+*/
 ({
     closeDatepicker: function(component, event, helper) {
         component.set('v.readOnly', false);
@@ -44,7 +46,7 @@ License: BSD 3-Clause License*/
         component.set('v.dayLabels', dayLabels);
         component.set('v.monthLabels', monthLabels);
 
-        var year = parseInt(currentDate.getFullYear());
+        var year = parseInt(currentDate.getFullYear(),10);
 
         this.setYearValues(component, year);
         this.buildCalendar(component, currentDate);
@@ -65,7 +67,7 @@ License: BSD 3-Clause License*/
         var month = currentDate.getMonth();
         var monthLabels = component.get('v.monthLabels');
         
-        component.set("v.selectedYear", parseInt(year));
+        component.set("v.selectedYear", parseInt(year,10));
         component.set("v.selectedMonth", month);
         component.set("v.selectedMonthText", monthLabels[month].fullName);
         component.set('v.calendarRows', this.getCalendarRows(component));
@@ -75,7 +77,7 @@ License: BSD 3-Clause License*/
         var yearsBefore = component.get('v.yearsBefore');
         var yearsAfter = component.get('v.yearsAfter');
 
-        for (var i = year - parseInt(yearsBefore); i <= year + parseInt(yearsAfter); i++) {
+        for (var i = year - parseInt(yearsBefore,10); i <= year + parseInt(yearsAfter,10); i++) {
             selectYears.push({
                 label: i.toString(),
                 value: i,
@@ -154,7 +156,7 @@ License: BSD 3-Clause License*/
         allDays.forEach(function (day, index) {
             var colIndex = index % 7;
 
-            if (colIndex == 0) {
+            if (colIndex === 0) {
                 rowsArray.push([])
             }
 
@@ -349,7 +351,8 @@ License: BSD 3-Clause License*/
         component.set('v.datePatternMap', datePatternMap);
     }
 })
-/*Copyright 2017 Appiphony, LLC
+/*
+Copyright 2017 Appiphony, LLC
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
 following conditions are met:
@@ -367,4 +370,5 @@ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
 SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
 SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/

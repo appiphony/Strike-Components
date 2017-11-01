@@ -1,6 +1,6 @@
 /*Strike by Appiphony
 
-Version: 0.9.0
+Version: 0.10.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License*/
@@ -146,7 +146,7 @@ License: BSD 3-Clause License*/
             }
 
             return;
-        } else if (searchTerm == lastSearchTerm) {
+        } else if (searchTerm === lastSearchTerm) {
             component.set('v.searching', false);
             helper.openMenu(component, event, helper);
 
@@ -174,7 +174,7 @@ License: BSD 3-Clause License*/
                 if (res.getState() === 'SUCCESS') {
                     var returnValue = JSON.parse(res.getReturnValue());
 
-                    if (returnValue.isSuccess && returnValue.results.searchTerm == component.find('lookupInput').getElement().value) {
+                    if (returnValue.isSuccess && returnValue.results.searchTerm === component.find('lookupInput').getElement().value) {
                         var returnedRecords = [];
 
                         returnValue.results.data.forEach(function(record) {
@@ -227,7 +227,7 @@ License: BSD 3-Clause License*/
             component.find('lookupInput').getElement().value = '';
 
             helper.closeMenu(component, event, helper);
-        } else if (focusIndex == records.length) {
+        } else if (focusIndex === records.length) {
             helper.addNewRecord(component, event, helper);
         }
 
@@ -261,7 +261,7 @@ License: BSD 3-Clause License*/
             var focusIndex = component.get('v.focusIndex');
             var options = component.find('lookupMenu').getElement().getElementsByTagName('li');
 
-            if (focusIndex == null || focusIndex == 0) {
+            if (focusIndex === null || focusIndex === 0) {
                 focusIndex = options.length - 1;
             } else {
                 --focusIndex;
@@ -277,7 +277,7 @@ License: BSD 3-Clause License*/
             var focusIndex = component.get('v.focusIndex');
             var options = component.find('lookupMenu').getElement().getElementsByTagName('li');
 
-            if (focusIndex == null || focusIndex == options.length - 1) {
+            if (focusIndex === null || focusIndex === options.length - 1) {
                 focusIndex = 0;
             } else {
                 ++focusIndex;

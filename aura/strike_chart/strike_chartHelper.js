@@ -1,9 +1,11 @@
-/*Strike by Appiphony
+/*
+Strike by Appiphony
 
-Version: 0.9.0
+Version: 0.10.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
-License: BSD 3-Clause License*/
+License: BSD 3-Clause License
+*/
 ({
     drawChart: function (component, helper) {
         var chartType = component.get('v.type');
@@ -170,20 +172,21 @@ License: BSD 3-Clause License*/
 
             var firstTooltipLine;
             var secondTooltipLine;
+            var formatPattern;
             var xDataType = component.get('v.xAxisDataType')
             var yDataType = component.get('v.yAxisDataType')
 
-            if(xDataType == 'number'){
+            if(xDataType === 'number'){
                 firstTooltipLine = '<span class="sc-axis-label">' + component.get('v.xAxisLabel') + ': </span><span class="sc-axis-value">' + helper.abbreviateNumber(d.x) + '</span><br/>'
             } else {
-                var formatPattern = xDataType == 'date' ? 'EEEE MMM dd, yyyy' : 'EEEE MMM dd, yyyy hh:mm A';
+                formatPattern = xDataType === 'date' ? 'EEEE MMM dd, yyyy' : 'EEEE MMM dd, yyyy hh:mm A';
                 firstTooltipLine = '<span class="sc-axis-value">' + $A.localizationService.formatDate(d.x, formatPattern) + '</span><br/>'
             }
 
-            if(yDataType == 'number'){
+            if(yDataType === 'number'){
                 secondTooltipLine = '<span class="sc-axis-label">' + component.get('v.yAxisLabel') + ': </span><span class="sc-axis-value">' + helper.abbreviateNumber(d.y) + '</span>';
             } else {
-                var formatPattern = yDataType == 'date' ? 'EEEE MMM dd, yyyy' : 'EEEE MMM dd, yyyy hh:mm A';
+                formatPattern = yDataType === 'date' ? 'EEEE MMM dd, yyyy' : 'EEEE MMM dd, yyyy hh:mm A';
                 secondTooltipLine = '<span class="sc-axis-value">' + $A.localizationService.formatDate(d.y, formatPattern) + '</span>'
             }
 
@@ -244,7 +247,7 @@ License: BSD 3-Clause License*/
 
         numericalDomain = [0, d3.max([component.get('v.thresholdValue'), numericalMax])];
 
-        var stringDomain = component.get('v.data').map(function (dataPoint) {
+        stringDomain = component.get('v.data').map(function (dataPoint) {
             return dataPoint[stringAxis];
         });
 
@@ -328,7 +331,7 @@ License: BSD 3-Clause License*/
             var x = dataPoint.x;
             var y = dataPoint.y;
 
-            if (numericalAxis == 'x') {
+            if (numericalAxis === 'x') {
                 x = helper.abbreviateNumber(x);
             } else {
                 y = helper.abbreviateNumber(y);
@@ -357,6 +360,7 @@ License: BSD 3-Clause License*/
             helper.showToolTip(component, tooltipOptions);
         }));
 
+        var thresholdYPos = yScale(component.get('v.thresholdValue'));
         var thresholdParams = {
             thresholdValue: component.get('v.thresholdValue'),
             thresholdLabel: component.get('v.thresholdLabel'),
@@ -365,7 +369,6 @@ License: BSD 3-Clause License*/
         }
 
         if (isVertical) {
-            var thresholdYPos = yScale(component.get('v.thresholdValue'));
             thresholdParams.lineX1 = paddingBox.left;
             thresholdParams.lineX2 = chartWidth - paddingBox.right;
             thresholdParams.lineY1 = thresholdYPos;
@@ -374,9 +377,8 @@ License: BSD 3-Clause License*/
             thresholdParams.textX = chartWidth - paddingBox.right;
             thresholdParams.textY = thresholdYPos;
             thresholdParams.rotateAngle = 0;
-        } else {
-            var thresholdYPos = yScale(component.get('v.thresholdValue'));
 
+        } else {            
             thresholdParams.lineX1 = xScale(component.get('v.thresholdValue'));
             thresholdParams.lineX2 = xScale(component.get('v.thresholdValue'));
             thresholdParams.lineY1 = paddingBox.top;
@@ -428,7 +430,7 @@ License: BSD 3-Clause License*/
 
         var dataWithThreshold = data.slice();
         dataWithThreshold.push({
-            y: parseInt(component.get('v.thresholdValue'))
+            y: parseInt(component.get('v.thresholdValue'),10)
         })
 
         var xDomain = d3.extent(data, function(dataPoint) {
@@ -450,9 +452,9 @@ License: BSD 3-Clause License*/
         var dataSizeMin = sizeDomain[0];
         var dataSizeMax = sizeDomain[1];
 
-        dataSizeMax = dataSizeMin == dataSizeMax ? dataSizeMax + 1 : dataSizeMax;
-        dataXMax = dataXMin == dataXMax ? dataXMax + 1 : dataXMax;
-        dataYMax = dataYMin == dataYMax ? dataYMax + 1 : dataYMax;
+        dataSizeMax = dataSizeMin === dataSizeMax ? dataSizeMax + 1 : dataSizeMax;
+        dataXMax = dataXMin === dataXMax ? dataXMax + 1 : dataXMax;
+        dataYMax = dataYMin === dataYMax ? dataYMax + 1 : dataYMax;
 
         var xScaleSizeBuffer = function () {
             return Math.abs(sizeMax / (chartWidth - paddingBox.left - paddingBox.right) * (dataXMax - dataXMin));
@@ -461,8 +463,8 @@ License: BSD 3-Clause License*/
             return Math.abs(sizeMax / (chartHeight - paddingBox.bottom - paddingBox.top) * (dataYMax - dataYMin));
         }
 
-        var xDomain = [dataXMin - xScaleSizeBuffer(), dataXMax + xScaleSizeBuffer()];
-        var yDomain = [dataYMin - yScaleSizeBuffer(), dataYMax + yScaleSizeBuffer()];
+        xDomain = [dataXMin - xScaleSizeBuffer(), dataXMax + xScaleSizeBuffer()];
+        yDomain = [dataYMin - yScaleSizeBuffer(), dataYMax + yScaleSizeBuffer()];
 
         var xAxisDataType = component.get('v.xAxisDataType');
         var yAxisDataType = component.get('v.yAxisDataType');
@@ -578,17 +580,18 @@ License: BSD 3-Clause License*/
 
             var firstTooltipLine;
             var secondTooltipLine;
+            var formatPattern;
 
-            if(xAxisDataType == 'date' || xAxisDataType == 'datetime'){
-                var formatPattern = xAxisDataType == 'date' ? 'EEEE MMM dd, yyyy' : 'EEEE MMM dd, yyyy hh:mm A';
-                var firstTooltipLine = '<span class="sc-axis-value">' + $A.localizationService.formatDate(d.x, formatPattern) + '</span>'
+            if(xAxisDataType === 'date' || xAxisDataType === 'datetime'){
+                formatPattern = xAxisDataType === 'date' ? 'EEEE MMM dd, yyyy' : 'EEEE MMM dd, yyyy hh:mm A';
+                firstTooltipLine = '<span class="sc-axis-value">' + $A.localizationService.formatDate(d.x, formatPattern) + '</span>'
             } else {
                 firstTooltipLine = '<span class="sc-axis-label">' + component.get('v.xAxisLabel') + ': </span><span class="sc-axis-value">' + helper.abbreviateNumber(d.x) + '</span>'
             }
 
-            if(yAxisDataType == 'date' || yAxisDataType == 'datetime'){
-                var formatPattern = yAxisDataType == 'date' ? 'EEEE MMM dd, yyyy' : 'EEEE MMM dd, yyyy hh:mm A';
-                var secondTooltipLine = '<br/><span class="sc-axis-value">' + $A.localizationService.formatDate(d.y, formatPattern) + '</span>'
+            if(yAxisDataType === 'date' || yAxisDataType === 'datetime'){
+                formatPattern = yAxisDataType === 'date' ? 'EEEE MMM dd, yyyy' : 'EEEE MMM dd, yyyy hh:mm A';
+                secondTooltipLine = '<br/><span class="sc-axis-value">' + $A.localizationService.formatDate(d.y, formatPattern) + '</span>'
             } else {
                 secondTooltipLine = '<br/><span class="sc-axis-label">' + component.get('v.yAxisLabel') + ': </span><span class="sc-axis-value">' + helper.abbreviateNumber(d.y) + '</span>'
             }
@@ -716,7 +719,7 @@ License: BSD 3-Clause License*/
         helper.addCircle(circleParams);
 
         var getLabel = function (d) {
-            let label = d.data.segment;
+            var label = d.data.segment;
             return label.length > 15 ? label.slice(0, 12) + '...' : label
         }
 
@@ -799,7 +802,7 @@ License: BSD 3-Clause License*/
 
         var segmentRanges = [minValue, lowSegmentMax, medSegmentMax, highSegmentMax];
 
-        var minValue = minValue;
+        minValue = minValue;
         var maxValue = highSegmentMax;
 
         var size = component.get('v.containerWidth') * .9;
@@ -855,20 +858,21 @@ License: BSD 3-Clause License*/
             (medSegmentMax - lowSegmentMax) / minMaxValuesDifference,
             (highSegmentMax - medSegmentMax) / minMaxValuesDifference
         ]
-
+        var previousSegmentStartAngle;
         var arc = d3.arc()
             .innerRadius(radius - arcWidth - arcInset)
             .outerRadius(radius - arcInset)
             .startAngle(function (d, i) {
+
                 if (i === 0) {
                     return degToRad(minAngle);
 
                 } else if (i === 1) {
-                    var previousSegmentStartAngle = tickData[i - 1] * range;
+                    previousSegmentStartAngle = tickData[i - 1] * range;
                     return degToRad(minAngle + previousSegmentStartAngle);
 
                 } else if (i === 2) {
-                    var previousSegmentStartAngle = (tickData[i - 2] + tickData[i - 1]) * range;
+                    previousSegmentStartAngle = (tickData[i - 2] + tickData[i - 1]) * range;
                     return degToRad(minAngle + previousSegmentStartAngle);
                 }
             })
@@ -971,8 +975,8 @@ License: BSD 3-Clause License*/
 
 
         var smallTicksData = [];
-        for (var i = 0; i <= numOfSmallTicks; i++) {
-            smallTicksData.push(minValue + partition * i);
+        for (var idx = 0; idx <= numOfSmallTicks; idx++) {
+            smallTicksData.push(minValue + partition * idx);
         }
 
         function smallTicksTransformFunc(d) {
@@ -1114,7 +1118,7 @@ License: BSD 3-Clause License*/
 
 
         function moveTheNeedle(value, newConfiguration) {
-            function tween(d, i, a) {
+            function tween(d, c, a) {
                 return d3.interpolateString('rotate(' + minAngle + ', 0, 0)', 'rotate(' + scale(value) + ', 0, 0)');
             }
 
@@ -1304,6 +1308,7 @@ License: BSD 3-Clause License*/
         if (absAmount / trillion >= 1) {
             shortenedNumber = amountNumber / trillion;
             abbreviation = 'T';
+            
         } else if (absAmount / billion >= 1) {
             shortenedNumber = amountNumber / billion;
             abbreviation = 'B';
@@ -1321,7 +1326,7 @@ License: BSD 3-Clause License*/
     },
     throwError: function (errorMessage) {
         function ErrorMessage() {
-            var temp = Error.apply(this, arguments);
+            var temp = Error().apply(this, arguments);
             temp.name = this.name = 'Error Message';
             this.message = temp.message;
             if (Object.defineProperty) {
@@ -1398,7 +1403,8 @@ License: BSD 3-Clause License*/
         ]);
     }
 })
-/*Copyright 2017 Appiphony, LLC
+/*
+Copyright 2017 Appiphony, LLC
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
 following conditions are met:
@@ -1416,4 +1422,5 @@ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
 SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
 SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/

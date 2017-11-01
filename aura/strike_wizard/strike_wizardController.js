@@ -1,9 +1,11 @@
-/*Strike by Appiphony
+/*
+Strike by Appiphony
 
-Version: 0.9.0
+Version: 0.10.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
-License: BSD 3-Clause License*/
+License: BSD 3-Clause License
+*/
 ({
     init: function(component, event, helper) {
         var displayMode = component.get('v.displayMode').toLowerCase();
@@ -21,12 +23,12 @@ License: BSD 3-Clause License*/
         var targetChevron = Number(event.currentTarget.id);
         var chevrons = component.get('v.chevrons');
         var chevron = chevrons[targetChevron];
-        if (chevron.disabled == true) return;
+        if (chevron.disabled === true) return;
         
-        if (!component.get('v.advanceButton') && component.get('v.displayMode').toLowerCase() == 'wizard') {
+        if (!component.get('v.advanceButton') && component.get('v.displayMode').toLowerCase() === 'wizard') {
             helper.renderAdvanceButtonClick(component, targetChevron);
         } else {
-            (component.get('v.displayMode').toLowerCase() == 'wizard' && component.get('v.advanceButton') == true) ? helper.renderWizardMode(component, targetChevron) : helper.renderSimpleMode(component, targetChevron);
+            (component.get('v.displayMode').toLowerCase() === 'wizard' && component.get('v.advanceButton') === true) ? helper.renderWizardMode(component, targetChevron) : helper.renderSimpleMode(component, targetChevron);
         }
     },
     showErrorMethod: function(component, event, helper) {
@@ -48,7 +50,8 @@ License: BSD 3-Clause License*/
         (error) ? helper.showErrorState(component) : helper.hideErrorState(component);
     }
 })
-/*Copyright 2017 Appiphony, LLC
+/*
+Copyright 2017 Appiphony, LLC
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
 following conditions are met:
@@ -66,4 +69,5 @@ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
 SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
 SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/

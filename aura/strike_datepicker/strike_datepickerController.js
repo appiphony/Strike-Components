@@ -1,9 +1,11 @@
-/*Strike by Appiphony
+/*
+Strike by Appiphony
 
-Version: 0.9.0
+Version: 0.10.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
-License: BSD 3-Clause License*/
+License: BSD 3-Clause License
+*/
 ({
     init: function (component, event, helper) {
         component.set('v.dateDebouncer', helper.debounceCreator(component, 1, helper.processDateValue));
@@ -20,14 +22,14 @@ License: BSD 3-Clause License*/
 
         window.addEventListener('click', $A.getCallback(component.closeDatepicker));
         
-        component.set('v.isMobile', $A.get('$Browser.formFactor') == 'DESKTOP' ? false : true);
+        component.set('v.isMobile', $A.get('$Browser.formFactor') === 'DESKTOP' ? false : true);
     },
     valueChanged: function(component, event, helper) {
         var dateDebouncer = component.get('v.dateDebouncer');
         var value = component.get('v.value');
         var clickedValue = component.get('v.clickedValue');
 
-        if (value == clickedValue) {
+        if (value === clickedValue) {
             return;
         }
 
@@ -42,7 +44,7 @@ License: BSD 3-Clause License*/
         var localeDatePattern = helper.getLocaleDatePattern(component, locale);
         var selectedDate = $A.localizationService.parseDateTime(displayDate, localeDatePattern, true);
 
-        if (selectedDate == null) {
+        if (selectedDate === null) {
             component.set('v.value', null);
             component.set('v.timestamp', null);
 
@@ -52,7 +54,7 @@ License: BSD 3-Clause License*/
 
         var formattedDisplayDate = $A.localizationService.formatDate(selectedDate.toString(), datePattern);
 
-        if (currentValue == formattedDisplayDate) {
+        if (currentValue === formattedDisplayDate) {
             helper.closeDatepicker(component, event, helper);
             return;
         }
@@ -63,8 +65,8 @@ License: BSD 3-Clause License*/
     clickedDateInput: function(component, event, helper) {
         event.preventDefault();
         event.stopPropagation();
-        
-        if (event.srcElement.tagName == 'use' || event.srcElement.tagName == 'svg') {
+
+        if (event.target.tagName === 'use' || event.target.tagName === 'svg') {
             return;
         }
         
@@ -147,8 +149,8 @@ License: BSD 3-Clause License*/
             selectedDayObj.isSelected = false;
         }
 
-        var clickedRowIndex = parseInt(event.currentTarget.dataset.row_index);
-        var clickedColIndex = parseInt(event.currentTarget.dataset.col_index);
+        var clickedRowIndex = parseInt(event.currentTarget.dataset.row_index,10);
+        var clickedColIndex = parseInt(event.currentTarget.dataset.col_index,10);
         var calendarRows = component.get('v.calendarRows');
         var clickedDayObj = component.get('v.calendarRows')[clickedRowIndex][clickedColIndex];
 
@@ -158,8 +160,8 @@ License: BSD 3-Clause License*/
         component.set('v.selectedDateColIndex', clickedColIndex);
         component.set('v.calendarRows', calendarRows);
 
-        var selectedDay = parseInt(event.currentTarget.dataset.day);
-        var selectedMonth = parseInt(event.currentTarget.dataset.month);
+        var selectedDay = parseInt(event.currentTarget.dataset.day,10);
+        var selectedMonth = parseInt(event.currentTarget.dataset.month,10);
         var selectedYear = component.get('v.selectedYear');
         var timeStamp = Date.UTC(selectedYear, selectedMonth, selectedDay);
 
@@ -192,7 +194,8 @@ License: BSD 3-Clause License*/
         component.set('v.error', false);
     }
 })
-/*Copyright 2017 Appiphony, LLC
+/*
+Copyright 2017 Appiphony, LLC
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
 following conditions are met:
@@ -210,4 +213,5 @@ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
 SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
 SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/

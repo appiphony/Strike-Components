@@ -1,7 +1,7 @@
 <!--
 Strike by Appiphony
 
-Version: 0.9.0
+Version: 0.10.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -13,7 +13,7 @@ License: BSD 3-Clause License
     <aura:attribute name="helpTextPlacement" type="String" default="auto top" description="Determines position of the helpText"/>
     <aura:attribute name="class" type="String" description="A CSS class that will be applied to the outer element. This style is in addition to base classes associated with the component"/>
     <aura:attribute name="name" type="String" description="String value of the component's form name"/>
-    <aura:attribute name="placeholder" type="String" default="Select an Option" description="String value that will appear when no option is selected" />
+    <aura:attribute name="placeholder" type="String" description="String value that will appear when no option is selected" />
     <aura:attribute name="value" type="String" description="String value of the value of the selected option" />
 
     <aura:attribute name="errorMessage" type="String" description="String value displayed when the input is in an error state" />
@@ -23,6 +23,7 @@ License: BSD 3-Clause License
     <aura:attribute name="disabled" type="Boolean" description="Determines whether the input is disabled" />
     <aura:attribute name="required" type="Boolean" description="Determines whether a '*' is displayed on the component" />
     <aura:attribute name="error" type="Boolean" description="Determines whether the input is in an error state" />
+    <aura:attribute name="scrollPosition" type="String" description="Scroll position used to lock drop down list"/>
 
     <!-- Methods -->
     <aura:method name="showError" action="{!c.showError}" description="A method which triggers the error state">
@@ -31,8 +32,7 @@ License: BSD 3-Clause License
     <aura:method name="hideError" action="{!c.hideError}" description="A method which removes the error state"/>
 
     <!-- Internal -->
-    <aura:attribute name="customIcon" type="Boolean" access="private" description="Determines whether the returned icon is a custom or standard icon"/>
-    <aura:attribute name="focusIndex" type="Integer" access="private" description="Integer value that determines which option is currently selected"/>
+    <aura:attribute name="focusIndex" type="Integer" access="private" default="-1" description="Integer value that determines which option is currently selected"/>
     <aura:attribute name="iconName" type="String" access="private" description="String value of the icon of the selected option"/>
     <aura:attribute name="openMenu" type="Boolean" access="private" description="Determines whether the menu is open"/>
     <aura:attribute name="valueLabel" type="String" access="private" description="String value of the label of the selected option"/>
@@ -67,21 +67,16 @@ License: BSD 3-Clause License
         
         <div class="{!'slds-picklist slds-dropdown-trigger slds-dropdown-trigger--click' + if(v.openMenu, ' slds-is-open', '') + if(v.disabled, ' ss-disabled', '')}" aria-expanded="true">
             <div class="slds-form-element__control">
-                <div aura:id="dropdown-trigger" class="slds-button slds-button--neutral slds-input slds-picklist__input slds-text-color--default slds-picklist__label ss-menu-button" aria-haspopup="true" tabindex="0" onfocus="{!c.toggleMenu}" onclick="{!c.stopProp}">
+                <div aura:id="dropdown-trigger" class="slds-button slds-button--neutral slds-input slds-picklist__input slds-text-color--default slds-picklist__label ss-menu-button" aria-haspopup="true" tabindex="0" onfocus="{!c.toggleMenu}" onblur="{!c.blur}" onclick="{!c.stopProp}">
                     <span class="slds-truncate ss-selected-text" title="{!v.valueLabel}">
-                        <aura:if isTrue="{!and(not(empty(v.iconName)), not(v.customIcon))}">
+                        <aura:if isTrue="{!not(empty(v.iconName))}">
                             <lightning:icon class="ss-selected-icon slds-input__icon" iconName="{!v.iconName}" size="x-small" />
-                        </aura:if>
-                        <aura:if isTrue="{!v.customIcon}">
-                            <span class="slds-icon_container">
-                                <c:strike_svg aura:id="svgComp" xlinkHref="{!v.iconName}" ariaHidden="true" class="slds-icon ss-selected-icon" />
-                            </span>
                         </aura:if>
                         {!if(empty(v.valueLabel), v.placeholder, v.valueLabel)}
                     </span>
                     <lightning:icon class="ss-dropdown-icon" iconName="utility:down" size="xx-small" />
                 </div>
-                <div class="{!'slds-dropdown slds-dropdown--left slds-dropdown--small ss-dropdown-control' + if(v.openMenu, ' slds-is-open', '')}" onclick="{!c.blur}">
+                <div aura:id="selectMenu" class="{!'slds-dropdown slds-dropdown--left slds-dropdown--small ss-dropdown-control' + if(v.openMenu, ' slds-is-open', '')}" onclick="{!c.blur}">
                     <ui:scrollerWrapper class="slds-scrollable--y ss-scroll-container">
                         <div class="ss-picklist__mobile-header slds-grid slds-grid--pull-padded-xx-small">
                             <div class="{!'ss-picklist__input slds-col slds-p-horizontal--xx-small' + if(v.searchable, '', ' slds-hide')}">
@@ -125,12 +120,21 @@ License: BSD 3-Clause License
 <!--
 Copyright 2017 Appiphony, LLC
 
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
+following conditions are met:
 
-1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following 
+disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following 
+disclaimer in the documentation and/or other materials provided with the distribution.
 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote 
 products derived from this software without specific prior written permission.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->

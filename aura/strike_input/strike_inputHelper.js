@@ -1,9 +1,11 @@
-/*Strike by Appiphony
+/*
+Strike by Appiphony
 
-Version: 0.9.0
+Version: 0.10.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
-License: BSD 3-Clause License*/
+License: BSD 3-Clause License
+*/
 ({
     /*checkIfEmail: function (component, event, helper) {
         var value = component.find('inputField').getElement('value').value
@@ -19,12 +21,34 @@ License: BSD 3-Clause License*/
     resetValue: function(component, event, helper) {
         var inputEl = component.find('inputField').getElement();
         var value = component.get('v.value');
-        if(inputEl.value != value) {
+        if(inputEl.value !== value) {
             component.set('v.value', inputEl.value);
         }
     },
+
+    disableInput: function(component, event, helper) {
+        var inputEl = component.find('inputField').getElement();
+        
+        inputEl.setAttribute('disabled', 'disabled');
+    },
+    enableInput: function(component, event, helper) {
+        var inputEl = component.find('inputField').getElement();
+        
+        inputEl.removeAttribute('disabled');
+    },
+    setAddonsAllowed: function(component, event, helper) {
+        var type = component.get('v.type');
+        
+        if (type === 'toggle' || type === 'radio' || type === 'checkbox' || type === 'search' || type === 'range') {
+            component.set('v.addonsAllowed', false);
+        } else {
+            component.set('v.addonsAllowed', true);
+        }
+
+    }
 })
-/*Copyright 2017 Appiphony, LLC
+/*
+Copyright 2017 Appiphony, LLC
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
 following conditions are met:
@@ -42,4 +66,5 @@ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
 SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
 SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/

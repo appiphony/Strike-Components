@@ -1,7 +1,7 @@
 <!--
 Strike by Appiphony
 
-Version: 0.9.0
+Version: 0.10.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -60,7 +60,7 @@ License: BSD 3-Clause License
     <aura:attribute name="records" type="Object[]" description="List of records returned from the SOQL search" access="private"/>
     <aura:attribute name="searching" type="Boolean" description="Boolean value marked when searching" access="private"/>
     <aura:attribute name="searchTimeout" type="Object" description="Object that holds the search Timeout" access="private"/>
-    <aura:attribute name="valueLabel" type="String" description="String value that holds the searchField of the selected record" access="private"/>
+    <aura:attribute name="valueLabel" type="String" description="String value that holds the searchField of the selected record"/>
     <aura:attribute name="valueSublabel" type="String" description="String value that holds the subtitleField of the selected record" access="private"/>
     <aura:attribute name="isMobile" type="Boolean" default="{!false}" description="Determines if the user is in Salesforce1" access="private"/>
 
@@ -80,7 +80,7 @@ License: BSD 3-Clause License
     <aura:dependency resource="force:createRecord" type="EVENT"/>
 
     <!-- Strike Lookup -->
-    <ui:scrollerWrapper aura:id="lookup" class="{!'slds-form-element slds-lookup slds-is-open ' + if(v.error, 'slds-has-error ', '') + if(v.isMobile, 'sl-lookup--mobile ', '') + if(v.openMenu, ' sl-lookup--open', '') + v.class}">
+    <ui:scrollerWrapper aura:id="lookup" class="{!'slds-form-element slds-lookup slds-is-open ' + if(v.error, 'slds-has-error ', '') + if(v.isMobile, 'sl-lookup--mobile ', '') + if(v.openMenu, 'sl-lookup--open ', '') + v.class}">
         <label class="slds-form-element__label" for="{!'strike-lookup-' + v.idNumber}">
             <aura:if isTrue="{!v.required}">
                 <abbr class="slds-required" title="required">*</abbr>

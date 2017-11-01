@@ -1,24 +1,26 @@
-/*Strike by Appiphony
+/*
+Strike by Appiphony
 
-Version: 0.9.0
+Version: 0.10.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
-License: BSD 3-Clause License*/
+License: BSD 3-Clause License
+*/
 ({
     init: function(component, event, helper){
-        component._closeModal = $A.getCallback(function(e){
-            var ESCAPE_KEY = 27;
-
-            if(!component.isValid()){
+        component._closeModal = $A.getCallback(function(e) {
+            var escKey = 27;
+            
+            if (!component.isValid()) {
                 window.removeEventListener('keyup', component._closeModal);
-            } else if(e.keyCode == ESCAPE_KEY && component.get('v.showingModal') == true){
+            } else if((e.which === escKey || e.keyCode === escKey) && component.get('v.showingModal') === true) {
                 helper.hide(component, event, helper);
             }
         });
-
+        
         var randomId = Math.floor(Math.random() * 100000000);
+        
         component.set('v.modalHeaderId', randomId);
-
         component.set('v.showingModal', component.get('v.showModal'));
         component.set('v.fadeIn', component.get('v.showModal'));
     },
@@ -26,6 +28,8 @@ License: BSD 3-Clause License*/
         helper.show(component, event, helper);
     },
     hide: function(component, event, helper) {
+        var closeClicked = component.getEvent('strike_evt_modalCloseButtonClicked');
+        closeClicked.fire();
         helper.hide(component, event, helper);
     },
     determineModalState: function(component, event, helper){
@@ -36,9 +40,15 @@ License: BSD 3-Clause License*/
     clickedPrimary: function(component, event, helper) {
         var primaryClicked = component.getEvent('strike_evt_modalPrimaryButtonClicked');
         primaryClicked.fire();
+    },
+    clickedSecondary: function(component, event, helper) {
+        var secondaryClicked = component.getEvent('strike_evt_modalSecondaryButtonClicked');
+        secondaryClicked.fire();
+        helper.hide(component, event, helper);
     }
 })
-/*Copyright 2017 Appiphony, LLC
+/*
+Copyright 2017 Appiphony, LLC
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
 following conditions are met:
@@ -56,4 +66,5 @@ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
 SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
 SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/

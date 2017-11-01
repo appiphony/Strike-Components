@@ -1,13 +1,15 @@
-/*Strike by Appiphony
+/*
+Strike by Appiphony
 
-Version: 0.9.0
+Version: 0.10.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
-License: BSD 3-Clause License*/
+License: BSD 3-Clause License
+*/
 ({
     calculateNubbinPlacement: function(component, placement){
         if(!placement) {
-            var placement = component.get('v.placement');
+            placement = component.get('v.placement');
         }
         placement = placement.replace('auto ', '');
         var nubbinPlacement;
@@ -36,7 +38,7 @@ License: BSD 3-Clause License*/
         var containerRight = containerBoundingBox.right;
 
         var placement = component.get('v.placement');
-
+        var adjustment;
         // Check for auto placement
         if(placement.startsWith('auto ')) {
 
@@ -81,25 +83,25 @@ License: BSD 3-Clause License*/
 
         var tooltipStyle = component.find('tooltipStyle').getElement();
 
-        if (placement == 'right') {
+        if (placement === 'right') {
             tooltipXPos = containerWidth + nubbinPadding;
             tooltipYPos = (containerHeight - tooltipHeight) / 2;
-        } else if (placement == 'bottom') {
+        } else if (placement === 'bottom') {
             tooltipXPos = (containerWidth - tooltipWidth) / 2;
             tooltipYPos = containerHeight + nubbinPadding;
 
             if ((containerLeft + tooltipXPos) < 4) {
-                var adjustment = Math.abs(containerLeft + tooltipXPos) + 4;
+                adjustment = Math.abs(containerLeft + tooltipXPos) + 4;
 
                 tooltipXPos += adjustment;
                 tooltipStyle.innerHTML = '.st-popover_container .slds-nubbin--top:before { transform: translateX(' + -adjustment + 'px) rotate(45deg); } .st-popover_container .slds-nubbin--top:after { transform: translateX(' + -adjustment + 'px) rotate(45deg); }';
             } else if ((containerRight + Math.abs(tooltipXPos)) > (window.innerWidth - 4)) {
-                var adjustment = (containerRight + Math.abs(tooltipXPos)) - (window.innerWidth - 4);
+                adjustment = (containerRight + Math.abs(tooltipXPos)) - (window.innerWidth - 4);
 
                 tooltipXPos -= adjustment;
                 tooltipStyle.innerHTML = '.st-popover_container .slds-nubbin--top:before { transform: translateX(' + adjustment + 'px) rotate(45deg); } .st-popover_container .slds-nubbin--top:after { transform: translateX(' + adjustment + 'px) rotate(45deg); }';
             }
-        } else if (placement == 'left') {
+        } else if (placement === 'left') {
             tooltipXPos = -tooltipWidth - nubbinPadding;
             tooltipYPos = (containerHeight - tooltipHeight) / 2;
         } else { // Top
@@ -107,12 +109,12 @@ License: BSD 3-Clause License*/
             tooltipYPos = -tooltipHeight - nubbinPadding;
 
             if ((containerLeft + tooltipXPos) < 4) {
-                var adjustment = Math.abs(containerLeft + tooltipXPos) + 4;
+                adjustment = Math.abs(containerLeft + tooltipXPos) + 4;
 
                 tooltipXPos += adjustment;
                 tooltipStyle.innerHTML = '.st-popover_container .slds-nubbin--bottom:before { transform: translateX(' + -adjustment + 'px) rotate(45deg); } .st-popover_container .slds-nubbin--bottom:after { transform: translateX(' + -adjustment + 'px) rotate(45deg); }';
             } else if ((containerRight + Math.abs(tooltipXPos)) > (window.innerWidth - 4)) {
-                var adjustment = (containerRight + Math.abs(tooltipXPos)) - (window.innerWidth - 4);
+                adjustment = (containerRight + Math.abs(tooltipXPos)) - (window.innerWidth - 4);
 
                 tooltipXPos -= adjustment;
                 tooltipStyle.innerHTML = '.st-popover_container .slds-nubbin--bottom:before { transform: translateX(' + adjustment + 'px) rotate(45deg); } .st-popover_container .slds-nubbin--bottom:after { transform: translateX(' + adjustment + 'px) rotate(45deg); }';
@@ -126,7 +128,8 @@ License: BSD 3-Clause License*/
         }
     }
 })
-/*Copyright 2017 Appiphony, LLC
+/*
+Copyright 2017 Appiphony, LLC
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
 following conditions are met:
@@ -144,4 +147,5 @@ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
 SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
 SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/

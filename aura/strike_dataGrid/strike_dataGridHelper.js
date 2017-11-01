@@ -1,12 +1,15 @@
-/*Strike by Appiphony
+/*
+Strike by Appiphony
 
-Version: 0.9.0
+Version: 0.10.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
-License: BSD 3-Clause License*/
+License: BSD 3-Clause License
+*/
 ({
-	formatData : function(component, event, helper) {
+	formatData: function(component, event, helper) {
 		var data = component.get("v.data");
+
 		if(data){
 			var formattedData = {};
 			var columns = data.columns;
@@ -23,17 +26,18 @@ License: BSD 3-Clause License*/
 				for(var key in row){
 					if(dataTypeByName[key]){
 						var value = '';
-						if(dataTypeByName[key] != 'BOOLEAN' &&
-							dataTypeByName[key] != 'CURRENCY' &&
-							dataTypeByName[key] != 'DATE' &&
-							dataTypeByName[key] != 'DATETIME' &&
-							dataTypeByName[key] != 'EMAIL' &&
-							dataTypeByName[key] != 'NUMBER' &&
-							dataTypeByName[key] != 'PERCENT' &&
-							dataTypeByName[key] != 'PHONE' &&
-							dataTypeByName[key] != 'URL' &&
-							dataTypeByName[key] != 'COMPONENT'){
-						   	if(dataTypeByName[key] == 'ADDRESS'){
+
+						if(dataTypeByName[key] !== 'BOOLEAN' &&
+							dataTypeByName[key] !== 'CURRENCY' &&
+							dataTypeByName[key] !== 'DATE' &&
+							dataTypeByName[key] !== 'DATETIME' &&
+							dataTypeByName[key] !== 'EMAIL' &&
+							dataTypeByName[key] !== 'NUMBER' &&
+							dataTypeByName[key] !== 'PHONE' &&
+							dataTypeByName[key] !== 'URL' &&
+							dataTypeByName[key] !== 'COMPONENT'){
+						   	if(dataTypeByName[key] === 'ADDRESS'){
+
 						   		if(row[key].street){
 						   			value += row[key].street + ' ';
 						   		}
@@ -57,30 +61,30 @@ License: BSD 3-Clause License*/
 						if(!value){
 							value = row[key];
 						}
-						if(type == 'URL' && value){
+						if(type === 'URL' && value){
 							if(!value.startsWith('http://') && !value.startsWith('https://')){
 								value = 'http://' + value;
 							}
 						}
-						var field = {
+						var fieldsToAdd = {
 							"name":key,
 							"value":value,
 							"dataType":type,
 							"label":''
 						}
-						fields.push(field);
+						fields.push(fieldsToAdd);
 					}
 				}
-				var sortedFields = [];
+				var sortedColumnFields = [];
 				columns.forEach(function(column, i){
-					fields.forEach(function(field){
-						if(field.name === column.name){
-							field.label = column.label;
-							sortedFields[i] = field;
+					fields.forEach(function(columnField){
+						if(columnField.name === column.name){
+							columnField.label = column.label;
+							sortedColumnFields[i] = columnField;
 						}
 					})
 				})
-				formattedRow.fields = sortedFields;
+				formattedRow.fields = sortedColumnFields;
 				formattedRows.push(formattedRow);
 			});
 			formattedData.rows = formattedRows;
@@ -89,9 +93,23 @@ License: BSD 3-Clause License*/
 			helper.createRowComponents(component, event, helper);
 		}
 	},
-	createRowComponents : function(component, event, helper){
+	createRowComponents: function(component,event,helper) {
+		var howManyToLoad = component.get('v.loadMoreAmount'); //let this be a design attribute
 		var formattedData = component.get('v.formattedData');
+
+		var numberOfVisableRows = component.get('v.body.length');
+		var numberOfAllRows = component.get('v.data.rows.length');
+
 		var body = [];
+		component.set('v.body', body);
+
+		var rowsToCreate; 
+		if(numberOfAllRows > numberOfVisableRows + howManyToLoad){
+			rowsToCreate = numberOfVisableRows + howManyToLoad;
+		} else {
+			rowsToCreate = numberOfAllRows;
+			component.set('v.showLoadMore', false);
+		}
 
 		var createRowCallback = function(newCmp, status, errorMessage){
 			if(status === 'SUCCESS'){
@@ -101,56 +119,56 @@ License: BSD 3-Clause License*/
 			}
 		}
 
-		formattedData.rows.forEach(function(row){
+		for(var i = 0; i < rowsToCreate; i++){
 			$A.createComponent(
 				"c:strike_row",
 				{
-					"fields": row.fields
+					"fields": formattedData.rows[i].fields
 				},
 				createRowCallback
 			)
-		});
-
-		helper.sortTable(component, null, helper);
-	},
-	sortTable : function(component, event, helper){
-		var selectedColumnName;
-
-		if (event === null) {
-			selectedColumnName = component.get('v.currentSortColumn');
-		} else {
-			selectedColumnName = event.currentTarget.dataset.columnName || component.get('v.currentSortColumn');
 		}
-
+		component.set('v.currentSortColumn', '');
+	},
+	sortTable: function(component, event, helper) {
+        var selectedColumnName = event.currentTarget.dataset.columnName || component.get('v.currentSortColumn');
 		var body = component.get('v.body');
-
 		body.forEach(function(row){
 			var fields = row.get('v.fields');
-
 			fields.forEach(function(field){
 				if(field.name === selectedColumnName){
-					row.set('v.sortFieldValue', field.value);
+					row.set('v.sortFieldValue', field.value !== undefined ? field.value : '');
 				}
 			});
 		});
 
 		var ascending = component.get('v.ascending');
 
-		if(event !== null) {
-			if(selectedColumnName != component.get('v.currentSortColumn')){
-				component.set('v.ascending', true);
-				ascending = true;
-			} else {
-				ascending = !ascending;
-				component.set('v.ascending', ascending);
-			}
+		if(selectedColumnName !== component.get('v.currentSortColumn')){
+			component.set('v.ascending', true);
+			ascending = true;
+		} else {
+			ascending = !ascending;
+			component.set('v.ascending', ascending);
 		}
 
 		body.sort(function(a,b){
 			var aValue = typeof(a) === 'string' ? a.get('v.sortFieldValue').toUpperCase() : a.get('v.sortFieldValue');
+			if(typeof aValue === 'object'){
+				aValue = aValue.sortValue != null ? aValue.sortValue : '';
+			}
 			var bValue = typeof(b) === 'string' ? b.get('v.sortFieldValue').toUpperCase() : b.get('v.sortFieldValue');
+			if(typeof bValue === 'object'){
+				bValue = bValue.sortValue != null ? bValue.sortValue : '';
+			}
 
 			if(ascending){
+				if (aValue === '' || aValue === null) {
+					return -1;
+				}
+				if (bValue === '' || bValue === null) {
+					return 1;
+				}
 				if (aValue < bValue) {
 					return -1;
 				}
@@ -158,6 +176,12 @@ License: BSD 3-Clause License*/
 					return 1;
 				}
 			} else{
+				if (aValue === '' || aValue === null) {
+					return 1;
+				}
+				if (bValue === '' || bValue === null) {
+					return -1;
+				}
 				if (aValue < bValue) {
 					return 1;
 				}
@@ -169,9 +193,14 @@ License: BSD 3-Clause License*/
 
 		component.set('v.body', body);
 		component.set('v.currentSortColumn', selectedColumnName);
+	},
+	loadMore: function(component, event, helper) {
+		var formattedData = component.get('v.formattedData');
+		helper.createRowComponents(component, event, helper);
 	}
 })
-/*Copyright 2017 Appiphony, LLC
+/*
+Copyright 2017 Appiphony, LLC
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
 following conditions are met:
@@ -189,4 +218,5 @@ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
 SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
 SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/

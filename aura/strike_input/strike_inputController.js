@@ -1,33 +1,46 @@
-/*Strike by Appiphony
+/*
+Strike by Appiphony
 
-Version: 0.9.0
+Version: 0.10.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
-License: BSD 3-Clause License*/
+License: BSD 3-Clause License
+*/
 ({
     onInit: function (component, event, helper) {
         var randomNumber = Math.floor(1000 + Math.random() * 9000);
         component.set('v.idNumber', randomNumber);
+        
+        helper.setAddonsAllowed(component, event, helper);
     },
     handleBlur: function(component, event, helper) {
         var type = component.get('v.type');
-        var pattern = component.get('v.pattern');
-        var value = component.get('v.value');
-
         component.getEvent('onblur').fire();
-
+        
         var dateTimeInputTypes = ['date', 'datetime-local', 'month', 'week', 'time'];
-        if(dateTimeInputTypes.indexOf(type) !== -1) {
+        
+        if (dateTimeInputTypes.includes(type)) {
             helper.resetValue(component, event, helper);
-        }
+        }        
     },
     handleTypeChange: function(component, event, helper) {
         var type = component.get('v.type');
-        if(type === 'search') {
+        if (type === 'search') {
             component.set('v.error', false);
-        }    
+        }
+        
+        helper.setAddonsAllowed(component, event, helper);
     },
     handleChange: function(component, event, helper) {
+        helper.resetValue(component, event, helper);
+        
+        if ($A.util.isEmpty(component.get('v.value')) && component.get('v.required')) {
+            component.set('v.errorMessage', 'Complete this field');
+            component.set('v.error', true);
+        } else {
+            component.set('v.error', false);
+        }
+        
         component.getEvent('onchange').fire();
     },
     handleFocus: function(component, event, helper) {
@@ -43,10 +56,11 @@ License: BSD 3-Clause License*/
         event.preventDefault();
         event.stopPropagation();
     },
-    updateValue: function(component, event, helper) {
+    handleInput: function(component, event, helper) {
         var type = component.get('v.type');
         var dateTimeInputTypes = ['date', 'datetime-local', 'month', 'week', 'time'];
-        if(dateTimeInputTypes.indexOf(type) === -1) {
+        
+        if (dateTimeInputTypes.indexOf(type) === -1) {
             helper.resetValue(component, event, helper);
         }
         
@@ -57,15 +71,15 @@ License: BSD 3-Clause License*/
         if (type === 'checkbox' || type === 'radio' || type === 'toggle') {
             var inputEl = component.find('inputField').getElement();
             var checked = component.get('v.checked');
-
-            if (inputEl.checked != checked) {
+            
+            if (inputEl.checked !== checked) {
                 component.set('v.checked', inputEl.checked);
                 component.getEvent('onchange').fire();
             }
         }
     },
     handleChangeMaxlength: function(component, event, helper) {
-        let maxlength = component.get('v.maxlength');
+        var maxlength = component.get('v.maxlength');
         if(!$A.util.isEmpty(maxlength)) {  
             component.set('v.maxlength', Math.abs(maxlength));
         }
@@ -91,9 +105,18 @@ License: BSD 3-Clause License*/
     },
     clearInput: function(component, event, helper) {
         component.set('v.value', null);
+    },
+    handleDisabledChange: function(component, event, helper) {
+        var disabled = component.get('v.disabled');
+        if(disabled) {
+            helper.disableInput(component, event, helper);
+        } else {
+            helper.enableInput(component, event, helper);
+        }
     }
 })
-/*Copyright 2017 Appiphony, LLC
+/*
+Copyright 2017 Appiphony, LLC
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
 following conditions are met:
@@ -111,4 +134,5 @@ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
 SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
 SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/

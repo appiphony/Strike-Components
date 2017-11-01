@@ -1,9 +1,11 @@
-/*Strike by Appiphony
+/*
+Strike by Appiphony
 
-Version: 0.9.0
+Version: 0.10.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
-License: BSD 3-Clause License*/
+License: BSD 3-Clause License
+*/
 ({
     format: function(component, event, helper) {
     	
@@ -17,13 +19,14 @@ License: BSD 3-Clause License*/
 
             placeholders.forEach(function(placeholder) {
                 var data = {};
-                var placeholderMatch;
-
-                if (placeholderMatch = placeholder.match(/\{(.+)\}/)) {
+                var placeholderMatch = placeholder.match(/\{(.+)\}/);
+                
+                if (placeholderMatch) {
+                    
                     var placeholderData = placeholderMatch[1].split(',');
 
                     try {
-                        data.value = values[parseInt(placeholderData[0].trim())];
+                        data.value = values[parseInt(placeholderData[0].trim(),10)];
 
                         if (placeholderData.length > 1) {
                             data.type = placeholderData[1].toLowerCase().trim();
@@ -73,7 +76,8 @@ License: BSD 3-Clause License*/
         return values;
     }
 })
-/*Copyright 2017 Appiphony, LLC
+/*
+Copyright 2017 Appiphony, LLC
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
 following conditions are met:
@@ -91,4 +95,5 @@ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
 SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
 SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/

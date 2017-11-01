@@ -1,9 +1,11 @@
-/*Strike by Appiphony
+/*
+Strike by Appiphony
 
-Version: 0.9.0
+Version: 0.10.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
-License: BSD 3-Clause License*/
+License: BSD 3-Clause License
+*/
 ({
     onInit: function(component, event, helper) {
         var randomNumber = Math.floor(1000 + Math.random() * 9000);
@@ -35,7 +37,7 @@ License: BSD 3-Clause License*/
         var textareaValue = component.find('thisTextarea').getElement().value;
         var currentValue = component.get('v.value');
 
-        if(textareaValue != currentValue){
+        if(textareaValue !== currentValue){
             component.set('v.value', textareaValue);
         }
         
@@ -50,7 +52,7 @@ License: BSD 3-Clause License*/
             var textareaValue = textarea.value;
             var currentValue = component.get('v.value');
 
-            if(textareaValue != currentValue){
+            if(textareaValue !== currentValue){
                 textarea.value = currentValue;
             }
         }
@@ -73,9 +75,18 @@ License: BSD 3-Clause License*/
     hideError: function(component, event, helper) {
         component.set('v.errorMessage', null);
         component.set('v.error', false);
+    },
+    handleDisabledChange: function(component, event, helper) {
+        var disabled = component.get('v.disabled');
+        if(disabled) {
+            helper.disableInput(component, event, helper);
+        } else {
+            helper.enableInput(component, event, helper);
+        }
     }
 })
-/*Copyright 2017 Appiphony, LLC
+/*
+Copyright 2017 Appiphony, LLC
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
 following conditions are met:
@@ -93,4 +104,5 @@ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
 SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
 SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
