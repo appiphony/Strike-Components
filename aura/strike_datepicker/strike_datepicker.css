@@ -1,7 +1,7 @@
 /*
 Strike by Appiphony
 
-Version: 0.10.0
+Version: 0.10.1
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -19,11 +19,12 @@ License: BSD 3-Clause License
 .THIS .strike-live-area .slds-input[readonly] {
     cursor: text;
     border: 1px solid #dddbda;
+    background-color: white;
 }
 
 .THIS .strike-live-area .slds-input[readonly]:hover,
 .THIS .strike-live-area .slds-input[readonly]:focus {
-    background-color: white;
+    background-color: t(colorBackgroundInput);
 }
 
 .THIS .strike-live-area .slds-input[readonly][disabled] {

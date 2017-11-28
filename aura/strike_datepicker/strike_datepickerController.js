@@ -1,7 +1,7 @@
 /*
 Strike by Appiphony
 
-Version: 0.10.0
+Version: 0.10.1
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -66,6 +66,7 @@ License: BSD 3-Clause License
         event.preventDefault();
         event.stopPropagation();
 
+
         if (event.target.tagName === 'use' || event.target.tagName === 'svg') {
             return;
         }
@@ -73,11 +74,18 @@ License: BSD 3-Clause License
         var notDisabled = !component.get('v.disabled');
         var displayDate = component.get('v.displayDate');
         var dateInput = component.find('date-input');
+        var datePickerOpen = component.get('v.datePickerOpen');
+        var container = component.find('dp-container').getElement();
 
-        if(notDisabled && $A.util.isEmpty(displayDate)){
-            dateInput.blur();
+        dateInput.focus();
+        if(notDisabled && !datePickerOpen) {
             helper.determineReadOnly(component);
             component.set('v.datePickerOpen', true);
+            container.addEventListener('focusout', $A.getCallback(function() {
+                helper.closeDatepicker(component, event, helper);
+            }), { once: true });
+        } else if(notDisabled && datePickerOpen) {
+            dateInput.focus();
         }
     },
     clickedDateIcon: function (component, event, helper) {
@@ -90,11 +98,18 @@ License: BSD 3-Clause License
         }
     },
     selectToday: function (component, event, helper) {
+        event.preventDefault();
+        event.stopPropagation();
         var currentDate = new Date();
         var datePattern = component.get('v.valueFormat');
+        var dontCloseMenu = component.get('v.dontCloseMenu');
         var formattedValueDate = $A.localizationService.formatDate(currentDate.toString(), datePattern);
 
         component.set('v.value', formattedValueDate);
+
+        if(dontCloseMenu) {
+            component.set('v.dontCloseMenu', false);
+        }
         helper.closeDatepicker(component, event, helper);
     },
     clickNext: function (component, event, helper) {
@@ -141,6 +156,7 @@ License: BSD 3-Clause License
         event.preventDefault();
     },
     clickDate: function (component, event, helper) {
+        var dontCloseMenu = component.get('v.dontCloseMenu');
         var selectedRowIndex = component.get('v.selectedDateRowIndex');
         var selectedColIndex = component.get('v.selectedDateColIndex');
 
@@ -177,10 +193,14 @@ License: BSD 3-Clause License
         component.set('v.timestamp', timeStamp);
         component.set('v.currentDate', currentDate);
 
+        if(dontCloseMenu) {
+            component.set('v.dontCloseMenu', false);
+        }
         helper.closeDatepicker(component, event, helper);
         helper.determineReadOnly(component);
     },
     preventDatePickerClose: function (component, event, helper) {
+        var container = component.find('dp-container').getElement();
         event.stopPropagation();
     },
     showError: function(component, event, helper) {
@@ -192,6 +212,10 @@ License: BSD 3-Clause License
     hideError: function(component, event, helper) {
         component.set('v.errorMessage', null);
         component.set('v.error', false);
+    },
+    openYear: function(component, event, helper) {
+        component.set('v.dontCloseMenu', true);
+        event.stopPropagation();
     }
 })
 /*

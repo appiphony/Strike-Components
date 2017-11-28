@@ -1,7 +1,7 @@
 <!--
 Strike by Appiphony
 
-Version: 0.10.0
+Version: 0.10.1
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -82,9 +82,6 @@ License: BSD 3-Clause License
                     onkeyup="{!c.handleOnkeyup}"
                     disabled="{!v.disabled}"/>
             </div>
-            <aura:if isTrue="{!and(v.error, not(empty(v.errorMessage)))}">
-                <div class="slds-form-element__help">{!v.errorMessage}</div>
-            </aura:if>
         </div>
 
         <ui:scrollerWrapper class="slds-lookup__menu" aura:id="scrollerWrapper">
@@ -126,10 +123,17 @@ License: BSD 3-Clause License
                 {!v.body}
             </ul>
         </ui:scrollerWrapper>
+        
+        <aura:if isTrue="{!and(v.error, not(empty(v.errorMessage)))}">
+            <div class="{!'slds-form-element' + (v.error ? ' slds-has-error' : '')}">
+                <div class="slds-form-element__help">{!v.errorMessage}</div>
+            </div>
+        </aura:if>
+
         <aura:if isTrue="{!not(empty(v.selectedOptionPills))}">
             <div aura:id="optionPillContainer" class="slds-pill_container slds-pill_container--bare slds-wrap">
                 <aura:iteration items="{!v.selectedOptionPills}" var="pill">
-                    <span class="smsp-pill"><c:strike_pill label="{!pill.label}" value="{!pill.value}" iconName="{!pill.iconName}" destroyable="{!pill.destroyable}" /></span>
+                    <span class="smsp-pill"><c:strike_pill label="{!pill.label}" value="{!pill.value}" iconName="{!pill.iconName}" destroyable="{!and(not(v.disabled), pill.destroyable)}" /></span>
                 </aura:iteration>
             </div>
         </aura:if>

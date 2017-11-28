@@ -1,7 +1,7 @@
 /*
 Strike by Appiphony
 
-Version: 0.10.0
+Version: 0.10.1
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -21,6 +21,13 @@ License: BSD 3-Clause License
         
         if (dateTimeInputTypes.includes(type)) {
             helper.resetValue(component, event, helper);
+        }
+
+        if ($A.util.isEmpty(component.get('v.value')) && component.get('v.required')) {
+            component.set('v.errorMessage', 'Complete this field');
+            component.set('v.error', true);
+        } else {
+            component.set('v.error', false);
         }        
     },
     handleTypeChange: function(component, event, helper) {
@@ -33,14 +40,6 @@ License: BSD 3-Clause License
     },
     handleChange: function(component, event, helper) {
         helper.resetValue(component, event, helper);
-        
-        if ($A.util.isEmpty(component.get('v.value')) && component.get('v.required')) {
-            component.set('v.errorMessage', 'Complete this field');
-            component.set('v.error', true);
-        } else {
-            component.set('v.error', false);
-        }
-        
         component.getEvent('onchange').fire();
     },
     handleFocus: function(component, event, helper) {

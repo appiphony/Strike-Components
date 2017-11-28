@@ -1,5 +1,23 @@
 # Strike by Appiphony
 
+###Release 0.10.1 — November 28, 2017
+####Improvements
+* **Strike Data Grid:** Added `loadMore` functionality to control how many rows are displayed and how many render when `loadMore` button is pressed <a href="https://github.com/appiphony/Strike-Components/issues/135" target="_blank">[GitHub Issue #135]</a>
+#### Bug Fixes
+* **Strike Datepicker:** Fixed an issue where clicking into a datepicker input with a value does not open the datepicker <a href="https://github.com/appiphony/Strike-Components/issues/119" target="_blank">[GitHub Issue #119]</a>
+* **Strike Modal:** Closing the modal with 'Esc' key will now fire a close event <a href="https://github.com/appiphony/Strike-Components/issues/125" target="_blank">[GitHub Issue #125]</a>
+* **Strike Modal:** Fixed an issue where pressing the 'Esc' key does not close a modal if it was opened through modifying the `showModal` attribute <a href="https://github.com/appiphony/Strike-Components/issues/126" target="_blank">[GitHub Issue #126]</a>
+* **Strike Multi Select Picklist:** Fixed an issue where selections are removable even if the picklist is disabled <a href="https://github.com/appiphony/Strike-Components/issues/132" target="_blank">[GitHub Issue #132]</a>
+* **Strike Datepicker:** Fixed issue where two datepickers on one page wouldn't close eachother when one was selected and the other was open <a href="https://github.com/appiphony/Strike-Components/issues/134" target="_blank">[GitHub Issue #134]</a>
+* **Strike Chart:** Fixed issue with the chart rendering without a background <a href="https://github.com/appiphony/Strike-Components/issues/133" target="_blank">[GitHub Issue #133]</a>
+* **Strike Select:** Fixed an issue where dropdowns are not opening if `searchable` is set to `true` <a href="https://github.com/appiphony/Strike-Components/issues/122" target="_blank"> [GitHub Issue #122]</a>
+* **Strike Select:** Fixed an issue where the component appears in Lightning Page Builder <a href="https://github.com/appiphony/Strike-Components/issues/124" target="_blank">[GitHub Issue #124]</a>
+* **Strike Input:** Fixed an issue where required validation was happening on change and not blur <a href="https://github.com/appiphony/Strike-Components/issues/145" target="_blank">[GitHub Issue #145]</a>
+* **Strike Datepicker:** Fixed an issue where datepicker was rendering with a transparent background <a href="https://github.com/appiphony/Strike-Components/issues/148" target="_blank">[GitHub Issue #148]</a>
+* **Strike Multi Select Picklist:** Fixed an issue where options were rendering incorrectly when in an error state <a href="https://github.com/appiphony/Strike-Components/issues/150" target="_blank">[GitHub Issue #150]</a>
+
+---
+
 ### Release 0.10.0 — November 1, 2017
 #### Improvements
 * **All Strike Components:** Updated API versions to 41

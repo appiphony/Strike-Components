@@ -1,6 +1,6 @@
 /*Strike by Appiphony
 
-Version: 0.10.0
+Version: 0.10.1
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License*/

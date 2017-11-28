@@ -1,12 +1,12 @@
 <!--
 Strike by Appiphony
 
-Version: 0.10.0
+Version: 0.10.1
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
 -->
-<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+<aura:component>
     <ltng:require scripts="/resource/d3" afterScriptsLoaded="{!c.onInit}"/>
     <aura:attribute name="scriptsLoaded" type="Boolean" default="{!false}"/>
 
@@ -75,7 +75,7 @@ License: BSD 3-Clause License
     <aura:handler name="change" value="{!v.medLabel}" action="{!c.reRenderCharts}"/>
     <aura:handler name="change" value="{!v.highLabel}" action="{!c.reRenderCharts}"/>
 
-    <div class="slds-box">
+    <div class="slds-card slds-p-around_small">
         <div aura:id="chartContainer" class="sc-position--relative">
             <div aura:id="tooltipContainer" style="{!'display: ' + v.tooltipDisplay + '; position: absolute; top: ' + v.tooltipYPos + 'px; left: ' + v.tooltipXPos + 'px;'}" class="sc-tooltip">
                 <div class="label">

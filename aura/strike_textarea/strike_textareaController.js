@@ -1,7 +1,7 @@
 /*
 Strike by Appiphony
 
-Version: 0.10.0
+Version: 0.10.1
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -46,13 +46,15 @@ License: BSD 3-Clause License
     handleChangeMaxlength: function(component, event, helper){
         helper.handleEmptyMaxLength(component, event, helper);
     },
-    updateTextAreaValue: function(component, event, helper){
+    updateTextAreaValue: function (component, event, helper) {
         var textarea = component.find('thisTextarea').getElement();
-        if(!$A.util.isEmpty(textarea)){
-            var textareaValue = textarea.value;
-            var currentValue = component.get('v.value');
+        var textareaValue = (textarea != null) ? textarea.value : textarea;
+        var currentValue = component.get('v.value');
 
-            if(textareaValue !== currentValue){
+        if (textareaValue != currentValue && textareaValue != null) {
+            if($A.util.isEmpty(currentValue)){
+                textarea.value = '';
+            } else {
                 textarea.value = currentValue;
             }
         }

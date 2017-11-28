@@ -1,7 +1,7 @@
 /*
 Strike by Appiphony
 
-Version: 0.10.0
+Version: 0.10.1
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -9,7 +9,10 @@ License: BSD 3-Clause License
 ({
     closeDatepicker: function(component, event, helper) {
         component.set('v.readOnly', false);
-        component.set('v.datePickerOpen', false);
+        
+        var dontCloseMenu = component.get('v.dontCloseMenu');
+        component.set('v.datePickerOpen', dontCloseMenu);
+        component.set('v.dontCloseMenu', false);
     },
     processDateValue: function (component) {
         var dateString = component.get('v.value');

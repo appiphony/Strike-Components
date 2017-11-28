@@ -1,7 +1,7 @@
 /*
 Strike by Appiphony
 
-Version: 0.10.0
+Version: 0.10.1
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -14,7 +14,9 @@ License: BSD 3-Clause License
             if (!component.isValid()) {
                 window.removeEventListener('keyup', component._closeModal);
             } else if((e.which === escKey || e.keyCode === escKey) && component.get('v.showingModal') === true) {
+                var closeClicked = component.getEvent('strike_evt_modalCloseButtonClicked');
                 helper.hide(component, event, helper);
+                closeClicked.fire();
             }
         });
         
@@ -23,6 +25,11 @@ License: BSD 3-Clause License
         component.set('v.modalHeaderId', randomId);
         component.set('v.showingModal', component.get('v.showModal'));
         component.set('v.fadeIn', component.get('v.showModal'));
+        
+        if(component.get('v.showModal')) {
+            helper.show(component, event, helper);
+        }
+        
     },
     show: function(component, event, helper){
         helper.show(component, event, helper);
