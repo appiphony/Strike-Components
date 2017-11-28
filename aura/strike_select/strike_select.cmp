@@ -1,12 +1,12 @@
 <!--
 Strike by Appiphony
 
-Version: 0.10.0
+Version: 0.10.1
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
 -->
-<aura:component implements="flexipage:availableForAllPageTypes" access="global">
+<aura:component >
     <aura:attribute name="label" type="String" description="String value displayed above the menu used to describe the component" />
 
     <aura:attribute name="helpText" type="String" description="String value when hovering over the help box"/>
@@ -34,7 +34,8 @@ License: BSD 3-Clause License
     <!-- Internal -->
     <aura:attribute name="focusIndex" type="Integer" access="private" default="-1" description="Integer value that determines which option is currently selected"/>
     <aura:attribute name="iconName" type="String" access="private" description="String value of the icon of the selected option"/>
-    <aura:attribute name="openMenu" type="Boolean" access="private" description="Determines whether the menu is open"/>
+    <aura:attribute name="menuOpen" type="Boolean" access="private" description="Determines whether the menu is open"/>
+    
     <aura:attribute name="valueLabel" type="String" access="private" description="String value of the label of the selected option"/>
     <aura:attribute name="isMobile" type="Boolean" default="{!false}" description="Determines if the user is in Salesforce1" access="private"/>
     <aura:attribute name="allChildrenFiltered" type="Boolean" description="is set to true if none of the strikeOption components are displayed" default="{!false}"/>
@@ -51,8 +52,8 @@ License: BSD 3-Clause License
     <aura:registerEvent name="onchange" type="c:strike_evt"/>
 
     <!-- Strike Select -->
-    <div class="{!'slds-form-element ' + if(v.error, 'slds-has-error ', '') + if(v.isMobile, 'ss-picklist--mobile ', '') + v.class}">
-        <label class="slds-form-element__label" onclick="{!c.toggleMenu}">
+    <div class="{!'slds-form-element ' + if(v.error, 'slds-has-error ', '') + if(v.isMobile, 'ss-picklist--mobile ', '') + v.class}" onclick="{!c.stopProp}" aura:id="ss-container">
+        <label class="slds-form-element__label" onclick="{!c.showMenu}">
             <aura:if isTrue="{!v.required}">
                 <abbr class="slds-required" title="required">*</abbr>
             </aura:if>
@@ -64,10 +65,9 @@ License: BSD 3-Clause License
             </c:strike_tooltip>
         </aura:if>
         <input name="{!v.name}" value="{!v.value}" type="hidden" />
-        
-        <div class="{!'slds-picklist slds-dropdown-trigger slds-dropdown-trigger--click' + if(v.openMenu, ' slds-is-open', '') + if(v.disabled, ' ss-disabled', '')}" aria-expanded="true">
+        <div class="{!'slds-picklist slds-dropdown-trigger slds-dropdown-trigger--click' + if(v.menuOpen, ' slds-is-open', '') + if(v.disabled, ' ss-disabled', '')}" aria-expanded="true">
             <div class="slds-form-element__control">
-                <div aura:id="dropdown-trigger" class="slds-button slds-button--neutral slds-input slds-picklist__input slds-text-color--default slds-picklist__label ss-menu-button" aria-haspopup="true" tabindex="0" onfocus="{!c.toggleMenu}" onblur="{!c.blur}" onclick="{!c.stopProp}">
+                <div aura:id="dropdown-trigger" class="slds-button slds-button--neutral slds-input slds-picklist__input slds-text-color--default slds-picklist__label ss-menu-button" aria-haspopup="true" onfocus="{!c.showMenu}" tabindex="{!if(v.menuOpen, '-1', '0')}">
                     <span class="slds-truncate ss-selected-text" title="{!v.valueLabel}">
                         <aura:if isTrue="{!not(empty(v.iconName))}">
                             <lightning:icon class="ss-selected-icon slds-input__icon" iconName="{!v.iconName}" size="x-small" />
@@ -76,14 +76,14 @@ License: BSD 3-Clause License
                     </span>
                     <lightning:icon class="ss-dropdown-icon" iconName="utility:down" size="xx-small" />
                 </div>
-                <div aura:id="selectMenu" class="{!'slds-dropdown slds-dropdown--left slds-dropdown--small ss-dropdown-control' + if(v.openMenu, ' slds-is-open', '')}" onclick="{!c.blur}">
+                <div aura:id="selectMenu" class="{!'slds-dropdown slds-dropdown--left slds-dropdown--small ss-dropdown-control' + if(v.menuOpen, ' slds-is-open', '')}" onclick="{!c.stopProp}">
                     <ui:scrollerWrapper class="slds-scrollable--y ss-scroll-container">
                         <div class="ss-picklist__mobile-header slds-grid slds-grid--pull-padded-xx-small">
                             <div class="{!'ss-picklist__input slds-col slds-p-horizontal--xx-small' + if(v.searchable, '', ' slds-hide')}">
                                 <div class="slds-form-element slds-m-vertical--x-small slds-m-horizontal--small">
                                     <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon--right">
                                         <c:strike_svg class="slds-input__icon slds-icon-text-default" xlinkHref="/resource/icons/utility-sprite/svg/symbols.svg#search" ariaHidden="true"></c:strike_svg>
-                                        <input aura:id="searchTerm" class="slds-input" type="text" onkeyup="{!c.searchTermChanged}" onclick="{!c.stopProp}" />
+                                        <input aura:id="searchTerm" class="slds-input" type="text" onkeyup="{!c.searchTermChanged}" onclick="{!c.stopProp}"/>
                                     </div>
                                 </div>
                             </div>

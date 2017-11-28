@@ -1,7 +1,7 @@
 /*
 Strike by Appiphony
 
-Version: 0.10.0
+Version: 0.10.1
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -21,15 +21,15 @@ License: BSD 3-Clause License
     min-width: t(spacingMedium);
 }
 
-.THIS.slds-table.slds-table--cell-buffer thead th:not(.slds-is-sortable) {
+.THIS .slds-table.slds-table--cell-buffer thead th:not(.slds-is-sortable) {
     padding: t(spacingXSmall);
 }
 
-.THIS.slds-table.slds-table--cell-buffer tr>th:first-child {
+.THIS .slds-table.slds-table--cell-buffer tr>th:first-child {
     padding-left: t(spacingLarge);
 }
 
-.THIS.slds-table.slds-table--cell-buffer tr>th.slds-is-sortable:first-child {
+.THIS .slds-table.slds-table--cell-buffer tr>th.slds-is-sortable:first-child {
     padding-left: t(spacingMedium);
 }
 /*

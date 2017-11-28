@@ -1,7 +1,7 @@
 /*
 Strike by Appiphony
 
-Version: 0.10.0
+Version: 0.10.1
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -90,10 +90,11 @@ License: BSD 3-Clause License
 			formattedData.rows = formattedRows;
 			formattedData.columns = columns;
 			component.set('v.formattedData', formattedData);
-			helper.createRowComponents(component, event, helper);
+			component.set('v.showLoadMore', component.get('v.loadMoreAmount') < formattedRows.length);
+			helper.createRowComponents(component, event, helper, false);
 		}
 	},
-	createRowComponents: function(component,event,helper) {
+	createRowComponents: function(component, event, helper, isLoadMore) {
 		var howManyToLoad = component.get('v.loadMoreAmount'); //let this be a design attribute
 		var formattedData = component.get('v.formattedData');
 
@@ -109,6 +110,11 @@ License: BSD 3-Clause License
 		} else {
 			rowsToCreate = numberOfAllRows;
 			component.set('v.showLoadMore', false);
+		}
+
+		if(!isLoadMore) {
+			rowsToCreate = howManyToLoad;
+			component.set('v.showLoadMore', true);
 		}
 
 		var createRowCallback = function(newCmp, status, errorMessage){
@@ -195,8 +201,7 @@ License: BSD 3-Clause License
 		component.set('v.currentSortColumn', selectedColumnName);
 	},
 	loadMore: function(component, event, helper) {
-		var formattedData = component.get('v.formattedData');
-		helper.createRowComponents(component, event, helper);
+		helper.createRowComponents(component, event, helper, true);
 	}
 })
 /*

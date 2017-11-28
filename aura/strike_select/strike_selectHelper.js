@@ -1,7 +1,7 @@
 /*
 Strike by Appiphony
 
-Version: 0.10.0
+Version: 0.10.1
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -14,20 +14,17 @@ License: BSD 3-Clause License
         if (!dropdownTrigger || !searchTerm) {
             return;
         }
-        
+
         dropdownTrigger.blur();
-        component.set('v.openMenu', false);
+
+        setTimeout($A.getCallback(function() { // Forces the browser tab-cycle focusing to occur before closing the menu; affects tabindex value
+            component.set('v.menuOpen', false);
+        }), 1);
     },
     getLabelByValue: function(component, event, helper) {
         helper.findChildOptionFromValue(component, event, helper);
     },
     updateValue: function(component, event, helper) {
-        var svgComp = component.find('svgComp');
-
-        if (svgComp) {
-            svgComp.destroy();
-        }
-
         if (component.get('v.iconName') !== event.getParams('params').data.iconName) {
             component.set('v.iconName', event.getParams('params').data.iconName);
         }
@@ -203,7 +200,7 @@ License: BSD 3-Clause License
         }
         
         window.scrollTo(0, component.get('v.scrollPosition'));
-    },
+    }
 })
 /*
 Copyright 2017 Appiphony, LLC
