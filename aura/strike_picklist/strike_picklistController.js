@@ -1,7 +1,7 @@
 /*
 Strike by Appiphony
 
-Version: 0.10.1
+Version: 1.0.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -46,7 +46,7 @@ License: BSD 3-Clause License
     },
     showMenu: function(component, event, helper) {
         var dropdownTrigger = component.find('dropdown-trigger').getElement();
-        var container = component.find('ss-container').getElement();
+        var container = component.find('sp-container').getElement();
 
         setTimeout($A.getCallback(function() { // Fixes mobile dropdown closing immediately after it opens
             if (!component.get('v.disabled') && !component.get('v.menuOpen') && component.get('v.body').length > 0) {             

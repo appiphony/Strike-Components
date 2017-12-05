@@ -1,7 +1,7 @@
 /*
 Strike by Appiphony
 
-Version: 0.10.1
+Version: 1.0.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -24,6 +24,9 @@ License: BSD 3-Clause License
         });
     },
     updateEl: function(el, radioName, component) {
+        if(!el.get('v.value')) {
+            return;
+        }
         var value = component.get('v.value') + '';
 
         el.set('v.type', 'radio');

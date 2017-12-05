@@ -1,7 +1,7 @@
 /*
 Strike by Appiphony
 
-Version: 0.10.1
+Version: 1.0.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -70,6 +70,7 @@ License: BSD 3-Clause License
         helper.removeOptionPill(component, event);
         helper.addOptionToList(component, event, helper);
         helper.removeFromComponentValue(component, event);
+        component.set('v.scrollPosition', window.scrollY);
         helper.doSearch(component, event, helper, component.get('v.searchTerm'), component);
         component.getEvent('onchange').fire();
     },

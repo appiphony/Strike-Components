@@ -1,7 +1,7 @@
 /*
 Strike by Appiphony
 
-Version: 0.10.1
+Version: 1.0.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -17,7 +17,7 @@ License: BSD 3-Clause License
         var chevrons = [];
 
         for (var i = 0; i < stageNames.length; i++) {
-            if (displayMode === 'simple') {
+            if (displayMode === 'non-linear') {
                 chevrons.push({
                     'active': (i === activeChevron) ? true : false,
                     'class': (i === activeChevron) ? 'slds-is-active' : 'slds-is-incomplete',
@@ -26,7 +26,7 @@ License: BSD 3-Clause License
                     'status': 'incomplete',
                     'disabled': false
                 })
-            } else if (displayMode === 'wizard') {
+            } else if (displayMode === 'linear') {
                 if (activeChevron === 0 && i === 0) {
                     chevrons.push({
                         'active': (i === activeChevron) ? true : false,
@@ -76,7 +76,7 @@ License: BSD 3-Clause License
         component.set('v.processComplete', false);
         component.set('v.advanceButtonText', component.get('v.advanceButtonNextLabel'));
     },
-    renderSimpleMode: function(component, targetChevron) {
+    renderNonLinearMode: function(component, targetChevron) {
         var chevrons = component.get('v.chevrons');
         var results = {};
 
@@ -100,7 +100,7 @@ License: BSD 3-Clause License
         component.set('v.chevrons', chevrons);
         this.sendResultsToParent(component, results, 'click');
     },
-    renderWizardMode: function(component, targetChevron) {
+    renderLinearMode: function(component, targetChevron) {
         var chevrons = component.get('v.chevrons');
         var results = {};
         var error = component.get('v.error');
@@ -198,7 +198,7 @@ License: BSD 3-Clause License
         var disableForwardNavOnIncomplete = component.get('v.disableForwardNavOnIncomplete');
         var forceProcessFlow = component.get('v.forceProcessFlow');
 
-        if (component.get('v.displayMode').toLowerCase() === 'simple') return;
+        if (component.get('v.displayMode').toLowerCase() === 'non-linear') return;
         
         var chevrons = component.get('v.chevrons');
         var error = component.get('v.error');
@@ -260,7 +260,7 @@ License: BSD 3-Clause License
         clickEvent.fire();
     },
     showToast: function(component, event) {
-        if (component.get('v.displayMode').toLowerCase() === 'simple') return;
+        if (component.get('v.displayMode').toLowerCase() === 'non-linear') return;
         var params = event.getParam('arguments');
         var toastEvent = $A.get("e.force:showToast");
         if (typeof(toastEvent) !== 'undefined') {

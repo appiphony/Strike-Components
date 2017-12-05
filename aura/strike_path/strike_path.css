@@ -1,19 +1,44 @@
 /*
 Strike by Appiphony
 
-Version: 0.10.1
+Version: 1.0.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
 */
-({
-    unrender: function(component) {
-        this.superUnrender();
+.THIS .sp-advance-button {
+    min-width: 240px;
+}
 
-        window.removeEventListener('click', component.handleClick);
-        window.removeEventListener('keydown', component.handleKeyDown);
-    }
-})
+.THIS .slds-tabs--path .slds-tabs--path__item.slds-is-lost+.slds-tabs--path__item:before {
+    background-color: t(colorBackgroundDestructive);
+}
+
+.THIS .slds-tabs--path .slds-tabs--path__item.slds-is-lost:hover,
+.THIS .slds-tabs--path .slds-tabs--path__item.slds-is-lost:hover+.slds-tabs--path__item:before {
+    background-color: t(colorBackgroundDestructiveActive);
+}
+
+.THIS .slds-tabs--path .slds-tabs--path__item.slds-is-complete+.slds-is-lost:before {
+    background-color: t(colorBackgroundPathComplete);
+}
+
+.THIS .slds-tabs--path .slds-tabs--path__item.slds-is-complete:hover+.slds-is-lost:before {
+    background-color: t(colorBackgroundPathCompleteHover);
+}
+
+.THIS .slds-tabs--path .slds-tabs--path__item.slds-is-active+.slds-is-lost:before {
+    background-color: t(colorBackgroundInverse);
+}
+
+.THIS .slds-tabs--path .slds-tabs--path__item.slds-is-active:hover+.slds-is-lost:before {
+    background-color: t(colorBackgroundAltInverse);
+}
+
+.THIS .slds-path__mark-current[disabled]:hover,
+.THIS .slds-path__mark-current[disabled]:focus {
+    background-color: t(colorBackgroundShade);
+}
 /*
 Copyright 2017 Appiphony, LLC
 

@@ -1,7 +1,7 @@
 /*
 Strike by Appiphony
 
-Version: 0.10.1
+Version: 1.0.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -25,10 +25,10 @@ License: BSD 3-Clause License
         var chevron = chevrons[targetChevron];
         if (chevron.disabled === true) return;
         
-        if (!component.get('v.advanceButton') && component.get('v.displayMode').toLowerCase() === 'wizard') {
+        if (!component.get('v.advanceButton') && component.get('v.displayMode').toLowerCase() === 'linear') {
             helper.renderAdvanceButtonClick(component, targetChevron);
         } else {
-            (component.get('v.displayMode').toLowerCase() === 'wizard' && component.get('v.advanceButton') === true) ? helper.renderWizardMode(component, targetChevron) : helper.renderSimpleMode(component, targetChevron);
+            (component.get('v.displayMode').toLowerCase() === 'linear' && component.get('v.advanceButton') === true) ? helper.renderLinearMode(component, targetChevron) : helper.renderNonLinearMode(component, targetChevron);
         }
     },
     showErrorMethod: function(component, event, helper) {

@@ -1,7 +1,7 @@
 /*
 Strike by Appiphony
 
-Version: 0.10.1
+Version: 1.0.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -90,7 +90,7 @@ License: BSD 3-Clause License
 			formattedData.rows = formattedRows;
 			formattedData.columns = columns;
 			component.set('v.formattedData', formattedData);
-			component.set('v.showLoadMore', component.get('v.loadMoreAmount') < formattedRows.length);
+			component.set('v.showLoadMore', component.get('v.loadMoreAmount') <= formattedRows.length + 1);
 			helper.createRowComponents(component, event, helper, false);
 		}
 	},
@@ -101,21 +101,25 @@ License: BSD 3-Clause License
 		var numberOfVisableRows = component.get('v.body.length');
 		var numberOfAllRows = component.get('v.data.rows.length');
 
+		if(numberOfVisableRows > numberOfAllRows) {
+			numberOfVisableRows = numberOfAllRows;
+		}
+
 		var body = [];
 		component.set('v.body', body);
 
 		var rowsToCreate; 
 		if(numberOfAllRows > numberOfVisableRows + howManyToLoad){
 			rowsToCreate = numberOfVisableRows + howManyToLoad;
-		} else {
+			if(!isLoadMore) {
+				rowsToCreate = howManyToLoad;
+				component.set('v.showLoadMore', true);
+			}
+		} else if(numberOfAllRows - numberOfVisableRows <= howManyToLoad) {
 			rowsToCreate = numberOfAllRows;
 			component.set('v.showLoadMore', false);
 		}
 
-		if(!isLoadMore) {
-			rowsToCreate = howManyToLoad;
-			component.set('v.showLoadMore', true);
-		}
 
 		var createRowCallback = function(newCmp, status, errorMessage){
 			if(status === 'SUCCESS'){
