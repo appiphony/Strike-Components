@@ -1,7 +1,7 @@
 /*
 Strike by Appiphony
 
-Version: 0.10.1
+Version: 1.0.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -177,7 +177,7 @@ License: BSD 3-Clause License
 
         var focusIndex = component.get('v.focusIndex');
 
-        var selectMenu = component.find('selectMenu');
+        var picklistMenu = component.find('picklistMenu');
         
         if (focusIndex === null) {
             return;

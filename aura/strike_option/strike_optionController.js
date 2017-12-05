@@ -1,7 +1,7 @@
 /*
 Strike by Appiphony
 
-Version: 0.10.1
+Version: 1.0.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -37,8 +37,9 @@ License: BSD 3-Clause License
     }, 
     select: function(component, event, helper) {
         event.stopPropagation();
+        var isOnLoad = !event.target;
 
-        if (component.get('v.disabled')) {
+        if (component.get('v.disabled') && !isOnLoad) {
             return;
         }
 
@@ -49,7 +50,8 @@ License: BSD 3-Clause License
                 "label": component.get('v.label'),
                 "value": component.get('v.value'),
                 "iconName": component.get('v.iconName'),
-                "customIcon": component.get('v.customIcon')
+                "customIcon": component.get('v.customIcon'),
+                "destroyable": component.get('v.destroyable')
             }
         });
 

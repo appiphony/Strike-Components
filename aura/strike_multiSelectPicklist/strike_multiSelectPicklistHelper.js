@@ -1,7 +1,7 @@
 /*
 Strike by Appiphony
 
-Version: 0.10.1
+Version: 1.0.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -18,37 +18,36 @@ License: BSD 3-Clause License
 
         var newValue = valueArray.join(';');
         component.set('v.value', newValue);
-
     },
     removeOptionFromList: function(component, event, helper) {
-
         var sourceCmp = event.getSource();
         sourceCmp.set('v.hidden', true);
     },
     createOptionPill: function(component, event, helper) {
-        var sourceValue, sourceLabel, sourceIconName;
+        var sourceValue, sourceLabel, sourceIconName, destroyable;
+        
         if (event.getName() === 'strike_evt_notifyParent') {
             sourceValue = event.getParams('params').data.value;
             sourceLabel = event.getParams('params').data.label;
             sourceIconName = event.getParams('params').data.iconName;
+            destroyable = event.getParams('params').data.destroyable;
         } else {
             sourceValue = event.getParams('params').value;
             sourceLabel = null;
             sourceIconName = null;
+            destroyable = true;
         }
 
         var pillAttributes = {
             "value": sourceValue,
             "label": sourceLabel,
             "iconName": sourceIconName,
-            "destroyable": true
+            "destroyable": destroyable
         }
 
         var selectedOptionPills = component.get('v.selectedOptionPills');
 
-
         if(sourceLabel && selectedOptionPills.map(function(x){return x.value}).indexOf(sourceValue) === -1){
-
             selectedOptionPills.push(pillAttributes);
 
             window.setTimeout($A.getCallback(function() {
@@ -97,7 +96,6 @@ License: BSD 3-Clause License
 
     },
     removeOptionPill: function(component, event) {
-
         var currentOptionPills = component.get('v.selectedOptionPills');
         var destroyedCmp = event.getSource();
 
@@ -108,7 +106,6 @@ License: BSD 3-Clause License
 
     },
     addOptionToList: function(component, event, helper) {
-
         var sourceCmpValue = event.getParam('data').value;
         helper.findValidChildCmps(component, event, helper);
         var dropDownOptions = component.get('v.validChildCmps');
@@ -266,7 +263,6 @@ License: BSD 3-Clause License
         window.scrollTo(0, component.get('v.scrollPosition'));
     },
     doSearch: function(component, event, helper, searchTerm, parentCmp) {
-
         if (!parentCmp) {
             var menuIsOpen = component.get('v.menuIsOpen');
         }
@@ -292,7 +288,6 @@ License: BSD 3-Clause License
         helper.areChildrenFiltered(component, event, helper, searchTerm, parentCmp);
     },
     areChildrenFiltered: function(component, event, helper, searchTerm, parentCmp) {
-
         var body = component.get('v.body');
         var filteredCount = 0;
         var isCorrectBody;
@@ -351,7 +346,6 @@ License: BSD 3-Clause License
 
         var valueArray = value.split(';');
 
-
         var body = component.get('v.body');
         var childCmps;
         body.forEach(function(child){
@@ -368,13 +362,11 @@ License: BSD 3-Clause License
             if(valueArray.indexOf(childValue) !== -1){
                 child.select();
             }
-
         });
 
         helper.checkForValidValue(component, value, valueArray, childCmps);
     },
     checkForValidValue: function(component, originalValue, valueArray, childCmps){
-
         valueArray.forEach(function(thisValue){
             if(childCmps.map(function(child){return child.get('v.value')}).indexOf(thisValue) === -1){
                 valueArray.splice(valueArray.indexOf(thisValue));
@@ -389,7 +381,6 @@ License: BSD 3-Clause License
         }
     },
     checkForPillDeletion: function(component, valueArray){
-
         var selectedOptionPills = component.get('v.selectedOptionPills');
         if(valueArray.length < selectedOptionPills.length){
             var pillContainer = component.find('optionPillContainer');
@@ -402,9 +393,7 @@ License: BSD 3-Clause License
                     pillCmp.destroyPill();
                 }
             });
-
         }
-
     }
 })
 /*

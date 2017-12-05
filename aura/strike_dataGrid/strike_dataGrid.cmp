@@ -1,7 +1,7 @@
 <!--
 Strike by Appiphony
 
-Version: 0.10.1
+Version: 1.0.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -74,7 +74,7 @@ License: BSD 3-Clause License
         </div>
         <aura:if isTrue="{!v.showLoadMore}">
             <div class="slds-text-align_right slds-m-top_medium">
-                <lightning:button label="LoadMore" title="LoadMore" iconName="utility:add" onclick="{!c.loadMore}" />
+                <lightning:button label="Load More" title="LoadMore" iconName="utility:add" onclick="{!c.loadMore}" />
             </div>
         </aura:if> 
     </aura:if>

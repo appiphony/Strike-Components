@@ -1,27 +1,27 @@
 /*
 Strike by Appiphony
 
-Version: 0.10.1
+Version: 1.0.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
 */
-.THIS .slds-icon_container.slds-icon-utility-down.ss-dropdown-icon {
+.THIS .slds-icon_container.slds-icon-utility-down.sp-dropdown-icon {
     display: inline;
     border-radius: 0;
 }
 
-.THIS .slds-picklist .slds-picklist__label .ss-selected-icon .slds-icon {
+.THIS .slds-picklist .slds-picklist__label .sp-selected-icon .slds-icon {
     position: static;
     margin-top: -.05rem;
     margin-right: 0.5rem;
 }
 
-.THIS .slds-picklist .slds-picklist__input.ss-menu-button .slds-icon {
+.THIS .slds-picklist .slds-picklist__input.sp-menu-button .slds-icon {
     pointer-events: none;
 }
 
-.THIS .slds-picklist .slds-dropdown.ss-dropdown-control {
+.THIS .slds-picklist .slds-dropdown.sp-dropdown-control {
     width: 100%;
     max-width: none;
     font-size: t(fontSizeTextSmall);
@@ -42,24 +42,24 @@ License: BSD 3-Clause License
     color: t(colorTextDefault);
 }
 
-.THIS .slds-picklist.ss-disabled .slds-button,
-.THIS .slds-picklist.ss-disabled:hover .slds-button {
+.THIS .slds-picklist.sp-disabled .slds-button,
+.THIS .slds-picklist.sp-disabled:hover .slds-button {
     cursor: not-allowed;
     background-color: t(colorBackgroundShade);
     border-color: t(colorBorderInpuDisabled);
 }
 
-.THIS.slds-has-error .slds-picklist.ss-disabled .slds-button,
-.THIS.slds-has-error .slds-picklist.ss-disabled:hover .slds-button {
+.THIS.slds-has-error .slds-picklist.sp-disabled .slds-button,
+.THIS.slds-has-error .slds-picklist.sp-disabled:hover .slds-button {
     background-color: t(colorBackgroundInput);
     border-color: t(colorBorderError);
 }
 
-.THIS .slds-picklist.ss-readonly .slds-button {
+.THIS .slds-picklist.sp-readonly .slds-button {
     pointer-events: none;
 }
 
-.THIS .slds-picklist.ss-disabled.ss-readonly .slds-button {
+.THIS .slds-picklist.sp-disabled.sp-readonly .slds-button {
     pointer-events: all;
 }
 
@@ -67,7 +67,7 @@ License: BSD 3-Clause License
     display: none !important;
 }
 
-.THIS .ss-help-text-icon .slds-icon {
+.THIS .sp-help-text-icon .slds-icon {
     fill: #9ea9b5;
 }
 
@@ -75,7 +75,7 @@ License: BSD 3-Clause License
 Salesforce1 Styles
 -------------------------------------------------- */
 
-.THIS.ss-picklist--mobile .slds-picklist.slds-is-open .slds-dropdown.ss-dropdown-control {
+.THIS.sp-picklist--mobile .slds-picklist.slds-is-open .slds-dropdown.sp-dropdown-control {
     display: block;
     padding: 0;
     margin-top: 0;
@@ -95,7 +95,7 @@ Salesforce1 Styles
     -webkit-overflow-scrolling: touch;
 }
 
-.THIS.ss-picklist--mobile .slds-picklist.slds-is-open .slds-dropdown .slds-dropdown__list {
+.THIS.sp-picklist--mobile .slds-picklist.slds-is-open .slds-dropdown .slds-dropdown__list {
     max-height: none;
     height: 100%;
     padding: 0;
@@ -106,39 +106,39 @@ Salesforce1 Styles
     background: t(colorBackground);
 }
 
-.THIS.ss-picklist--mobile .slds-picklist .slds-dropdown .slds-dropdown__list li {
+.THIS.sp-picklist--mobile .slds-picklist .slds-dropdown .slds-dropdown__list li {
     border-bottom: 1px solid t(colorBorder);
     padding: t(spacingXSmall);
 }
 
-.THIS.ss-picklist--mobile .slds-picklist .slds-dropdown .slds-dropdown__list .slds-lookup__item-action,
-.THIS.ss-picklist--mobile .slds-picklist .slds-dropdown .slds-dropdown__list .slds-lookup__item-action--label,
-.THIS.ss-picklist--mobile .slds-picklist .slds-dropdown .slds-dropdown__list .slds-text-title--caps {
+.THIS.sp-picklist--mobile .slds-picklist .slds-dropdown .slds-dropdown__list .slds-lookup__item-action,
+.THIS.sp-picklist--mobile .slds-picklist .slds-dropdown .slds-dropdown__list .slds-lookup__item-action--label,
+.THIS.sp-picklist--mobile .slds-picklist .slds-dropdown .slds-dropdown__list .slds-text-title--caps {
     padding-left: t(spacingXSmall);
     padding-right: t(spacingXSmall);
 }
 
-.THIS.ss-picklist--mobile .slds-lookup__list {
+.THIS.sp-picklist--mobile .slds-lookup__list {
     max-height: none;
     overflow: initial;
     overflow-x: initial;
     overflow-y: initial;
 }
 
-.THIS.ss-picklist--mobile .slds-picklist .slds-dropdown .ss-picklist__mobile-header {
+.THIS.sp-picklist--mobile .slds-picklist .slds-dropdown .sp-picklist__mobile-header {
     border-bottom: 1px solid t(colorBorder);
     padding: t(spacingXSmall);
 }
 
-.THIS.ss-picklist--mobile .slds-picklist .slds-dropdown .ss-picklist__mobile-header .slds-button {
+.THIS.sp-picklist--mobile .slds-picklist .slds-dropdown .sp-picklist__mobile-header .slds-button {
     color: t(colorTextLink);
 }
 
-.THIS.ss-picklist--mobile .slds-picklist .slds-dropdown .ss-picklist__input .slds-form-element {
+.THIS.sp-picklist--mobile .slds-picklist .slds-dropdown .sp-picklist__input .slds-form-element {
     margin: 0;
 }
 
-.THIS.ss-picklist--mobile .slds-picklist .slds-dropdown .ss-full-button_container .slds-button {
+.THIS.sp-picklist--mobile .slds-picklist .slds-dropdown .sp-full-button_container .slds-button {
     width: 100%;
     text-align: center;
 }

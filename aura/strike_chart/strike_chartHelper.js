@@ -1,7 +1,7 @@
 /*
 Strike by Appiphony
 
-Version: 0.10.1
+Version: 1.0.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -658,7 +658,12 @@ License: BSD 3-Clause License
             .attr('class', 'sc-section')
             .attr('d', arc)
             .attr('fill', function (d, i) {
-                return colors(d.data.segment);
+                if(d.data.segment) {
+                    return colors(d.data.segment);
+                } else {
+                    return;
+                }
+                
             });
 
         path.on('mouseover', $A.getCallback(function (dataPoint) {
@@ -702,7 +707,12 @@ License: BSD 3-Clause License
             });
 
         var getCircleColor = function (d) {
-            return colors(d.data.segment);
+            if(d.data.segment) {
+               return colors(d.data.segment); 
+           } else {
+            return;
+           }
+            
         }
 
         var circleParams = {
@@ -720,7 +730,12 @@ License: BSD 3-Clause License
 
         var getLabel = function (d) {
             var label = d.data.segment;
-            return label.length > 15 ? label.slice(0, 12) + '...' : label
+            if(label) {
+                return label.length > 15 ? label.slice(0, 12) + '...' : label
+            } else {
+                return;
+            }
+            
         }
 
         var legendLabelParams = {

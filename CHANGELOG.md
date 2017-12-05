@@ -1,5 +1,18 @@
 # Strike by Appiphony
 
+###Release 1.0.0 — December 5, 2017
+####New Features
+* **Strike Path:** Replaces `Strike Wizard` this component was renamed to match the lightning component it best resembles, `lightning path`, no changes have been made to its functionality. However, the values for the `displayMode` attribue have been replaced, `wizard` is now `linear` and `simple` is now `non-linear` <a href="https://github.com/appiphony/Strike-Components/issues/157" target="_blank">[GitHub Issue #157]</a>
+* **Strike Picklist:** Replaces `Strike Select` this component was renamed to match it's behavior, no changes have been made to its functionality <a href="https://github.com/appiphony/Strike-Components/issues/159" target="_blank">[GitHub Issue #159]</a>
+#### Improvements
+* **Multi Select Picklist:** Added the ability to make pills `undestroyable`, regardless if the Multi Select Picklist is `disabled` or not <a href="https://github.com/appiphony/Strike-Components/issues/149" target="_blank">[GitHub Issue #149]</a>
+#### Bug Fixes
+* **Strike Picklist (formerly Strike Select):** Fixed an issue where preselecting a disabled option via code wouldn't set the picklist value <a href="https://github.com/appiphony/Strike-Components/issues/143" target="_blank">[GitHub Issue #143]</a>
+* **Strike Multi Select Picklist:** Fixed an issue where deselecting a pill was causing the page to scroll to the top <a href="https://github.com/appiphony/Strike-Components/issues/156" target="_blank">[GitHub Issue #156]</a>
+* **Strike Data Grid:** Fixed an issue where `Load More` was displaying when the rows were all rendered <a href="https://github.com/appiphony/Strike-Components/issues/163" target="_blank">[GitHub Issue #163]</a>
+
+---
+
 ###Release 0.10.1 — November 28, 2017
 ####Improvements
 * **Strike Data Grid:** Added `loadMore` functionality to control how many rows are displayed and how many render when `loadMore` button is pressed <a href="https://github.com/appiphony/Strike-Components/issues/135" target="_blank">[GitHub Issue #135]</a>

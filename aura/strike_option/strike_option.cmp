@@ -1,7 +1,7 @@
 <!--
 Strike by Appiphony
 
-Version: 0.10.1
+Version: 1.0.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -15,6 +15,7 @@ License: BSD 3-Clause License
     <aura:attribute name="value" type="String" description="the value of the component"/>
     <aura:attribute name="focused" type="Boolean" description="Value that determines whether or not this component has focus"/>
     <aura:attribute name="disabled" type="Boolean" description="Determines whether the option is disabled" />
+    <aura:attribute name="destroyable" type="Boolean" default="true" description="Determines whether the option pill is destroyable in multiSelectPicklist" />
 
     <!-- Internal attributes -->
     <aura:attribute name="labelHtml" type="String" description="label to be displayed on the component" access="private"/>

@@ -1,7 +1,7 @@
 <!--
 Strike by Appiphony
 
-Version: 0.10.1
+Version: 1.0.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
 License: BSD 3-Clause License
@@ -17,7 +17,7 @@ License: BSD 3-Clause License
     <aura:attribute name="advanceButtonSelectLabel" type="string" default="Mark as Current Stage" description="Button label used to mark a selected chevron as the current chevron"/>
     <aura:attribute name="advanceButtonCompletedLabel" type="string" default="Process Completed" description="Button label used to indicate the process has been completed"/>
 
-    <aura:attribute name="displayMode" type="string" default="wizard" description="Simple for Basic navigation or Wizard for flows"/>
+    <aura:attribute name="displayMode" type="string" default="linear" description="non-linear for Basic navigation or linear for flows"/>
     <aura:attribute name="disableBackwardNavOnComplete" type="Boolean" default="{!false}" description="Restricts backward navigation to stages marked as complete"/>
     <aura:attribute name="disableForwardNavOnIncomplete" type="Boolean" default="{!false}" description="Restricts forward navigation to stages marked as incomplete"/>
     <aura:attribute name="forceProcessFlow" type="Boolean" default="{!false}" description="Restricts all navigation"/>
@@ -48,7 +48,7 @@ License: BSD 3-Clause License
         <aura:attribute name="key" type="String" default="dislike"/> 
         <aura:attribute name="duration" type="Integer" default="5000"/> 
         <aura:attribute name="type" type="String" default="success"/> 
-        <aura:attribute name="mode" type="String" default="wizard"/>
+        <aura:attribute name="mode" type="String" default="linear"/>
     </aura:method>
 
     <div class="slds-grid">
@@ -76,9 +76,9 @@ License: BSD 3-Clause License
                 </aura:iteration>
             </ul>
         </div>
-        <aura:if isTrue="{!and(v.advanceButton, v.displayMode == 'wizard')}">
+        <aura:if isTrue="{!and(v.advanceButton, v.displayMode == 'linear')}">
             <lightning:button aura:id="advanceButton"
-                class="{!'slds-path__mark-complete slds-no-flex sw-advance-button slds-m-left--small' + if(v.toggleButtonStyle == true, '', ' slds-path__mark-current') + if(v.body[0] != null, ' slds-m-horizontal--small', ' slds-m-left--small')}"
+                class="{!'slds-path__mark-complete slds-no-flex sp-advance-button slds-m-left--small' + if(v.toggleButtonStyle == true, '', ' slds-path__mark-current') + if(v.body[0] != null, ' slds-m-horizontal--small', ' slds-m-left--small')}"
                 variant="brand"
                 onclick="{!c.advanceButtonClick}"
                 disabled="{!v.error}">
