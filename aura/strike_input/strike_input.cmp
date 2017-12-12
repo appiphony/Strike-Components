@@ -1,10 +1,10 @@
 <!--
 Strike by Appiphony
 
-Version: 0.8.0
+Version: 1.0.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
-License: BSD 2-Clause License
+License: BSD 3-Clause License
 -->
 <aura:component >
     <aura:attribute name="auraId" type="String" description="the aura id of the input" default="inputField"/>
@@ -18,6 +18,8 @@ License: BSD 2-Clause License
     <aura:attribute name="tabindex" type="Integer" description="Determines the tab ordering of the input"/>
     <aura:attribute name="helpText" type="String" description="Text to be displayed as a tooltip on the component"/>
     <aura:attribute name="helpTextPlacement" type="String" default="auto top" description="Determines position of the helpText"/>
+    <aura:attribute name="leftAddon" type="String" description="Specifies fixed text to the left of the input"/>
+    <aura:attribute name="rightAddon" type="String" description="Specifies fixed text to the right of the input"/>
     <aura:attribute name="required" type="Boolean" description="determines whether a * will be displayed in the label"/>
     <aura:attribute name="error" type="Boolean" description="triggers an error state"/>
     <aura:attribute name="errorMessage" type="String" description="error message that will display when in an error state"/>
@@ -31,6 +33,14 @@ License: BSD 2-Clause License
     <aura:attribute name="readonly" type="Boolean" description="determines whether or not the input can be written to"/>
     <aura:attribute name="disabled" type="Boolean" description="determines whether or not the field is disabled"/>
 
+    <aura:handler name="change" value="{!v.disabled}" action="{!c.handleDisabledChange}"/>
+    <aura:handler event="aura:doneRendering" action="{!c.handleDisabledChange}"/>
+
+    <!-- New Attribute -->
+    <aura:attribute name="defaultTooltipStyle" type="Boolean" description="Used to toggle default class on tooltip" />
+    <!-- /New Attribute -->
+
+
     <aura:handler name="change" value="{!v.maxlength}" action="{!c.handleChangeMaxlength}" />
     <aura:handler name="change" value="{!v.type}" action="{!c.handleTypeChange}" />
 
@@ -43,6 +53,7 @@ License: BSD 2-Clause License
 
     <!-- Internal attributes -->
     <aura:attribute name="idNumber" type="Integer" description="randomly generated number to attach as an ID for radio buttons" access="private"/>
+    <aura:attribute name="addonsAllowed" type="Boolean" description="determines if addons are allowed on the current type" default="{:!false}" access="private"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
 
@@ -57,15 +68,12 @@ License: BSD 2-Clause License
 
     <div class="{!'slds-form-element ' + v.class}">
         <aura:if isTrue="{!v.type == 'toggle'}">
-            <label class="slds-checkbox--toggle slds-grid" for="{!'strike-input-' + v.idNumber}">
+            <label class="slds-checkbox--toggle slds-grid slds-grid_vertical-align-start" for="{!'strike-input-' + v.idNumber}">
                 <span class="{!'slds-form-element__label' + if (not(empty(v.helpText)), ' slds-m-right--none', '')}">
-                    <aura:if isTrue="{!v.required}">
-                        <abbr class="slds-required" title="required">*</abbr>
-                    </aura:if>
                     {!v.label}
                 </span>
                 <aura:if isTrue="{!not(empty(v.helpText))}">
-                    <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="si-help-text-icon slds-m-horizontal--x-small">
+                    <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="{!v.defaultTooltipStyle == true ? '' : 'si-help-text-icon slds-m-horizontal--x-small'}">
                         <lightning:icon iconName="utility:info" size="xx-small"/>
                     </c:strike_tooltip>
                 </aura:if>
@@ -74,7 +82,6 @@ License: BSD 2-Clause License
                     id="{!'strike-input-' + v.idNumber}"
                     type="checkbox"
                     name="{!v.name}"
-                    disabled="{!v.disabled}"
                     tabindex="{!v.tabindex}"
                     aria-describedby="toggle-desc" />
                 <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
@@ -90,17 +97,22 @@ License: BSD 2-Clause License
                         <aura:if isTrue="{!v.required}">
                             <abbr class="slds-required" title="required">*</abbr>
                         </aura:if>
-                        {!v.label}    
+                        {!v.label}
                     </label>
                     <aura:if isTrue="{!not(empty(v.helpText))}">
-                        <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="si-help-text-icon si-help-text-icon--negate-spacing">
+                        <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="{!v.defaultTooltipStyle == true ? '' : 'si-help-text-icon si-help-text-icon--negate-spacing'}">
                             <lightning:icon iconName="utility:info" size="xx-small"/>
                         </c:strike_tooltip>
                     </aura:if>
                 </aura:if>
-                <div class="{!'slds-form-element__control' + if(v.error, ' slds-has-error', '')}">
-                    <div class="{!v.type == 'search' ? 'slds-input-has-icon slds-input-has-icon_left-right' : ''}">
-                        <span class="{!if(v.type == 'radio', 'slds-radio', '') + if(v.type == 'checkbox', 'slds-checkbox', '')}">
+                
+                <div class="{!'slds-form-element__control' + if(v.error, ' slds-has-error', '') + if(v.type == 'search', ' slds-input-has-icon slds-input-has-icon_left-right', '')}">
+                    <div class="{!if(v.type == 'radio', 'slds-radio', '') + if(v.type == 'checkbox', 'slds-checkbox', '')}">
+                        <div class="{!if(or(not(empty(v.leftAddon)), not(empty(v.rightAddon))), 'slds-input-has-fixed-addon', '')}">
+                            <aura:if isTrue="{!and(not(empty(v.leftAddon)), v.addonsAllowed)}">
+                                <span class="slds-form-element__addon">{!v.leftAddon}</span>
+                            </aura:if>
+
                             <input
                                 aura:id="inputField"
                                 name="{!v.name}"
@@ -117,17 +129,19 @@ License: BSD 2-Clause License
                                 step="{!v.step}"
                                 tabindex="{!v.tabindex}"
                                 readonly="{!v.readonly}"
-                                disabled="{!v.disabled}"
                                 checked="{!v.checked}"
                                 onclick="{!c.updateChecked}"
                                 onblur="{!c.handleBlur}"
                                 onfocus="{!c.handleFocus}"
-                                oninput="{!c.updateValue}"
-                                onchange="{!c.handleChange}"
+                                oninput="{!c.handleInput}"
+                                onchange="{!or(v.type == 'radio', v.type == 'checkbox') ? '' : c.handleChange}"
                                 onkeyup="{!c.handleKeyup}"
                                 onkeydown="{!c.handleKeydown}"
                                 />
-                                
+                            <aura:if isTrue="{!and(not(empty(v.rightAddon)), v.addonsAllowed)}">
+                                <span class="slds-form-element__addon">{!v.rightAddon}</span>
+                            </aura:if>
+                           
                             <aura:if isTrue="{!or(v.type == 'checkbox', v.type == 'radio')}">
                                 <label class="{!'slds-' + v.type + '__label'}" for="{!'strike-input-' + v.idNumber}">
                                     <span class="{!'slds-' + v.type + '--faux'}"></span>
@@ -135,46 +149,68 @@ License: BSD 2-Clause License
                                         <div>
                                             <span class="slds-form-element__label si-has-help-text">{!v.label}</span>
                                             <span onclick="{!c.handleClickHelpText}">
-                                                <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="si-help-text-icon">
+                                                <c:strike_tooltip placement="{!v.helpTextPlacement}" text="{!v.helpText}" class="{!v.defaultTooltipStyle == true ? '' : 'si-help-text-icon'}">
                                                     <lightning:icon iconName="utility:info" size="xx-small"/>
                                                 </c:strike_tooltip>
                                             </span>
                                         </div>
                                         <aura:set attribute="else">
-                                            <span class="slds-form-element__label">{!v.label}</span> 
+                                            <span class="slds-form-element__label">{!v.label}</span>
                                         </aura:set>
-                                    </aura:if>  
+                                    </aura:if>
                                 </label>
                             </aura:if>
                             
-                            <aura:if isTrue="{!v.type == 'search'}">    
+                            <aura:if isTrue="{!v.type == 'search'}">
                                 <lightning:icon iconName="utility:search" size="x-small" class="slds-input__icon slds-input__icon--left slds-icon-text-light"/>
                                 <div class="slds-input--icon-group slds-input__icon-group--right">
                                     <aura:if isTrue="{!and(not(empty(v.value)), not(v.readonly))}">
                                         <button onclick="{!c.clearInput}" id="{!v.idNumber}" class="slds-input__icon slds-input__icon--right slds-button slds-button--icon" title="Remove" disabled="{!v.disabled}">
-                                            <c:strike_svg ariaHidden="true" class="slds-button__icon" xlinkHref="/resource/icons/utility-sprite/svg/symbols.svg#clear"/>
+                                                <lightning:icon iconName="utility:clear" size="xx-small"/>
                                             <span class="slds-assistive-text">Remove</span>
                                         </button>
                                     </aura:if>
                                 </div>
                             </aura:if>
-                        </span>
-                        <aura:if isTrue="{!and(v.error, not(empty(v.errorMessage)))}">
-                            <div class="slds-form-element__help">{!v.errorMessage}</div>
-                        </aura:if>
+                        </div>
                     </div>
+                    <aura:if isTrue="{!and(v.error, not(empty(v.errorMessage)))}">
+                        <aura:if isTrue="{!and(not(empty(v.leftAddon)), v.addonsAllowed)}">
+                            <div class="slds-input-has-fixed-addon">
+                                <span class="slds-form-element__addon slds-hidden">{!v.leftAddon}</span>
+                                <div class="slds-col slds-form-element__help si-full-width">{!v.errorMessage}</div>
+                                <aura:if isTrue="{!and(not(empty(v.rightAddon)), v.addonsAllowed)}">
+                                    <span class="slds-form-element__addon slds-hidden">{!v.rightAddon}</span>
+                                </aura:if>
+                            </div>
+                            <aura:set attribute="else">
+                                <div class="slds-form-element__help">{!v.errorMessage}</div>
+                            </aura:set>
+                        </aura:if>
+                    </aura:if>
                 </div>
-            </aura:set>    
+            </aura:set>
         </aura:if>
     </div>
 </aura:component>
 <!--
 Copyright 2017 Appiphony, LLC
 
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
+following conditions are met:
 
-1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following 
+disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following 
+disclaimer in the documentation and/or other materials provided with the distribution.
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote 
+products derived from this software without specific prior written permission.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->

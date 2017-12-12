@@ -1,10 +1,10 @@
 <!--
 Strike by Appiphony
 
-Version: 0.8.0
+Version: 1.0.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
-License: BSD 2-Clause License
+License: BSD 3-Clause License
 -->
 <aura:component>
     <aura:attribute name="title" type="String" required="true"/>
@@ -16,6 +16,7 @@ License: BSD 2-Clause License
 
     <aura:attribute name="showHeader" type="Boolean" default="{!true}"/>
     <aura:attribute name="showFooter" type="Boolean" default="{!true}"/>
+    <aura:attribute name="showClose" type="Boolean" default="{!true}"/>
     <aura:attribute name="showModal" type="Boolean" default="{!false}"/>
     <aura:attribute name="footerButtons" type="Aura.Component[]"/>
 
@@ -33,7 +34,9 @@ License: BSD 2-Clause License
     <aura:registerEvent name="strike_evt_modalShown" type="c:strike_evt"/>
     <aura:registerEvent name="strike_evt_modalHide" type="c:strike_evt"/>
     <aura:registerEvent name="strike_evt_modalHidden" type="c:strike_evt"/>
+    <aura:registerEvent name="strike_evt_modalCloseButtonClicked" type="c:strike_evt"/>
     <aura:registerEvent name="strike_evt_modalPrimaryButtonClicked" type="c:strike_evt"/>
+    <aura:registerEvent name="strike_evt_modalSecondaryButtonClicked" type="c:strike_evt"/>
 
     <aura:handler name="change" value="{!v.showModal}" action="{!c.determineModalState}"/>
     <aura:handler name="init" value="{!this}" action="{!c.init}"/>
@@ -43,7 +46,7 @@ License: BSD 2-Clause License
         <div id="modal" aura:id="modal" role="dialog" tabindex="{!if(showingModal, 0, -1)}" aria-labelledby="{!'header-' + v.modalHeaderId}" class="{!if(v.fadeIn, 'slds-fade-in-open', '') + ' slds-modal ' + if(empty(v.variant), '', 'slds-modal--prompt') + if(empty(v.size), '', ' slds-modal--' +v.size)}">
             <div class="slds-modal__container">
                 <div class="{!'slds-modal__header' + if(empty(v.variant), '', ' slds-theme--alert-texture slds-theme--' + v.variant) + if(v.showHeader == false, ' slds-modal__header--empty', '')}">
-                    <lightning:buttonIcon onclick="{!c.hide}" iconName="utility:close" alternativeText="Close" name="Close" size="large" variant="bare" class="slds-button slds-modal__close slds-button--icon-inverse"/>
+                    <lightning:buttonIcon onclick="{!c.hide}" iconName="utility:close" alternativeText="Close" name="Close" size="large" variant="bare" class="{!'slds-button slds-modal__close slds-button--icon-inverse ' + if(not(v.showClose), 'slds-hide')}"/>
                     <h2 id="{!'header-' + v.modalHeaderId}" class="{!'slds-text-heading--medium' + if(v.showHeader == false, ' slds-hide', '')}">{!v.title}</h2>
                 </div>
                 <div class="slds-modal__content slds-p-around--medium">
@@ -52,7 +55,7 @@ License: BSD 2-Clause License
                 <aura:if isTrue="{!v.showFooter}">
                     <div class="{!'slds-modal__footer' + if(empty(v.variant), '', ' slds-theme--default')}">
                         <aura:if isTrue="{!empty(v.footerButtons)}">
-                            <lightning:button class="slds-button slds-button--neutral" onclick="{!c.hide}">{!v.secondaryButtonLabel}</lightning:button>
+                            <lightning:button class="slds-button slds-button--neutral" onclick="{!c.clickedSecondary}">{!v.secondaryButtonLabel}</lightning:button>
                             <lightning:button class="slds-button slds-button--brand" onclick="{!c.clickedPrimary}">{!v.primaryButtonLabel}</lightning:button>
                             <aura:set attribute="else">
                                 {!v.footerButtons}
@@ -69,10 +72,21 @@ License: BSD 2-Clause License
 <!--
 Copyright 2017 Appiphony, LLC
 
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
+following conditions are met:
 
-1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following 
+disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following 
+disclaimer in the documentation and/or other materials provided with the distribution.
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote 
+products derived from this software without specific prior written permission.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->

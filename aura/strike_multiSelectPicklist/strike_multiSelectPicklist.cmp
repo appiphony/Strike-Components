@@ -1,10 +1,10 @@
 <!--
 Strike by Appiphony
 
-Version: 0.8.0
+Version: 1.0.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
-License: BSD 2-Clause License
+License: BSD 3-Clause License
 -->
 <aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
     <!-- Required -->
@@ -32,7 +32,7 @@ License: BSD 2-Clause License
     </aura:method>
     <!-- Internal -->
     <aura:attribute name="idNumber" type="Integer" access="private" description="Random id assigned to pair labels with inputs"/>
-    <aura:attribute name="focusIndex" type="Integer" access="private" description="Index to determine focus location when keyboard is used"/>
+    <aura:attribute name="focusIndex" type="Integer" access="private" default="-1" description="Index to determine focus location when keyboard is used"/>
     <aura:attribute name="menuIsOpen" type="Boolean" access="private" description="toggles the slds-is-open class for the lookup menu"/>
     <aura:attribute name="selectedOptionPills" type="Object[]" access="private" description="pills to be populated when an option is selected from the dropdown"/>
     <aura:attribute name="validChildCmps" type="Object[]" access="private" description="stores valid child components to utilize when an iterator is used"/>
@@ -41,6 +41,7 @@ License: BSD 2-Clause License
     <aura:attribute name="allChildrenFiltered" type="Boolean" description="is set to true if none of the strikeOption components are displayed" default="{!false}"/>
     <aura:attribute name="noResultsMessage" type="String" default="No results found for {0}" description="String value that will appear when the component finds 0 results"/>
     <aura:attribute name="searchTerm" type="String" description="String value of the user's entered search term"/>
+    <aura:attribute name="scrollPosition" type="String" description="Scroll position used to lock drop down list"/>
 
     <!-- Event registration and handlers -->
     <aura:registerEvent name="onchange" type="c:strike_evt"/>
@@ -81,12 +82,9 @@ License: BSD 2-Clause License
                     onkeyup="{!c.handleOnkeyup}"
                     disabled="{!v.disabled}"/>
             </div>
-            <aura:if isTrue="{!and(v.error, not(empty(v.errorMessage)))}">
-                <div class="slds-form-element__help">{!v.errorMessage}</div>
-            </aura:if>
         </div>
 
-        <ui:scrollerWrapper class="slds-lookup__menu">
+        <ui:scrollerWrapper class="slds-lookup__menu" aura:id="scrollerWrapper">
             <aura:if isTrue="{!v.isMobile}">
                 <div class="smsp-picklist__mobile-header smsp-full-button_container slds-grid slds-grid--pull-padded-xx-small">
                     <div class="slds-col slds-p-horizontal--xx-small">
@@ -125,10 +123,17 @@ License: BSD 2-Clause License
                 {!v.body}
             </ul>
         </ui:scrollerWrapper>
+        
+        <aura:if isTrue="{!and(v.error, not(empty(v.errorMessage)))}">
+            <div class="{!'slds-form-element' + (v.error ? ' slds-has-error' : '')}">
+                <div class="slds-form-element__help">{!v.errorMessage}</div>
+            </div>
+        </aura:if>
+
         <aura:if isTrue="{!not(empty(v.selectedOptionPills))}">
             <div aura:id="optionPillContainer" class="slds-pill_container slds-pill_container--bare slds-wrap">
                 <aura:iteration items="{!v.selectedOptionPills}" var="pill">
-                    <span class="smsp-pill"><c:strike_pill label="{!pill.label}" value="{!pill.value}" iconName="{!pill.iconName}" destroyable="{!pill.destroyable}" /></span>
+                    <span class="smsp-pill"><c:strike_pill label="{!pill.label}" value="{!pill.value}" iconName="{!pill.iconName}" destroyable="{!and(not(v.disabled), pill.destroyable)}" /></span>
                 </aura:iteration>
             </div>
         </aura:if>
@@ -137,10 +142,21 @@ License: BSD 2-Clause License
 <!--
 Copyright 2017 Appiphony, LLC
 
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+following conditions are met:
 
-1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following
+disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following
+disclaimer in the documentation and/or other materials provided with the distribution.
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote
+products derived from this software without specific prior written permission.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->

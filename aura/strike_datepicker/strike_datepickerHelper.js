@@ -1,12 +1,23 @@
+/*
+Strike by Appiphony
+
+Version: 1.0.0
+Website: http://www.lightningstrike.io
+GitHub: https://github.com/appiphony/Strike-Components
+License: BSD 3-Clause License
+*/
 ({
     closeDatepicker: function(component, event, helper) {
         component.set('v.readOnly', false);
-        component.set('v.datePickerOpen', false);
+        
+        var dontCloseMenu = component.get('v.dontCloseMenu');
+        component.set('v.datePickerOpen', dontCloseMenu);
+        component.set('v.dontCloseMenu', false);
     },
     processDateValue: function (component) {
         var dateString = component.get('v.value');
         var datePattern = component.get('v.valueFormat');
-        var currentDate = $A.localizationService.parseDateTime(dateString, datePattern, null, true);
+        var currentDate = $A.localizationService.parseDateTime(dateString, datePattern, true);
         var dayLabels = $A.get("$Locale.nameOfWeekdays");
         var monthLabels = $A.get("$Locale.nameOfMonths");
 
@@ -38,7 +49,7 @@
         component.set('v.dayLabels', dayLabels);
         component.set('v.monthLabels', monthLabels);
 
-        var year = parseInt(currentDate.getFullYear());
+        var year = parseInt(currentDate.getFullYear(),10);
 
         this.setYearValues(component, year);
         this.buildCalendar(component, currentDate);
@@ -59,7 +70,7 @@
         var month = currentDate.getMonth();
         var monthLabels = component.get('v.monthLabels');
         
-        component.set("v.selectedYear", parseInt(year));
+        component.set("v.selectedYear", parseInt(year,10));
         component.set("v.selectedMonth", month);
         component.set("v.selectedMonthText", monthLabels[month].fullName);
         component.set('v.calendarRows', this.getCalendarRows(component));
@@ -69,7 +80,7 @@
         var yearsBefore = component.get('v.yearsBefore');
         var yearsAfter = component.get('v.yearsAfter');
 
-        for (var i = year - parseInt(yearsBefore); i <= year + parseInt(yearsAfter); i++) {
+        for (var i = year - parseInt(yearsBefore,10); i <= year + parseInt(yearsAfter,10); i++) {
             selectYears.push({
                 label: i.toString(),
                 value: i,
@@ -148,7 +159,7 @@
         allDays.forEach(function (day, index) {
             var colIndex = index % 7;
 
-            if (colIndex == 0) {
+            if (colIndex === 0) {
                 rowsArray.push([])
             }
 
@@ -343,3 +354,24 @@
         component.set('v.datePatternMap', datePatternMap);
     }
 })
+/*
+Copyright 2017 Appiphony, LLC
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
+following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following 
+disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following 
+disclaimer in the documentation and/or other materials provided with the distribution.
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote 
+products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/

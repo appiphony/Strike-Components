@@ -1,10 +1,10 @@
 <!--
 Strike by Appiphony
 
-Version: 0.8.0
+Version: 1.0.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
-License: BSD 2-Clause License
+License: BSD 3-Clause License
 -->
 <aura:component access="global">
     <!-- Required -->
@@ -52,6 +52,7 @@ License: BSD 2-Clause License
 
     <aura:attribute name="selectedMonthText" type="String" access="private"/>
 
+    <aura:attribute name="dontCloseMenu" type="Boolean" default="false" access="private"/>
     <aura:attribute name="datePickerOpen" type="Boolean" default="false" access="private"/>
     <aura:attribute name="readOnly" type="Boolean" default="{!false}" access="private"/>
     <aura:attribute name="isMobile" type="Boolean" default="{!false}" access="private"/>
@@ -64,7 +65,7 @@ License: BSD 2-Clause License
     <aura:handler name="change" value="{!v.value}" action="{!c.valueChanged}"/>
 
     <!-- Strike Datepicker -->
-    <div class="{!'slds-form-element' + if(v.error, ' slds-has-error', '') + if(v.isMobile, ' sd-datepicker--mobile ', '')}">
+    <div class="{!'slds-form-element' + if(v.error, ' slds-has-error', '') + if(v.isMobile, ' sd-datepicker--mobile ', '')}" aura:id="dp-container">
         <div class="strike-datepicker-input slds-input-has-icon slds-input-has-icon--right">
             <aura:if isTrue="{!v.isMobile}">
                 <c:strike_input aura:id="date-input" 
@@ -96,9 +97,9 @@ License: BSD 2-Clause License
                             disabled="{!v.disabled}"
                             required="{!v.required}"
                             error="{!v.error}"
-                            onblur="{!c.processNewDate}" />
+                            onchange="{!c.processNewDate}" />
                     </div>
-                    <lightning:buttonIcon onclick="{!c.clickedDateIcon}" iconName="utility:event" size="medium" variant="bare" alternativeText="Date Picker" disabled="{!v.disabled}" class="strike-datepicker-input__icon"/>
+                    <lightning:buttonIcon onfocus="{!c.preventDatePickerClose}" onclick="{!c.clickedDateInput}" iconName="utility:event" size="medium" variant="bare" alternativeText="Date Picker" disabled="{!v.disabled}" class="strike-datepicker-input__icon"/>
                 </aura:set>
             </aura:if>
         </div>
@@ -109,22 +110,22 @@ License: BSD 2-Clause License
             <div class="slds-datepicker__filter slds-grid">
                 <div class="slds-datepicker__filter--month slds-grid slds-grid--align-spread slds-grow">
                     <div class="slds-align-middle">
-                        <a onclick="{!c.clickPrev}" href="javascript:void(0);" class="slds-button slds-button--icon-container">
+                        <a onmousedown="{!c.preventBlur}" onclick="{!c.clickPrev}" href="javascript:void(0);" class="slds-button slds-button--icon-container">
                             <lightning:icon iconName="utility:left" size="xx-small" class="slds-button__icon slds-button__icon--small slds-m-top--x-small"/>
                             <span class="slds-assistive-text">Previous Month</span>
                         </a>
                     </div>
                     <h2 id="month" class="slds-align-middle" aria-live="assertive" aria-atomic="true">{!v.selectedMonthText}</h2>
                     <div class="slds-align-middle">
-                        <a onclick="{!c.clickNext}" href="javascript:void(0);" class="slds-button slds-button--icon-container">
+                        <a onmousedown="{!c.preventBlur}" onclick="{!c.clickNext}" href="javascript:void(0);" class="slds-button slds-button--icon-container">
                             <lightning:icon iconName="utility:right" size="xx-small" class="slds-button__icon slds-button__icon--small slds-m-top--x-small"/>
                             <span class="slds-assistive-text">Next Month</span>
                         </a>
                     </div>
                 </div>
-                <div class="slds-shrink-none slds-p-left--small">
+                <div class="slds-shrink-none slds-p-left--small" aura:id="here">
                     <div class="sd-select_container">
-                        <ui:inputSelect options="{!v.selectYears}" value="{!v.selectedYear}" change="{!c.yearChanged}" />
+                        <ui:inputSelect mousedown="{!c.openYear}" aura:id="myInput" options="{!v.selectYears}" value="{!v.selectedYear}" change="{!c.yearChanged}" />
                     </div>
                 </div>
                 <!--<aura:if isTrue="{!v.isMobile}">
@@ -173,7 +174,7 @@ License: BSD 2-Clause License
                     </aura:iteration>
                     <tr>
                         <td colspan="7" role="gridcell">
-                            <a onclick="{!c.selectToday}" href="javascript:void(0);" class="slds-show--inline-block slds-p-bottom--x-small">Today</a>
+                            <a onmousedown="{!c.preventBlur}" onclick="{!c.selectToday}" href="javascript:void(0);" class="slds-show--inline-block slds-p-bottom--x-small">Today</a>
                         </td>
                     </tr>
                 </tbody>
@@ -184,10 +185,21 @@ License: BSD 2-Clause License
 <!--
 Copyright 2017 Appiphony, LLC
 
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
+following conditions are met:
 
-1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following 
+disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following 
+disclaimer in the documentation and/or other materials provided with the distribution.
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote 
+products derived from this software without specific prior written permission.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->

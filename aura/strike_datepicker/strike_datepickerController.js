@@ -1,3 +1,11 @@
+/*
+Strike by Appiphony
+
+Version: 1.0.0
+Website: http://www.lightningstrike.io
+GitHub: https://github.com/appiphony/Strike-Components
+License: BSD 3-Clause License
+*/
 ({
     init: function (component, event, helper) {
         component.set('v.dateDebouncer', helper.debounceCreator(component, 1, helper.processDateValue));
@@ -14,14 +22,14 @@
 
         window.addEventListener('click', $A.getCallback(component.closeDatepicker));
         
-        component.set('v.isMobile', $A.get('$Browser.formFactor') == 'DESKTOP' ? false : true);
+        component.set('v.isMobile', $A.get('$Browser.formFactor') === 'DESKTOP' ? false : true);
     },
     valueChanged: function(component, event, helper) {
         var dateDebouncer = component.get('v.dateDebouncer');
         var value = component.get('v.value');
         var clickedValue = component.get('v.clickedValue');
 
-        if (value == clickedValue) {
+        if (value === clickedValue) {
             return;
         }
 
@@ -34,9 +42,9 @@
         var datePattern = component.get('v.valueFormat');
         var locale = helper.getLocale();
         var localeDatePattern = helper.getLocaleDatePattern(component, locale);
-        var selectedDate = $A.localizationService.parseDateTime(displayDate, localeDatePattern, null, true);
+        var selectedDate = $A.localizationService.parseDateTime(displayDate, localeDatePattern, true);
 
-        if (selectedDate == null) {
+        if (selectedDate === null) {
             component.set('v.value', null);
             component.set('v.timestamp', null);
 
@@ -46,7 +54,7 @@
 
         var formattedDisplayDate = $A.localizationService.formatDate(selectedDate.toString(), datePattern);
 
-        if (currentValue == formattedDisplayDate) {
+        if (currentValue === formattedDisplayDate) {
             helper.closeDatepicker(component, event, helper);
             return;
         }
@@ -57,19 +65,27 @@
     clickedDateInput: function(component, event, helper) {
         event.preventDefault();
         event.stopPropagation();
-        
-        if (event.srcElement.tagName == 'use' || event.srcElement.tagName == 'svg') {
+
+
+        if (event.target.tagName === 'use' || event.target.tagName === 'svg') {
             return;
         }
         
         var notDisabled = !component.get('v.disabled');
         var displayDate = component.get('v.displayDate');
         var dateInput = component.find('date-input');
+        var datePickerOpen = component.get('v.datePickerOpen');
+        var container = component.find('dp-container').getElement();
 
-        if(notDisabled && $A.util.isEmpty(displayDate)){
-            dateInput.blur();
+        dateInput.focus();
+        if(notDisabled && !datePickerOpen) {
             helper.determineReadOnly(component);
             component.set('v.datePickerOpen', true);
+            container.addEventListener('focusout', $A.getCallback(function() {
+                helper.closeDatepicker(component, event, helper);
+            }), { once: true });
+        } else if(notDisabled && datePickerOpen) {
+            dateInput.focus();
         }
     },
     clickedDateIcon: function (component, event, helper) {
@@ -82,11 +98,18 @@
         }
     },
     selectToday: function (component, event, helper) {
+        event.preventDefault();
+        event.stopPropagation();
         var currentDate = new Date();
         var datePattern = component.get('v.valueFormat');
+        var dontCloseMenu = component.get('v.dontCloseMenu');
         var formattedValueDate = $A.localizationService.formatDate(currentDate.toString(), datePattern);
 
         component.set('v.value', formattedValueDate);
+
+        if(dontCloseMenu) {
+            component.set('v.dontCloseMenu', false);
+        }
         helper.closeDatepicker(component, event, helper);
     },
     clickNext: function (component, event, helper) {
@@ -133,6 +156,7 @@
         event.preventDefault();
     },
     clickDate: function (component, event, helper) {
+        var dontCloseMenu = component.get('v.dontCloseMenu');
         var selectedRowIndex = component.get('v.selectedDateRowIndex');
         var selectedColIndex = component.get('v.selectedDateColIndex');
 
@@ -141,8 +165,8 @@
             selectedDayObj.isSelected = false;
         }
 
-        var clickedRowIndex = parseInt(event.currentTarget.dataset.row_index);
-        var clickedColIndex = parseInt(event.currentTarget.dataset.col_index);
+        var clickedRowIndex = parseInt(event.currentTarget.dataset.row_index,10);
+        var clickedColIndex = parseInt(event.currentTarget.dataset.col_index,10);
         var calendarRows = component.get('v.calendarRows');
         var clickedDayObj = component.get('v.calendarRows')[clickedRowIndex][clickedColIndex];
 
@@ -152,8 +176,8 @@
         component.set('v.selectedDateColIndex', clickedColIndex);
         component.set('v.calendarRows', calendarRows);
 
-        var selectedDay = parseInt(event.currentTarget.dataset.day);
-        var selectedMonth = parseInt(event.currentTarget.dataset.month);
+        var selectedDay = parseInt(event.currentTarget.dataset.day,10);
+        var selectedMonth = parseInt(event.currentTarget.dataset.month,10);
         var selectedYear = component.get('v.selectedYear');
         var timeStamp = Date.UTC(selectedYear, selectedMonth, selectedDay);
 
@@ -169,10 +193,14 @@
         component.set('v.timestamp', timeStamp);
         component.set('v.currentDate', currentDate);
 
+        if(dontCloseMenu) {
+            component.set('v.dontCloseMenu', false);
+        }
         helper.closeDatepicker(component, event, helper);
         helper.determineReadOnly(component);
     },
     preventDatePickerClose: function (component, event, helper) {
+        var container = component.find('dp-container').getElement();
         event.stopPropagation();
     },
     showError: function(component, event, helper) {
@@ -184,5 +212,30 @@
     hideError: function(component, event, helper) {
         component.set('v.errorMessage', null);
         component.set('v.error', false);
+    },
+    openYear: function(component, event, helper) {
+        component.set('v.dontCloseMenu', true);
+        event.stopPropagation();
     }
 })
+/*
+Copyright 2017 Appiphony, LLC
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
+following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following 
+disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following 
+disclaimer in the documentation and/or other materials provided with the distribution.
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote 
+products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/

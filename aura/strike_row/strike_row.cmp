@@ -1,10 +1,10 @@
 <!--
 Strike by Appiphony
 
-Version: 0.8.0
+Version: 1.0.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
-License: BSD 2-Clause License
+License: BSD 3-Clause License
 -->
 <aura:component access="global">
 	<aura:attribute name="fields" type="Object[]" description="Data from strike_dataGrid" required="true"/>
@@ -23,7 +23,7 @@ License: BSD 2-Clause License
 						<ui:outputCurrency value="{!field.value}"/>
 					</aura:if>
 					<aura:if isTrue="{!field.dataType == 'DATE'}">
-						<ui:outputDate value="{!field.value}"/>
+						<ui:outputDate format="M/dd/yyyy" value="{!field.value}"/>
 					</aura:if>
 					<aura:if isTrue="{!field.dataType == 'DATETIME'}">
 						<ui:outputDateTime format="M/dd/yyyy H:mm a" value="{!field.value}"/>
@@ -33,9 +33,6 @@ License: BSD 2-Clause License
 					</aura:if>
 					<aura:if isTrue="{!field.dataType == 'NUMBER'}">
 						<ui:outputNumber value="{!field.value}"/>
-					</aura:if>
-					<aura:if isTrue="{!field.dataType == 'PERCENT'}">
-						<ui:outputNumber value="{!field.value}"/>%
 					</aura:if>
 					<aura:if isTrue="{!field.dataType == 'PHONE'}">
 						<ui:outputPhone value="{!field.value}"/>

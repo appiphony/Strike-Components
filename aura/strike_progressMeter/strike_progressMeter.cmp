@@ -1,0 +1,99 @@
+<!--
+Strike by Appiphony
+
+Version: 1.0.0
+Website: http://www.lightningstrike.io
+GitHub: https://github.com/appiphony/Strike-Components
+License: BSD 3-Clause License
+-->
+<aura:component>
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+    <aura:handler name="render" value="{!this}" action="{!c.handleRender}"/>
+
+	<!-- External -->
+    <aura:attribute name="variant" type="String" description="Variant of the progress meter"/>
+    <aura:attribute name="color" type="String" description="Accepted values include most SVG color names, Hexadecimal, HSL and RBG"/>
+    <aura:attribute name="total" type="Decimal" description="Positive number value representing total amount" />
+    <aura:attribute name="completed" type="Decimal" description="Positive number value representing amount out of total" />
+    <aura:attribute name="hidePercentage" type="Boolean" description="Determines whether the percentage is hidden" />
+    <aura:attribute name="hideCompleted" type="Boolean" description="Determines whether the completed is hidden" />
+   	<!-- /External -->
+
+	<!-- Internal -->
+    <aura:attribute access="private" name="percent" type="String" description="Percentage of completed" />
+	<!-- /Internal -->
+
+	<div class="slds-scope">
+        <aura:if isTrue="{!v.variant == 'ring'}">
+    		<aura:if isTrue="{!and(not(empty(v.completed)), not(empty(v.total)))}">
+                <div class="spm-ring-container">
+                    <div aura:id="svg-container">
+                        <![CDATA[
+                        <svg width="100%" height="100%" viewBox="0 0 42 42">
+                            <circle cx="21" cy="21" r="15.91549430918954" fill="#fff"/>
+                            <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#e0e5ee" stroke-width="8"/>
+                            <circle class="spm-ring__value" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="{{color}}" stroke-width="6" stroke-dasharray="0 100" stroke-dashoffset="0"/>
+                        </svg>
+                        ]]>
+                    </div>
+                    <aura:if isTrue="{!not(v.hidePercentage)}">
+                        <p class="spm-ring__label slds-text-heading_small slds-text-color_weak">
+                            {!v.percent}%
+                        </p>
+                    </aura:if>
+                </div>
+                
+                <aura:if isTrue="{!not(v.hideCompleted)}">
+                    <p class="slds-text-align_center slds-text-body_small slds-text-color_weak slds-m-top_x-small">
+                        <em>{!v.completed}/{!v.total} completed</em>
+                    </p>
+                </aura:if>
+            </aura:if>
+		</aura:if>
+
+        <aura:if isTrue="{!v.variant == 'bar'}">
+            <aura:if isTrue="{!and(not(empty(v.completed)), not(empty(v.total)))}">
+                <div class="spm-bar-container">
+                    <div class="spm-bar-header slds-m-bottom_small">
+                        <aura:if isTrue="{!not(v.hideCompleted)}">
+                            <p class="slds-text-body_small slds-text-color_weak">{!v.completed}/{!v.total} completed</p>
+                        </aura:if>
+                        <aura:if isTrue="{!not(v.hidePercentage)}">
+                            <p class="slds-text-body_small slds-text-color_weak">{!v.percent}%</p>
+                        </aura:if>
+                    </div>
+                    <div aura:id="svg-container">
+                        <![CDATA[
+                        <svg width="100%" height="50%" viewBox="0 0 100 8">
+                            <rect x="0" y="0" width="100" height="8" fill="#e0e5ee" stroke="#e0e5ee" stroke-width="2"/>
+                            <line class="spm-bar__value" x1="0" y1="0" x2="200" y2="0" stroke="{{color}}" stroke-width="15" stroke-dasharray="0 100" stroke-dashoffset="0"/>
+                            <rect x="0" y="0" width="100" height="8" fill="transparent" stroke="#e0e5ee" stroke-width="2"/>
+                        </svg>
+                        ]]>
+                    </div>
+                </div> 
+            </aura:if>
+        </aura:if>
+	</div>
+</aura:component>
+<!--
+Copyright 2017 Appiphony, LLC
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
+following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following 
+disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following 
+disclaimer in the documentation and/or other materials provided with the distribution.
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote 
+products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->	

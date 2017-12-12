@@ -1,3 +1,11 @@
+/*
+Strike by Appiphony
+
+Version: 1.0.0
+Website: http://www.lightningstrike.io
+GitHub: https://github.com/appiphony/Strike-Components
+License: BSD 3-Clause License
+*/
 ({
     drawChart: function (component, helper) {
         var chartType = component.get('v.type');
@@ -164,20 +172,21 @@
 
             var firstTooltipLine;
             var secondTooltipLine;
+            var formatPattern;
             var xDataType = component.get('v.xAxisDataType')
             var yDataType = component.get('v.yAxisDataType')
 
-            if(xDataType == 'number'){
+            if(xDataType === 'number'){
                 firstTooltipLine = '<span class="sc-axis-label">' + component.get('v.xAxisLabel') + ': </span><span class="sc-axis-value">' + helper.abbreviateNumber(d.x) + '</span><br/>'
             } else {
-                var formatPattern = xDataType == 'date' ? 'EEEE MMM dd, yyyy' : 'EEEE MMM dd, yyyy hh:mm A';
+                formatPattern = xDataType === 'date' ? 'EEEE MMM dd, yyyy' : 'EEEE MMM dd, yyyy hh:mm A';
                 firstTooltipLine = '<span class="sc-axis-value">' + $A.localizationService.formatDate(d.x, formatPattern) + '</span><br/>'
             }
 
-            if(yDataType == 'number'){
+            if(yDataType === 'number'){
                 secondTooltipLine = '<span class="sc-axis-label">' + component.get('v.yAxisLabel') + ': </span><span class="sc-axis-value">' + helper.abbreviateNumber(d.y) + '</span>';
             } else {
-                var formatPattern = yDataType == 'date' ? 'EEEE MMM dd, yyyy' : 'EEEE MMM dd, yyyy hh:mm A';
+                formatPattern = yDataType === 'date' ? 'EEEE MMM dd, yyyy' : 'EEEE MMM dd, yyyy hh:mm A';
                 secondTooltipLine = '<span class="sc-axis-value">' + $A.localizationService.formatDate(d.y, formatPattern) + '</span>'
             }
 
@@ -238,7 +247,7 @@
 
         numericalDomain = [0, d3.max([component.get('v.thresholdValue'), numericalMax])];
 
-        var stringDomain = component.get('v.data').map(function (dataPoint) {
+        stringDomain = component.get('v.data').map(function (dataPoint) {
             return dataPoint[stringAxis];
         });
 
@@ -322,7 +331,7 @@
             var x = dataPoint.x;
             var y = dataPoint.y;
 
-            if (numericalAxis == 'x') {
+            if (numericalAxis === 'x') {
                 x = helper.abbreviateNumber(x);
             } else {
                 y = helper.abbreviateNumber(y);
@@ -351,6 +360,7 @@
             helper.showToolTip(component, tooltipOptions);
         }));
 
+        var thresholdYPos = yScale(component.get('v.thresholdValue'));
         var thresholdParams = {
             thresholdValue: component.get('v.thresholdValue'),
             thresholdLabel: component.get('v.thresholdLabel'),
@@ -359,7 +369,6 @@
         }
 
         if (isVertical) {
-            var thresholdYPos = yScale(component.get('v.thresholdValue'));
             thresholdParams.lineX1 = paddingBox.left;
             thresholdParams.lineX2 = chartWidth - paddingBox.right;
             thresholdParams.lineY1 = thresholdYPos;
@@ -368,9 +377,8 @@
             thresholdParams.textX = chartWidth - paddingBox.right;
             thresholdParams.textY = thresholdYPos;
             thresholdParams.rotateAngle = 0;
-        } else {
-            var thresholdYPos = yScale(component.get('v.thresholdValue'));
 
+        } else {            
             thresholdParams.lineX1 = xScale(component.get('v.thresholdValue'));
             thresholdParams.lineX2 = xScale(component.get('v.thresholdValue'));
             thresholdParams.lineY1 = paddingBox.top;
@@ -422,7 +430,7 @@
 
         var dataWithThreshold = data.slice();
         dataWithThreshold.push({
-            y: parseInt(component.get('v.thresholdValue'))
+            y: parseInt(component.get('v.thresholdValue'),10)
         })
 
         var xDomain = d3.extent(data, function(dataPoint) {
@@ -444,9 +452,9 @@
         var dataSizeMin = sizeDomain[0];
         var dataSizeMax = sizeDomain[1];
 
-        dataSizeMax = dataSizeMin == dataSizeMax ? dataSizeMax + 1 : dataSizeMax;
-        dataXMax = dataXMin == dataXMax ? dataXMax + 1 : dataXMax;
-        dataYMax = dataYMin == dataYMax ? dataYMax + 1 : dataYMax;
+        dataSizeMax = dataSizeMin === dataSizeMax ? dataSizeMax + 1 : dataSizeMax;
+        dataXMax = dataXMin === dataXMax ? dataXMax + 1 : dataXMax;
+        dataYMax = dataYMin === dataYMax ? dataYMax + 1 : dataYMax;
 
         var xScaleSizeBuffer = function () {
             return Math.abs(sizeMax / (chartWidth - paddingBox.left - paddingBox.right) * (dataXMax - dataXMin));
@@ -455,8 +463,8 @@
             return Math.abs(sizeMax / (chartHeight - paddingBox.bottom - paddingBox.top) * (dataYMax - dataYMin));
         }
 
-        var xDomain = [dataXMin - xScaleSizeBuffer(), dataXMax + xScaleSizeBuffer()];
-        var yDomain = [dataYMin - yScaleSizeBuffer(), dataYMax + yScaleSizeBuffer()];
+        xDomain = [dataXMin - xScaleSizeBuffer(), dataXMax + xScaleSizeBuffer()];
+        yDomain = [dataYMin - yScaleSizeBuffer(), dataYMax + yScaleSizeBuffer()];
 
         var xAxisDataType = component.get('v.xAxisDataType');
         var yAxisDataType = component.get('v.yAxisDataType');
@@ -572,17 +580,18 @@
 
             var firstTooltipLine;
             var secondTooltipLine;
+            var formatPattern;
 
-            if(xAxisDataType == 'date' || xAxisDataType == 'datetime'){
-                var formatPattern = xAxisDataType == 'date' ? 'EEEE MMM dd, yyyy' : 'EEEE MMM dd, yyyy hh:mm A';
-                var firstTooltipLine = '<span class="sc-axis-value">' + $A.localizationService.formatDate(d.x, formatPattern) + '</span>'
+            if(xAxisDataType === 'date' || xAxisDataType === 'datetime'){
+                formatPattern = xAxisDataType === 'date' ? 'EEEE MMM dd, yyyy' : 'EEEE MMM dd, yyyy hh:mm A';
+                firstTooltipLine = '<span class="sc-axis-value">' + $A.localizationService.formatDate(d.x, formatPattern) + '</span>'
             } else {
                 firstTooltipLine = '<span class="sc-axis-label">' + component.get('v.xAxisLabel') + ': </span><span class="sc-axis-value">' + helper.abbreviateNumber(d.x) + '</span>'
             }
 
-            if(yAxisDataType == 'date' || yAxisDataType == 'datetime'){
-                var formatPattern = yAxisDataType == 'date' ? 'EEEE MMM dd, yyyy' : 'EEEE MMM dd, yyyy hh:mm A';
-                var secondTooltipLine = '<br/><span class="sc-axis-value">' + $A.localizationService.formatDate(d.y, formatPattern) + '</span>'
+            if(yAxisDataType === 'date' || yAxisDataType === 'datetime'){
+                formatPattern = yAxisDataType === 'date' ? 'EEEE MMM dd, yyyy' : 'EEEE MMM dd, yyyy hh:mm A';
+                secondTooltipLine = '<br/><span class="sc-axis-value">' + $A.localizationService.formatDate(d.y, formatPattern) + '</span>'
             } else {
                 secondTooltipLine = '<br/><span class="sc-axis-label">' + component.get('v.yAxisLabel') + ': </span><span class="sc-axis-value">' + helper.abbreviateNumber(d.y) + '</span>'
             }
@@ -649,7 +658,12 @@
             .attr('class', 'sc-section')
             .attr('d', arc)
             .attr('fill', function (d, i) {
-                return colors(d.data.segment);
+                if(d.data.segment) {
+                    return colors(d.data.segment);
+                } else {
+                    return;
+                }
+                
             });
 
         path.on('mouseover', $A.getCallback(function (dataPoint) {
@@ -693,7 +707,12 @@
             });
 
         var getCircleColor = function (d) {
-            return colors(d.data.segment);
+            if(d.data.segment) {
+               return colors(d.data.segment); 
+           } else {
+            return;
+           }
+            
         }
 
         var circleParams = {
@@ -710,8 +729,13 @@
         helper.addCircle(circleParams);
 
         var getLabel = function (d) {
-            let label = d.data.segment;
-            return label.length > 15 ? label.slice(0, 12) + '...' : label
+            var label = d.data.segment;
+            if(label) {
+                return label.length > 15 ? label.slice(0, 12) + '...' : label
+            } else {
+                return;
+            }
+            
         }
 
         var legendLabelParams = {
@@ -793,7 +817,7 @@
 
         var segmentRanges = [minValue, lowSegmentMax, medSegmentMax, highSegmentMax];
 
-        var minValue = minValue;
+        minValue = minValue;
         var maxValue = highSegmentMax;
 
         var size = component.get('v.containerWidth') * .9;
@@ -849,20 +873,21 @@
             (medSegmentMax - lowSegmentMax) / minMaxValuesDifference,
             (highSegmentMax - medSegmentMax) / minMaxValuesDifference
         ]
-
+        var previousSegmentStartAngle;
         var arc = d3.arc()
             .innerRadius(radius - arcWidth - arcInset)
             .outerRadius(radius - arcInset)
             .startAngle(function (d, i) {
+
                 if (i === 0) {
                     return degToRad(minAngle);
 
                 } else if (i === 1) {
-                    var previousSegmentStartAngle = tickData[i - 1] * range;
+                    previousSegmentStartAngle = tickData[i - 1] * range;
                     return degToRad(minAngle + previousSegmentStartAngle);
 
                 } else if (i === 2) {
-                    var previousSegmentStartAngle = (tickData[i - 2] + tickData[i - 1]) * range;
+                    previousSegmentStartAngle = (tickData[i - 2] + tickData[i - 1]) * range;
                     return degToRad(minAngle + previousSegmentStartAngle);
                 }
             })
@@ -965,8 +990,8 @@
 
 
         var smallTicksData = [];
-        for (var i = 0; i <= numOfSmallTicks; i++) {
-            smallTicksData.push(minValue + partition * i);
+        for (var idx = 0; idx <= numOfSmallTicks; idx++) {
+            smallTicksData.push(minValue + partition * idx);
         }
 
         function smallTicksTransformFunc(d) {
@@ -1108,7 +1133,7 @@
 
 
         function moveTheNeedle(value, newConfiguration) {
-            function tween(d, i, a) {
+            function tween(d, c, a) {
                 return d3.interpolateString('rotate(' + minAngle + ', 0, 0)', 'rotate(' + scale(value) + ', 0, 0)');
             }
 
@@ -1298,6 +1323,7 @@
         if (absAmount / trillion >= 1) {
             shortenedNumber = amountNumber / trillion;
             abbreviation = 'T';
+            
         } else if (absAmount / billion >= 1) {
             shortenedNumber = amountNumber / billion;
             abbreviation = 'B';
@@ -1315,7 +1341,7 @@
     },
     throwError: function (errorMessage) {
         function ErrorMessage() {
-            var temp = Error.apply(this, arguments);
+            var temp = Error().apply(this, arguments);
             temp.name = this.name = 'Error Message';
             this.message = temp.message;
             if (Object.defineProperty) {
@@ -1392,3 +1418,24 @@
         ]);
     }
 })
+/*
+Copyright 2017 Appiphony, LLC
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
+following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following 
+disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following 
+disclaimer in the documentation and/or other materials provided with the distribution.
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote 
+products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/

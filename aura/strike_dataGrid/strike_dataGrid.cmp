@@ -1,69 +1,82 @@
 <!--
 Strike by Appiphony
 
-Version: 0.8.0
+Version: 1.0.0
 Website: http://www.lightningstrike.io
 GitHub: https://github.com/appiphony/Strike-Components
-License: BSD 2-Clause License
+License: BSD 3-Clause License
 -->
 <aura:component >
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+
     <!-- External -->
-	<aura:attribute name="data" type="Object" description="data provided by end user to build a table"/>
-	<aura:attribute name="fixed" type="Boolean" description="determines if fixed layout class gets added to table" default="{!false}"/>
+    <aura:attribute name="data" type="Object" description="data provided by end user to build a table"/>
+    <aura:handler name="change" value="{!v.data}" action="{!c.handleDataChange}"/>
+    <aura:attribute name="fixed" type="Boolean" description="determines if fixed layout class gets added to table" default="{!false}"/>
     <aura:attribute name="responsive" type="Boolean" description="determines if table is responsive/mobile-friendly" default="{!false}"/>
+    <aura:attribute name="scrollable" type="Boolean" description="determines whether the table will be horizontally scrollable" default="{!false}"/>
     <aura:attribute name="class" type="String" description="classlist that can be added to the table"/>
+    <aura:attribute name="loadMoreAmount" type="Integer" default="10"/>
     <!-- /External -->
 
     <!-- Internal -->
-	<aura:attribute name="formattedData" type="Object" description="formatted grid data" access="private"/>
+    <aura:attribute name="formattedData" type="Object" description="formatted grid data" access="private"/>
     <aura:attribute name="showTable" type="Boolean" description="determines when the table is done being created" default="{!false}" access="private"/>
 	<aura:attribute name="currentSortColumn" type="String" description="name of column that was last used for sorting" access="private"/>
 	<aura:attribute name="ascending" type="Boolean" description="value that determines which way grid data is sorted" access="private"/>
+    <aura:dependency resource="strike_row"/>
+    <aura:attribute name="showLoadMore" type="Boolean" default="{!true}" access="private"/>
+    <aura:method name="loadMore" action="{!c.loadMore}" access="public" />
     <!-- /Internal -->
 
-    <aura:handler name="change" value="{!v.data}" action="{!c.handleDataChange}"/>
-    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
 
     <aura:if isTrue="{!v.showTable}">
-        <table class="{!'slds-table slds-table--bordered slds-table--cell-buffer ' + if(v.responsive, 'slds-max-medium-table--stacked ') + if(v.fixed, 'slds-table--fixed-layout ', 'slds-table--resizable-cols ') + v.class}">
-            <thead>
-                <tr class="slds-text-title--caps">
-                    <aura:iteration items="{!v.formattedData.columns}" var="column">
-                        <aura:if isTrue="{!column.sortable}">
-                            <th class="{!'slds-is-sortable' + if(and(v.currentSortColumn == column.name, v.ascending), ' slds-is-sorted slds-is-sorted--asc') + if(and(v.currentSortColumn == column.name, !v.ascending), ' slds-is-sorted slds-is-sorted--desc')}" onclick="{!c.handleColumnHeaderClick}" data-column-name="{!column.name}" scope="col">
-                                <a class="slds-th__action slds-text-link--reset" tabindex="0">
-                                    <span class="slds-assistive-text">Sort</span>
-                                    <span class="slds-truncate" title="{!column.name}">{!column.label}</span>
-                                    <div class="slds-icon_container">
-                                        <aura:if isTrue="{!column.name == v.currentSortColumn}">
-                                            <span>
-                                                <aura:if isTrue="{!v.ascending}">
-                                                    <lightning:icon iconName="utility:arrowup" size="x-small" class="sdg-sort-icon"/>
-                                                        <aura:set attribute="else">
-                                                            <lightning:icon iconName="utility:arrowdown" size="x-small" class="sdg-sort-icon"/>
-                                                        </aura:set>
-                                                </aura:if>
-                                            </span>
-                                            <aura:set attribute="else">
-                                                <lightning:icon iconName="utility:arrowup" size="x-small" class="sdg-sort-icon" />
-                                            </aura:set>
-                                        </aura:if>
-                                    </div>
-                                </a>
-                            </th>
-                            <aura:set attribute="else">
-                                <th data-column-name="{!column.name}" scope="col">
-                                    <div class="slds-truncate" title="{!column.name}">{!column.label}</div>
+        <div class="{!if(v.scrollable, 'slds-scrollable_x', '')}">
+            <table class="{!'slds-table slds-table--bordered slds-table--cell-buffer ' + if(v.responsive, 'slds-max-medium-table--stacked ', '') + if(v.fixed, 'slds-table--fixed-layout ', 'slds-table--resizable-cols ') + v.class}">
+                <thead>
+                    <tr class="slds-text-title--caps">
+                        <aura:iteration items="{!v.formattedData.columns}" var="column">
+                            <aura:if isTrue="{!column.sortable}">
+                                <th class="{!'slds-is-sortable' + if(and(v.currentSortColumn == column.name, v.ascending), ' slds-is-sorted slds-is-sorted--asc', '') + if(and(v.currentSortColumn == column.name, !v.ascending), ' slds-is-sorted slds-is-sorted--desc', '')}" onclick="{!c.handleColumnHeaderClick}" data-column-name="{!column.name}" scope="col">
+                                    <a class="slds-th__action slds-text-link--reset" tabindex="0">
+                                        <span class="slds-assistive-text">Sort</span>
+                                        <span class="slds-truncate" title="{!column.name}">{!column.label}</span>
+                                        <div class="slds-icon_container">
+                                            <aura:if isTrue="{!column.name == v.currentSortColumn}">
+                                                <span>
+                                                    <aura:if isTrue="{!v.ascending}">
+                                                        <lightning:icon iconName="utility:arrowup" size="x-small" class="sdg-sort-icon"/>
+                                                            <aura:set attribute="else">
+                                                                <lightning:icon iconName="utility:arrowdown" size="x-small" class="sdg-sort-icon"/>
+                                                            </aura:set>
+                                                    </aura:if>
+                                                </span>
+                                                <aura:set attribute="else">
+                                                    <lightning:icon iconName="utility:arrowup" size="x-small" class="sdg-sort-icon" />
+                                                </aura:set>
+                                            </aura:if>
+                                        </div>
+                                    </a>
                                 </th>
-                            </aura:set>
-                        </aura:if>
-                    </aura:iteration>
-                </tr>
-            </thead>
-            <tbody>
-                {!v.body}
-            </tbody>
-        </table>
+                                <aura:set attribute="else">
+                                    <th data-column-name="{!column.name}" scope="col">
+                                        <div class="slds-truncate" title="{!column.name}">{!column.label}</div>
+                                    </th>
+                                </aura:set>
+                            </aura:if>
+                        </aura:iteration>         
+                    </tr>
+                </thead>
+                <tbody>
+                    {!v.body}
+                </tbody>
+            </table>
+        </div>
+        <aura:if isTrue="{!v.showLoadMore}">
+            <div class="slds-text-align_right slds-m-top_medium">
+                <lightning:button label="Load More" title="LoadMore" iconName="utility:add" onclick="{!c.loadMore}" />
+            </div>
+        </aura:if> 
     </aura:if>
 </aura:component>
 <!--
