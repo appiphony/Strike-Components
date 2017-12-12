@@ -1,0 +1,11 @@
+/**
+* Note: These overrides are necessary because there is currently no way to attach
+*       the required section title action class to the icon svg.
+*/
+.THIS .slds-section__title .slds-button__icon {
+    transform: rotate(-90deg);
+}
+.THIS.slds-is-open .slds-section__title .slds-button__icon {
+    transform: rotate(0deg);
+    transform-origin: 45%;
+}
