@@ -1,0 +1,28 @@
+<aura:component access="PUBLIC" description="Toggle visibility a section content">
+
+    <!-- public attributes -->
+    <aura:attribute name="collapsable" type="Boolean" default="true" access="PUBLIC" description="If true, users can click the header to hide/show the section content." />
+    <aura:attribute name="expanded" type="Boolean" default="true" access="PUBLIC" description="Expanded state of the section." />
+    <aura:attribute name="title" type="String" access="PUBLIC" description="Title for the section." />
+    <aura:attribute name="class" type="String" access="PUBLIC" description="Additional classes to apply to the section container." />
+
+    <!-- body -->
+    <div class="{!'slds-section ' + (v.expanded ? 'slds-is-open ' : ' ') + v.class}">
+        <aura:if isTrue="{!v.collapsable}">
+            <h3 class="slds-section__title">
+                <lightning:button onclick="{!c.toggleExpanded}" iconName="utility:switch" class="slds-section__title-action" variant="bare">
+                    {!v.title}
+                </lightning:button>
+            </h3>
+            <aura:set attribute="else">
+                <h3 class="slds-section__title slds-theme_shade">
+                    <span class="slds-truncate slds-p-horizontal_small" title="{!v.title}">{!v.title}</span>
+                </h3>
+            </aura:set>
+        </aura:if>
+        <div aria-hidden="false" class="slds-section__content">
+            {!v.body}
+        </div>
+    </div>
+
+</aura:component>
