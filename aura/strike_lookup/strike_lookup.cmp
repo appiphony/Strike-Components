@@ -17,6 +17,7 @@ License: BSD 3-Clause License
     <aura:attribute name="class" type="String" description="A CSS class that will be applied to the outer element. This style is in addition to base classes associated with the component"/>
     <aura:attribute name="placeholder" type="String" description="String value that will appear when no record is selected"/>
     <aura:attribute name="value" type="String" description="String value that holds the Id of the selected record"/>
+    <aura:attribute name="tabindex" type="Integer" description="Integer to set tabindex attribute, which participates in sequential keyboard navigation"/>
 
     <aura:attribute name="iconName" type="String" description="String value that determines the icon name or path"/>
     <aura:attribute name="customIcon" type="Boolean" description="Determines whether the icon is custom or standard"/>
@@ -129,7 +130,8 @@ License: BSD 3-Clause License
                         onkeydown="{!c.handleInputKeyDown}"
                         onkeyup="{!c.handleInputKeyUp}"
                         onkeypress="{!c.handleInputKeyPress}"
-                        disabled='{!v.disabled}'/>
+                        disabled='{!v.disabled}'
+                        tabindex="{!v.tabindex}" />
                 </div>
                 <aura:if isTrue="{!v.isMobile}">
                     <div class="sl-lookup--mobile__cancel slds-col slds-no-flex slds-p-horizontal--xx-small">
