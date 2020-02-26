@@ -1,8 +1,8 @@
 # Strike by Appiphony
-### Work smarter (not harder) with Salesforce Lightning Components
-Current release: 1.0.0  
-See it in action here: <a href="http://www.lightningstrike.io" target="_blank">http://www.lightningstrike.io</a>
+### *** No Longer Support *** 
+## Due to the incredible advancements Salesforce has made with Lightning Aura Components as well as Lightning Web Components Appiphony is no longer supporting this project. We appreciate all your support over the last few years. We suggest checking out: <a href="http://developer.salesforce.com/docs/component-library/overview/components" target="_blank">https://developer.salesforce.com/docs/component-library/overview/components</a>
 
+Last release: 1.0.0  
 ---
 
 ### Available Strike Components
